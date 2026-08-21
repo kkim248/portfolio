@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ian Kim — About</title>
+<meta name="description" content="About Ian Kim, a product designer and senior at UC Davis, originally from San Francisco." />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Ian Kim — About" />
+<meta property="og:description" content="About Ian Kim, a product designer and senior at UC Davis, originally from San Francisco." />
+<meta property="og:image" content="og-card.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%233B3A8F'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='17' font-style='italic' font-weight='700' fill='%23F2EBDC' text-anchor='middle'%3EIK%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Archivo+Narrow:wght@400;500;600;700&family=Archivo:wght@400;500;600;700&family=Caveat:wght@500;600&display=swap" rel="stylesheet" />
+<style>
+  /* ===== BRAND TOKENS (shared with the portfolio) ===== */
+  :root{
+    --cream:#F2EBDC; --cream2:#E7DCC6; --indigo:#3B3A8F; --indigo-d:#2C2B6E;
+    --rose:#B26B52; --rose-d:#8C4A38; --sage:#7E9061; --ink:#2E2A40; --muted:#8a7f6d; --paper:#fffdf8; --on-dark:#efeafd;
+    --maxw:1180px;
+    --display:'Cormorant Garamond',Georgia,serif;
+    --mono:'Archivo Narrow',sans-serif; --sans:'Archivo','Archivo Narrow',sans-serif;
+    --hand:'Caveat',cursive;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--sans);background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;}
+  /* paper grain — identical to the portfolio so the two pages feel like one stock */
+  body::before{content:"";position:fixed;inset:-50px;z-index:0;pointer-events:none;opacity:.4;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0.18  0 0 0 0 0.16  0 0 0 0 0.25  0 0 0 0.5 0'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='0.55'/></svg>");
+    mix-blend-mode:multiply;animation:grain 18s steps(6) infinite;will-change:transform;transform:translateZ(0);}
+  @keyframes grain{0%{transform:translate(0,0);}20%{transform:translate(-6px,4px);}40%{transform:translate(5px,-5px);}
+    60%{transform:translate(-4px,-3px);}80%{transform:translate(4px,5px);}100%{transform:translate(0,0);}}
+  a{color:inherit;text-decoration:none;}
+
+  /* ===== BACKGROUND ART — cartographic ephemera + illustration accents =====
+     One layer spanning the document; fades out before the dark CTA. */
+  #pageart{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(59,58,143,.045) 0 1px, transparent 1px 132px),
+      repeating-linear-gradient(90deg, rgba(59,58,143,.045) 0 1px, transparent 1px 132px);
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 80%,transparent 92%);
+            mask-image:linear-gradient(180deg,#000 0%,#000 80%,transparent 92%);}
+  #pageart svg{position:absolute;display:block;}
+  #pageart .route{stroke:var(--rose);stroke-width:1.6;fill:none;stroke-dasharray:2 9;stroke-linecap:round;opacity:.30;}
+  #pageart .cartrose{stroke:var(--rose-d);fill:none;opacity:.16;}
+  /* the illustrated assets, dropped in like travel mementos */
+  .bgart{position:absolute;display:block;filter:drop-shadow(0 16px 22px rgba(46,42,64,.10));}
+  .bgart.map{top:96px;left:50%;transform:translateX(-50%);width:min(1160px,128%);opacity:.10;filter:none;}
+  .bgart.compass{top:32%;right:-46px;width:170px;opacity:.42;}
+  .bgart.suitcase{bottom:15%;left:-30px;width:210px;opacity:.6;}
+  .drift{animation:bob 9s ease-in-out infinite;will-change:transform;backface-visibility:hidden;}
+  .drift-rose{animation:roseturn 140s linear infinite;transform-origin:center;will-change:transform;backface-visibility:hidden;}
+  @keyframes roseturn{to{transform:rotate(360deg);}}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(-3deg);}50%{transform:translateY(-12px) rotate(0deg);}}
+  /* faint passport stamps */
+  .estamp{position:absolute;border:2px solid var(--rose-d);border-radius:50%;display:flex;align-items:center;justify-content:center;
+    text-align:center;color:var(--rose-d);font-family:var(--mono);text-transform:uppercase;opacity:.16;letter-spacing:1px;line-height:1.1;}
+  .estamp.sq{border-radius:8px;}
+  .estamp.indigo{border-color:var(--indigo);color:var(--indigo);}
+
+  /* ===== NAV (matches the portfolio) ===== */
+  nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:space-between;align-items:center;
+    padding:20px 40px;transition:background .4s,box-shadow .4s,padding .4s;}
+  nav.solid{background:rgba(242,235,220,.92);backdrop-filter:blur(10px);box-shadow:0 1px 0 rgba(46,42,64,.06);padding:16px 40px;}
+  .wm{font-family:var(--display);font-style:italic;font-weight:600;font-size:22px;color:var(--ink);display:flex;align-items:center;gap:8px;}
+  .wm .sp{color:var(--rose);font-style:normal;}
+  .nav-r{display:flex;gap:8px;align-items:center;}
+  .nav-r a{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--ink);
+    opacity:.78;padding:8px 16px;border-radius:30px;transition:color .25s,background .25s,opacity .25s;}
+  .nav-r a:hover{opacity:1;background:rgba(46,42,64,.06);}
+  .nav-r a.here{opacity:1;color:var(--indigo);}
+  .nav-r a.btn{background:var(--indigo);color:#fff;opacity:1;}
+  .nav-r a.btn:hover{background:var(--indigo-d);}
+  .nav-toggle{display:none;background:none;border:0;cursor:pointer;width:44px;height:44px;
+    border-radius:12px;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:background .25s;}
+  .nav-toggle:hover{background:rgba(46,42,64,.06);}
+  .nav-toggle span{display:block;width:23px;height:2px;background:var(--ink);border-radius:2px;
+    transition:transform .32s cubic-bezier(.2,.8,.2,1),opacity .25s;}
+  .nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .nav-toggle.open span:nth-child(2){opacity:0;}
+  .nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  .nav-scrim{position:fixed;inset:0;z-index:55;background:rgba(20,18,34,.34);backdrop-filter:blur(2px);
+    opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;}
+  .nav-scrim.open{opacity:1;visibility:visible;}
+
+  /* ===== SHELL ===== */
+  .wrap{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;padding:0 6vw;}
+  .kick{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--rose-d);
+    display:inline-flex;align-items:center;gap:8px;}
+  .kick .pin{width:8px;height:8px;border-radius:50% 50% 50% 0;background:var(--rose);transform:rotate(45deg);display:inline-block;}
+  .section-h{font-family:var(--display);font-size:clamp(30px,4vw,46px);font-weight:600;letter-spacing:-.5px;line-height:1;margin-top:16px;}
+  .section-h em{font-style:italic;color:var(--rose);}
+
+  /* ===== PASSPORT HEADER ===== */
+  .passport{padding:140px 0 40px;}
+  .pp-book{position:relative;border-radius:16px;background:
+      radial-gradient(150% 130% at 16% -10%, #403f88 0%, #2f2e74 46%, #232158 100%);
+    box-shadow:0 40px 80px rgba(20,18,40,.42),inset 0 1px 0 rgba(255,255,255,.10);
+    padding:16px;transition:transform .25s ease-out,box-shadow .4s ease;
+    transform-style:preserve-3d;will-change:transform;}
+  .pp-stage{perspective:1400px;}
+  .pp-book:hover{box-shadow:0 54px 104px rgba(20,18,40,.5),inset 0 1px 0 rgba(255,255,255,.12);}
+  /* a thin embossed keyline inside the cover, like gilt edging */
+  .pp-book::before{content:"";position:absolute;inset:8px;border-radius:12px;
+    border:1px solid rgba(178,107,82,.32);pointer-events:none;z-index:4;}
+  /* the inner "data page" of cream security paper — very subtle guilloché */
+  .pp-page{position:relative;border-radius:8px;overflow:hidden;
+    background:
+      repeating-radial-gradient(circle at 84% 32%, rgba(59,58,143,.028) 0 1px, transparent 1px 18px),
+      linear-gradient(180deg,#fcf8f1,#f6efe2);
+    border:1px solid rgba(46,42,64,.07);
+    display:grid;grid-template-columns:228px 1fr;gap:44px;padding:40px 40px;}
+  /* faint ghosted monogram watermark behind the data */
+  .pp-page::after{content:"IK";position:absolute;right:34px;bottom:6px;
+    font-family:var(--display);font-weight:700;font-style:italic;font-size:190px;line-height:.8;
+    color:rgba(59,58,143,.045);pointer-events:none;}
+  /* laminate sheen that follows the cursor across the data page on hover */
+  .pp-page .sheen{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
+    background:linear-gradient(105deg, transparent calc(var(--mx,50%) - 16%), rgba(255,255,255,.30) var(--mx,50%), transparent calc(var(--mx,50%) + 16%));
+    opacity:0;transition:opacity .45s ease;mix-blend-mode:screen;}
+  .pp-book:hover .sheen{opacity:.6;}
+  .pp-head{grid-column:1/-1;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid rgba(46,42,64,.12);padding-bottom:12px;}
+  .pp-head .type{font-family:var(--mono);letter-spacing:5px;font-size:12px;color:var(--indigo);text-transform:uppercase;}
+  .pp-head .ctry{font-family:var(--display);font-style:italic;font-size:16px;color:var(--rose-d);}
+  .pp-head .doc{font-family:var(--mono);letter-spacing:3px;font-size:11px;color:var(--muted);text-transform:uppercase;}
+  .pp-photo{position:relative;aspect-ratio:3/4;border-radius:8px;overflow:hidden;background:#e7ddca;
+    border:1px solid rgba(46,42,64,.16);box-shadow:inset 0 0 0 5px rgba(255,255,255,.5),0 8px 18px rgba(46,42,64,.18);}
+  .pp-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+  .pp-photo .ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--muted);background:#e7ddca;}
+  .pp-photo .ph svg{width:70px;height:70px;opacity:.5;}
+  .pp-photo .ph span{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;}
+  .pp-photo .seal{position:absolute;bottom:9px;right:9px;width:54px;height:54px;border:2px solid rgba(140,74,56,.8);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;transform:rotate(-13deg);color:var(--rose-d);
+    font-family:var(--mono);font-size:8px;letter-spacing:1px;text-align:center;line-height:1.15;text-transform:uppercase;background:rgba(242,235,220,.35);}
+  .pp-right{align-self:center;}
+  h1.pp-name{font-family:var(--display);font-size:clamp(42px,6.2vw,72px);font-weight:600;line-height:.95;letter-spacing:-1px;}
+  .pp-name em{font-style:italic;color:var(--rose);}
+  .pp-sub{font-family:var(--display);font-style:italic;font-size:20px;color:#524c3f;margin-top:4px;}
+  .pp-fields{display:grid;grid-template-columns:1fr 1fr;gap:16px 36px;margin-top:24px;padding-top:20px;
+    border-top:1px solid rgba(46,42,64,.10);}
+  .pp-fields .f .lbl{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--rose-d);opacity:.85;display:block;}
+  .pp-fields .f .val{font-family:var(--display);font-size:20px;font-weight:500;color:var(--ink);margin-top:0px;line-height:1.12;}
+  /* machine-readable zone */
+  .pp-mrz{grid-column:1/-1;margin-top:8px;border-top:1px dashed rgba(46,42,64,.2);padding-top:12px;
+    font-family:var(--mono);letter-spacing:2px;font-size:12px;color:rgba(46,42,64,.45);white-space:nowrap;overflow:hidden;}
+
+  /* ===== GENERIC BLOCK ===== */
+  .block{padding:56px 0;position:relative;content-visibility:auto;contain-intrinsic-size:1px 640px;}
+  .lede{font-size:18px;line-height:1.9;color:#524c3f;max-width:760px;margin-top:24px;}
+  .lede + .lede{margin-top:16px;}
+  .lede strong{color:var(--ink);font-weight:600;}
+
+  /* ===== POLAROID WALL (the detours) ===== */
+  .polas{display:flex;flex-wrap:wrap;justify-content:center;gap:32px 24px;margin-top:40px;padding:8px 0 20px;}
+  .pola{position:relative;width:236px;background:var(--paper);padding:12px 12px 0;border-radius:2px;
+    box-shadow:0 14px 30px rgba(46,42,64,.18);transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s;
+    transform:rotate(var(--rot,0deg)) translateZ(0);will-change:transform;backface-visibility:hidden;}
+  .pola::before{content:"";position:absolute;top:-13px;left:50%;transform:translateX(-50%) rotate(var(--tape,-3deg));
+    width:84px;height:26px;background:rgba(178,107,82,.34);border:1px solid rgba(140,74,56,.25);
+    box-shadow:0 1px 3px rgba(46,42,64,.08);}
+  .pola .frame{position:relative;aspect-ratio:4/5;background:#d9cfbd;overflow:hidden;border-radius:2px;}
+  .pola .frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+  .pola .cap{font-family:var(--hand);font-size:22px;color:#4a4636;text-align:center;padding:8px 4px 16px;line-height:1;}
+  .pola .cap small{display:block;font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:4px;}
+  .pola:hover{transform:rotate(0deg) translateY(-8px) scale(1.03);box-shadow:0 26px 50px rgba(46,42,64,.26);z-index:5;}
+  .pola:nth-child(1){--rot:-5deg;--tape:4deg;}
+  .pola:nth-child(2){--rot:3deg;--tape:-5deg;}
+  .pola:nth-child(3){--rot:-2deg;--tape:6deg;}
+  .pola:nth-child(4){--rot:4deg;--tape:-3deg;}
+  .pola:nth-child(5){--rot:-3deg;--tape:3deg;}
+
+  /* ===== BACK / CTA ===== */
+  .endcta{margin:32px 0 44px;background:linear-gradient(180deg,#1b1830,#13111f);border-radius:24px;padding:48px;
+    color:var(--on-dark);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;position:relative;z-index:2;}
+  .endcta h3{font-family:var(--display);font-size:clamp(26px,3.4vw,38px);font-weight:600;}
+  .endcta h3 em{font-style:italic;color:var(--rose);}
+  .endcta p{color:rgba(239,234,253,.7);margin-top:8px;font-size:16px;}
+  .endcta .acts{display:flex;gap:12px;flex-wrap:wrap;}
+  .btn{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;padding:16px 24px;border-radius:30px;
+    display:inline-flex;align-items:center;gap:8px;transition:transform .25s,background .25s;cursor:pointer;}
+  .btn.solid{background:var(--rose);color:#fff;}
+  .btn.solid:hover{background:var(--rose-d);transform:translateY(-2px);}
+  .btn.line{border:1.5px solid rgba(242,235,220,.4);color:var(--on-dark);}
+  .btn.line:hover{background:rgba(242,235,220,.1);transform:translateY(-2px);}
+
+  /* ===== FOOTER — luggage tag ===== */
+  .footer{position:relative;z-index:2;border-top:1px solid rgba(46,42,64,.1);}
+  .footer .fwrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:32px 6vw;flex-wrap:wrap;}
+  .tag-chip{display:inline-flex;align-items:center;gap:12px;background:var(--indigo);color:#fff;
+    padding:8px 16px 8px 12px;border-radius:8px;position:relative;}
+  .tag-chip .hole{width:12px;height:12px;border-radius:50%;border:2px solid rgba(255,255,255,.55);flex:none;}
+  .tag-chip .lt{font-family:var(--display);font-style:italic;font-weight:600;font-size:18px;display:flex;align-items:center;gap:8px;}
+  .tag-chip .lt .sp{color:var(--rose);font-style:normal;}
+  .footer .flinks{display:flex;gap:16px;flex-wrap:wrap;}
+  .footer .flinks a{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;opacity:.7;transition:opacity .25s;}
+  .footer .flinks a:hover{opacity:1;}
+  .footer .meta{display:flex;gap:16px;align-items:center;font-family:var(--mono);font-size:12px;letter-spacing:1px;color:var(--muted);}
+  .footer .meta .top{cursor:pointer;transition:color .25s;}
+  .footer .meta .top:hover{color:var(--indigo);}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1);}
+  .reveal.in{opacity:1;transform:translateY(0);}
+  /* respect reduced-motion: stop the continuous background animations */
+  @media (prefers-reduced-motion:reduce){
+    body::before{animation:none;}
+    .drift,.drift-rose{animation:none;}
+    .pola{transition:none;}
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media(max-width:900px){
+    .pp-page{grid-template-columns:188px 1fr;gap:32px;padding:28px;}
+    .bgart.map{width:150%;opacity:.08;}
+  }
+  @media(max-width:560px){
+    nav{padding:12px 16px;} .wm{font-size:18px;}
+    .nav-toggle{display:flex;}
+    .nav-r{position:fixed;top:0;right:0;height:100vh;width:min(74vw,260px);flex-direction:column;align-items:stretch;gap:4px;
+      background:rgba(242,235,220,.98);backdrop-filter:blur(12px);padding:80px 20px 24px;box-shadow:-10px 0 44px rgba(46,42,64,.18);
+      transform:translateX(105%);transition:transform .38s cubic-bezier(.2,.8,.2,1);}
+    .nav-r.open{transform:translateX(0);}
+    .nav-r a{width:100%;padding:12px 16px;font-size:13px;letter-spacing:2px;border-radius:12px;opacity:1;}
+    .nav-r a.btn{margin-top:8px;text-align:center;justify-content:center;}
+    /* passport keeps its landscape data-page shape — photo left, data right */
+    .passport{padding:96px 0 16px;}
+    .pp-book{padding:8px;}
+    .pp-page{grid-template-columns:104px 1fr;gap:16px 20px;padding:20px;}
+    .pp-page::after{font-size:88px;right:16px;bottom:2px;}
+    .pp-head{flex-wrap:wrap;gap:4px 12px;align-items:baseline;padding-bottom:8px;}
+    .pp-head .type{letter-spacing:3px;font-size:10px;}
+    .pp-head .ctry{display:none;}
+    .pp-head .doc{display:none;}
+    .pp-photo{width:100%;margin:0;align-self:start;}
+    .pp-photo .seal{width:36px;height:36px;font-size:6px;bottom:6px;right:6px;}
+    h1.pp-name{font-size:36px;}
+    .pp-sub{font-size:14px;margin-top:4px;}
+    /* keep only the two fields that matter — everything else is desktop detail */
+    .pp-fields .f:nth-child(1),.pp-fields .f:nth-child(2),.pp-fields .f:nth-child(5),.pp-fields .f:nth-child(6){display:none;}
+    .pp-fields{grid-template-columns:1fr 1fr;gap:10px 12px;margin-top:12px;padding-top:12px;}
+    .pp-fields .f .lbl{font-size:9px;letter-spacing:1px;}
+    .pp-fields .f .val{font-size:14px;}
+    .pp-mrz{font-size:9px;letter-spacing:1.2px;margin-top:4px;padding-top:8px;}
+    /* tighter reading rhythm */
+    .block{padding:36px 0;}
+    .section-h{font-size:28px;}
+    .lede{font-size:16px;line-height:1.7;margin-top:16px;}
+    .lede + .lede{margin-top:12px;}
+    /* polaroid wall becomes a real 2-up wall instead of a tall single stack */
+    .polas{gap:20px 12px;margin-top:32px;}
+    .pola{width:calc(50% - 6px);padding:8px 8px 0;}
+    .pola::before{width:56px;height:18px;top:-9px;}
+    .pola .cap{font-size:16px;padding:6px 2px 12px;}
+    .pola .cap small{font-size:7px;letter-spacing:1.5px;}
+    .endcta{padding:32px 24px;flex-direction:column;align-items:flex-start;}
+    .bgart.compass{width:96px;top:20%;}
+    .bgart.suitcase{width:120px;}
+    .estamp{display:none;}
+    .footer .fwrap{flex-direction:column;align-items:flex-start;gap:16px;}
+  }
+
+  /* cross-page transition (progressive enhancement) */
+  @view-transition{navigation:auto;}
+  @media (prefers-reduced-motion:reduce){
+    ::view-transition-old(root),::view-transition-new(root){animation:none !important;}
+  }
+</style>
+</head>
+<body>
+  <!-- ===== BACKGROUND ART =====
+       The illustrated assets below load from files in this same folder:
+       map.png, compass.png, suitcase.png  (drop them next to about.html). -->
+  <div id="pageart" aria-hidden="true">
+    <img class="bgart map" src="map.png" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'" />
+    <img class="bgart compass drift-rose" src="compass.png" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'" />
+    <img class="bgart suitcase drift" src="suitcase.png" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'" />
+    <svg width="520" height="1000" viewBox="0 0 520 1000" style="top:120px;right:-120px;">
+      <path class="route" d="M40 60 Q 360 240 200 460 T 420 900" />
+    </svg>
+    <svg width="420" height="940" viewBox="0 0 420 940" style="top:1480px;left:-90px;">
+      <path class="route" d="M380 20 Q 80 230 250 470 T 60 920" opacity=".5" />
+    </svg>
+    <svg width="230" height="230" viewBox="0 0 230 230" style="top:44%;left:2%;">
+      <g class="cartrose">
+        <circle cx="115" cy="115" r="88" fill="none"/>
+        <circle cx="115" cy="115" r="62" fill="none"/>
+        <path d="M115 14 L127 115 L115 216 L103 115 Z"/>
+        <path d="M14 115 L115 103 L216 115 L115 127 Z"/>
+        <path d="M48 48 L115 115 M182 48 L115 115 M48 182 L115 115 M182 182 L115 115"/>
+      </g>
+      <text x="115" y="40" text-anchor="middle" class="cartrose" style="font-family:var(--mono);font-size:13px;letter-spacing:1px;" fill="currentColor">N</text>
+    </svg>
+    <div class="estamp indigo" style="top:620px;left:5%;width:118px;height:118px;transform:rotate(-14deg);font-size:10px;">UC&nbsp;Davis<br>est. 1905</div>
+    <div class="estamp sq" style="top:1180px;right:7%;width:120px;height:84px;transform:rotate(9deg);font-size:9px;">San&nbsp;Francisco<br>&bull; CA &bull;</div>
+    <div class="estamp" style="top:1760px;left:8%;width:96px;height:96px;transform:rotate(7deg);font-size:9px;">Arrivals<br>2026</div>
+  </div>
+
+  <nav id="nav">
+    <a class="wm" href="index.html#top">Ian Kim <span class="sp">&#9992;</span></a>
+    <div class="nav-r" id="navLinks">
+      <a href="index.html#work">Work</a>
+      <a href="about.html" class="here">About</a>
+      <a href="index.html#contact">Contact</a>
+      <a href="https://drive.google.com/file/d/1bYq4r07i9nYkBTbbrEGq-AFQjUMQ2v5u/view?usp=sharing" target="_blank" rel="noopener" class="btn" id="resumeLink">Resume</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="nav-scrim" id="navScrim"></div>
+
+  <!-- ===== PASSPORT HEADER ===== -->
+  <header class="passport">
+    <div class="wrap">
+      <div class="pp-stage reveal">
+       <div class="pp-book">
+        <div class="pp-page">
+          <span class="sheen" aria-hidden="true"></span>
+          <div class="pp-head">
+            <span class="type">Passport</span>
+            <span class="ctry">Product Designer</span>
+            <span class="doc">Type P &middot; No. IK&middot;2026</span>
+          </div>
+          <div class="pp-photo">
+            <!-- Passport photo: file named  ian.jpg  in this folder. -->
+            <div class="ph">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+              <span>ian.jpg</span>
+            </div>
+            <img class="auto-img" data-base="ian" alt="Ian Kim" />
+            <div class="seal">Davis<br>CA</div>
+          </div>
+          <div class="pp-right">
+            <h1 class="pp-name">Ian <em>Kim</em></h1>
+            <div class="pp-sub">Senior at UC&nbsp;Davis, originally from San Francisco.</div>
+            <div class="pp-fields">
+              <div class="f"><span class="lbl">Surname</span><span class="val">Kim</span></div>
+              <div class="f"><span class="lbl">Given name</span><span class="val">Ian</span></div>
+              <div class="f"><span class="lbl">Occupation</span><span class="val">Product Designer</span></div>
+              <div class="f"><span class="lbl">Status</span><span class="val">Senior, UC&nbsp;Davis</span></div>
+              <div class="f"><span class="lbl">Place of origin</span><span class="val">San Francisco, CA</span></div>
+              <div class="f"><span class="lbl">Currently</span><span class="val">Moober &amp; Buzzit</span></div>
+            </div>
+          </div>
+          <div class="pp-mrz">P&lt;USAKIM&lt;&lt;IAN&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;DESIGN&lt;&lt;PRODUCT&lt;&lt;DAVIS&lt;CA&lt;&lt;2026&lt;&lt;&lt;&lt;</div>
+        </div>
+       </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== BIO ===== -->
+  <section class="block">
+    <div class="wrap reveal">
+      <div class="kick"><span class="pin"></span> About me</div>
+      <h2 class="section-h">A bit <em>about me</em></h2>
+      <p class="lede">I&rsquo;m a product designer and a senior at <strong>UC&nbsp;Davis</strong>, originally from <strong>San Francisco</strong>. I started college as an art major, wanting to capture the world in my own style, and figured out pretty quickly that I wanted to point those skills at something bigger than myself.</p>
+      <p class="lede">What I care about now is work that is simple and practical but still worth looking at. Lately that has meant <strong>Moober</strong>, a UC&nbsp;Davis rideshare app where I redesigned how riders and drivers get matched, and <strong>Buzzit</strong>, a marketplace for students to book each other&rsquo;s services. On both I work end-to-end: sitting with the problem, sketching, prototyping in Figma, and pushing pixels until the flow gets out of the way.</p>
+      <p class="lede">Away from the screen I&rsquo;m usually making beats in FL&nbsp;Studio, out with a camera at sunset, or watching an F1 weekend.</p>
+    </div>
+  </section>
+
+  <!-- ===== THE DETOURS — polaroid wall ===== -->
+  <section class="block">
+    <div class="wrap reveal">
+      <div class="kick"><span class="pin"></span> Outside of work</div>
+      <h2 class="section-h">The <em>detours</em></h2>
+      <p class="lede">A few stamps in the passport. What I get up to when I&rsquo;m not designing.</p>
+      <!-- Polaroids load from files in this folder: sunset.jpg, bridge.jpg, snowboard.jpg, food.jpg, sketch.jpg -->
+      <div class="polas">
+        <figure class="pola">
+          <div class="frame"><img class="auto-img" data-base="sunset" alt="Sunset walk at Lands End" /></div>
+          <figcaption class="cap">golden hour<small>Lands End &middot; SF</small></figcaption>
+        </figure>
+        <figure class="pola">
+          <div class="frame"><img class="auto-img" data-base="bridge" alt="Walking the Manhattan Bridge" /></div>
+          <figcaption class="cap">crossing over<small>Manhattan &middot; NYC</small></figcaption>
+        </figure>
+        <figure class="pola">
+          <div class="frame"><img class="auto-img" data-base="snowboard" alt="Snowboarding" /></div>
+          <figcaption class="cap">first chair<small>on the mountain</small></figcaption>
+        </figure>
+        <figure class="pola">
+          <div class="frame"><img class="auto-img" data-base="food" alt="A good meal" /></div>
+          <figcaption class="cap">worth the wait<small>Davis eats</small></figcaption>
+        </figure>
+        <figure class="pola">
+          <div class="frame"><img class="auto-img" data-base="sketch" alt="A sketch from my notebook" /></div>
+          <figcaption class="cap">notebook, 6/9<small>red pencil</small></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BACK / CTA ===== -->
+  <section class="block">
+    <div class="wrap">
+      <div class="endcta reveal">
+        <div>
+          <h3>Let&rsquo;s find the <em>next stop</em>.</h3>
+          <p>Take a look at the work, or reach out directly.</p>
+        </div>
+        <div class="acts">
+          <a class="btn solid" href="index.html#work">View the work &rarr;</a>
+          <a class="btn line" href="mailto:iansoojinkim@gmail.com">Email me</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER — luggage tag ===== -->
+  <footer class="footer">
+    <div class="wrap fwrap">
+      <div class="tag-chip">
+        <span class="hole"></span>
+        <span class="lt"><span class="nm">Ian Kim</span><span class="sp">&#9992;</span></span>
+      </div>
+      <div class="flinks">
+        <a href="index.html#work">Work</a>
+        <a href="about.html">About</a>
+        <a href="mailto:iansoojinkim@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/ian-kim-549226356/" target="_blank" rel="noopener" id="footLinkedin">LinkedIn</a>
+      </div>
+      <div class="meta">
+        <span>&copy; 2026</span>
+        <span class="top" id="backTop">Back to top &#8593;</span>
+      </div>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  var nav=document.getElementById('nav');
+  function onScroll(){ nav.classList.toggle('solid', window.scrollY>40); }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  // mobile hamburger
+  var navToggle=document.getElementById('navToggle');
+  var navLinks=document.getElementById('navLinks');
+  var navScrim=document.getElementById('navScrim');
+  function setMenu(open){
+    navLinks.classList.toggle('open',open);
+    navToggle.classList.toggle('open',open);
+    navScrim.classList.toggle('open',open);
+    navToggle.setAttribute('aria-expanded',open?'true':'false');
+    navToggle.setAttribute('aria-label',open?'Close menu':'Open menu');
+  }
+  if(navToggle){
+    navToggle.addEventListener('click',function(){ setMenu(!navLinks.classList.contains('open')); });
+    navScrim.addEventListener('click',function(){ setMenu(false); });
+    navLinks.querySelectorAll('a').forEach(function(a){ a.addEventListener('click',function(){ setMenu(false); }); });
+    window.addEventListener('keydown',function(e){ if(e.key==='Escape') setMenu(false); });
+  }
+
+  // smart photo loader — tries common extensions/casings so files don't
+  // need to be named exactly. (Browsers can't display .heic — export as JPG.)
+  var EXTS=['jpg','jpeg','png','JPG','JPEG','PNG','webp','jpeg'];
+  document.querySelectorAll('img.auto-img').forEach(function(im){
+    var base=im.getAttribute('data-base'), i=0;
+    im.loading='lazy'; im.decoding='async';
+    function next(){
+      if(i>=EXTS.length){ im.style.display='none'; return; }
+      im.src=base+'.'+EXTS[i++];
+    }
+    im.addEventListener('error',next);
+    next();
+  });
+
+  // back to top
+  var bt=document.getElementById('backTop');
+  if(bt){ bt.addEventListener('click',function(){ window.scrollTo({top:0,behavior:'smooth'}); }); }
+
+  // reveal on scroll
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.14});
+  document.querySelectorAll('.reveal').forEach(function(el){
+    if(reduce){ el.classList.add('in'); } else { io.observe(el); }
+  });
+
+  // subtle passport tilt + sheen — mouse only, respects reduced-motion
+  var canTilt = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+    && !('ontouchstart' in window) && !(navigator.maxTouchPoints>0) && !reduce;
+  if(canTilt){
+    var stage=document.querySelector('.passport');
+    var book=document.querySelector('.pp-book');
+    if(stage && book){
+      stage.addEventListener('mousemove',function(e){
+        var r=book.getBoundingClientRect();
+        var px=(e.clientX-r.left)/r.width-0.5;
+        var py=(e.clientY-r.top)/r.height-0.5;
+        book.style.transform='rotateX('+(-py*3.2).toFixed(2)+'deg) rotateY('+(px*4.4).toFixed(2)+'deg)';
+        book.style.setProperty('--mx',(px*70+50).toFixed(1)+'%');
+      });
+      stage.addEventListener('mouseleave',function(){
+        book.style.transform='rotateX(0deg) rotateY(0deg)';
+        book.style.setProperty('--mx','50%');
+      });
+    }
+  }
+
+  // custom cursor — only on a real hovering mouse, never on touch
+})();
+</script>
+</body>
+</html>

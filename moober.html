@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ian Kim — Moober: Tiered Search</title>
+<meta name="description" content="How I redesigned rider-driver matching on Moober, a UC Davis rideshare app where 44% of rides ran empty." />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Moober: Tiered Search — Ian Kim" />
+<meta property="og:description" content="How I redesigned rider-driver matching on Moober, a UC Davis rideshare app where 44% of rides ran empty." />
+<meta property="og:image" content="og-card.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%233B3A8F'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='17' font-style='italic' font-weight='700' fill='%23F2EBDC' text-anchor='middle'%3EIK%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Archivo+Narrow:wght@400;500;600;700&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --cream:#F2EBDC; --cream2:#E7DCC6; --indigo:#3B3A8F; --indigo-d:#2C2B6E;
+    --rose:#B26B52; --rose-d:#8C4A38; --sage:#7E9061; --ink:#2E2A40; --muted:#8a7f6d; --body:#524c3f; --paper:#e9e0d0; --on-dark:#efeafd;
+    --maxw:1000px; --read:640px;
+    --display:'Cormorant Garamond',Georgia,serif;
+    --mono:'Archivo Narrow',sans-serif; --sans:'Archivo','Archivo Narrow',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--sans);background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;line-height:1.5;}
+  body::before{content:"";position:fixed;inset:-50px;z-index:0;pointer-events:none;opacity:.3;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0.18  0 0 0 0 0.16  0 0 0 0 0.25  0 0 0 0.5 0'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='0.55'/></svg>");
+    mix-blend-mode:multiply;}
+  a{color:inherit;text-decoration:none;}
+
+  /* ===== BACKGROUND CARTOGRAPHY (like home & about) ===== */
+  #pageart{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(59,58,143,.04) 0 1px, transparent 1px 132px),
+      repeating-linear-gradient(90deg, rgba(59,58,143,.04) 0 1px, transparent 1px 132px);
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 80%,transparent 93%);
+            mask-image:linear-gradient(180deg,#000 0%,#000 80%,transparent 93%);}
+  #pageart svg{position:absolute;display:block;}
+  #pageart .route{stroke:var(--rose);stroke-width:1.6;fill:none;stroke-dasharray:2 9;stroke-linecap:round;opacity:.26;}
+  #pageart .cartrose{stroke:var(--rose-d);fill:none;opacity:.16;}
+
+  /* ===== NAV ===== */
+  nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:space-between;align-items:center;
+    padding:20px 40px;transition:background .4s,box-shadow .4s,padding .4s;}
+  nav.solid{background:rgba(242,235,220,.92);backdrop-filter:blur(10px);box-shadow:0 1px 0 rgba(46,42,64,.06);padding:16px 40px;}
+  .wm{font-family:var(--display);font-style:italic;font-weight:600;font-size:22px;color:var(--ink);display:flex;align-items:center;gap:8px;}
+  .wm .sp{color:var(--rose);font-style:normal;}
+  .nav-r{display:flex;gap:8px;align-items:center;}
+  .nav-r a{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--ink);
+    opacity:.78;padding:8px 16px;border-radius:30px;transition:color .25s,background .25s,opacity .25s;}
+  .nav-r a:hover{opacity:1;background:rgba(46,42,64,.06);}
+  .nav-r a.btn{background:var(--indigo);color:#fff;opacity:1;}
+  .nav-r a.btn:hover{background:var(--indigo-d);}
+  .nav-toggle{display:none;background:none;border:0;cursor:pointer;width:44px;height:44px;border-radius:12px;
+    flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:background .25s;}
+  .nav-toggle:hover{background:rgba(46,42,64,.06);}
+  .nav-toggle span{display:block;width:23px;height:2px;background:var(--ink);border-radius:2px;transition:transform .32s cubic-bezier(.2,.8,.2,1),opacity .25s;}
+  .nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .nav-toggle.open span:nth-child(2){opacity:0;}
+  .nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  .nav-scrim{position:fixed;inset:0;z-index:55;background:rgba(20,18,34,.34);backdrop-filter:blur(2px);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;}
+  .nav-scrim.open{opacity:1;visibility:visible;}
+
+  /* ===== SHELL ===== */
+  .wrap{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;padding:0 32px;}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--rose-d);}
+  h2.sec-h{font-family:var(--display);font-size:clamp(30px,4vw,46px);font-weight:600;letter-spacing:-.4px;line-height:1.12;margin-top:16px;max-width:var(--read);}
+  p.body{font-size:18px;line-height:1.9;color:var(--body);margin-top:24px;max-width:var(--read);}
+  p.body strong{color:var(--ink);font-weight:600;}
+  /* overview — editorial two-column */
+  .ov-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:16px 64px;align-items:start;margin-top:16px;}
+  .facts{display:flex;flex-direction:column;gap:24px;padding-top:16px;}
+  .facts .f .l{display:block;font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+  .facts .f .v{font-family:var(--display);font-size:24px;font-weight:600;color:var(--ink);}
+
+  /* ===== HERO ===== */
+  .hero{padding:128px 0 0;}
+  .back-link{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;gap:8px;transition:color .25s;}
+  .back-link:hover{color:var(--indigo);}
+  .hero-grid{display:grid;grid-template-columns:1.7fr 1fr;gap:48px;align-items:start;margin-top:24px;}
+  .hero .label{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--rose-d);}
+  .hero h1{font-family:var(--display);font-size:clamp(36px,5vw,64px);font-weight:600;line-height:1.04;letter-spacing:-1px;margin-top:12px;max-width:16ch;}
+  .hook{font-size:clamp(17px,1.8vw,20px);line-height:1.6;color:var(--body);margin-top:20px;max-width:540px;}
+  .hook strong{color:var(--ink);font-weight:600;}
+  .meta-col{display:flex;flex-direction:column;gap:24px;padding-top:8px;}
+  .meta-col .m .l{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px;}
+  .meta-col .m .v{font-family:var(--display);font-size:20px;color:var(--ink);line-height:1.3;}
+  .visit{display:inline-flex;align-items:center;gap:8px;margin-top:4px;font-family:var(--mono);font-size:12px;letter-spacing:2px;
+    text-transform:uppercase;color:var(--indigo);border-bottom:1.5px solid var(--indigo);padding-bottom:4px;align-self:flex-start;transition:gap .25s;}
+  .visit:hover{gap:12px;}
+
+  .hero-shot{margin:56px 0 0;}
+  .hero-shot .frame{border-radius:16px;box-shadow:0 32px 72px rgba(46,42,64,.18);}
+  .ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--muted);}
+  .ph svg{width:40px;height:40px;opacity:.45;}
+  .ph span{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;}
+
+  /* ===== SECTIONS — lots of air ===== */
+  .sec{padding:120px 0 0;}
+
+  /* one oversized data moment */
+  .stat-line{margin:32px 0 0;}
+  .stat-line .n{font-family:var(--display);font-size:clamp(72px,14vw,148px);font-weight:600;color:var(--indigo);line-height:1;letter-spacing:-2px;}
+  .stat-line .l{font-size:16px;line-height:1.6;color:var(--body);margin-top:24px;max-width:460px;}
+  .stat-line .src{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:16px;}
+
+  /* evidence grid — the data beside the interviews */
+  .evgrid{display:grid;grid-template-columns:1fr 1.3fr;gap:32px 64px;margin-top:80px;align-items:start;}
+  .ev{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+  .evgrid .stat-line{margin-top:24px;}
+  .ins{margin-top:8px;}
+  .ins .it{padding:20px 0;border-top:1px solid rgba(46,42,64,.13);font-size:16px;line-height:1.7;color:var(--body);}
+  .ins .it:last-child{border-bottom:1px solid rgba(46,42,64,.13);}
+  .ins .it b{color:var(--ink);font-weight:600;}
+
+  /* before / after — full-width, editorial labels */
+  .ba-f{margin-top:56px;}
+  .ba-cap{display:flex;align-items:baseline;gap:16px;margin-bottom:16px;font-family:var(--mono);}
+  .ba-cap b{font-size:12px;letter-spacing:3px;text-transform:uppercase;font-weight:600;}
+  .ba-cap b.was{color:var(--rose-d);}
+  .ba-cap b.now{color:var(--sage);}
+  .ba-cap span{font-size:13px;letter-spacing:.4px;color:var(--muted);}
+
+  /* kicker — one-line section closer */
+  .kick{font-family:var(--display);font-style:italic;font-size:clamp(22px,2.6vw,30px);line-height:1.4;color:var(--ink);text-align:center;margin:96px auto 0;max-width:720px;}
+  .kick .sp{color:var(--rose);font-style:normal;}
+
+  /* design decisions — two labeled sides */
+  .ev.side{display:block;margin-top:80px;}
+  .duo .frame{margin:0;}
+
+  /* annotated screenshot — decisions shown on the pixels */
+  .anno{margin-top:24px;}
+  .anno .pin{position:absolute;z-index:3;width:28px;height:28px;border-radius:50%;background:var(--indigo);color:#fff;
+    font-family:var(--mono);font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);}
+  .anno .pin::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:1.5px solid var(--indigo);opacity:.5;animation:pinpulse 2.4s ease-out infinite;}
+  @keyframes pinpulse{0%{transform:scale(.6);opacity:.8}70%{transform:scale(1.15);opacity:0}100%{transform:scale(1.15);opacity:0}}
+  @media(prefers-reduced-motion:reduce){ .anno .pin::after{animation:none;} }
+  .anno-legend{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-top:32px;}
+  .anno-legend.three{grid-template-columns:repeat(3,1fr);}
+  .anno-legend .al .n{display:block;font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--indigo);}
+  .anno-legend .al b{display:block;font-family:var(--display);font-size:20px;font-weight:600;color:var(--ink);margin-top:8px;line-height:1.15;}
+  .anno-legend .al p{font-size:14px;line-height:1.6;color:var(--body);margin-top:4px;}
+
+  /* big sparse statement — lets a line breathe like the references */
+  .statement{font-family:var(--display);font-weight:600;font-size:clamp(30px,4.2vw,52px);line-height:1.16;letter-spacing:-.6px;color:var(--ink);max-width:800px;margin-top:8px;}
+  .statement em{font-style:italic;color:var(--rose);}
+  /* tier index — editorial rows, no cards */
+  .tierlist{margin-top:48px;}
+  .tierlist .tr{display:grid;grid-template-columns:200px 1fr 160px;gap:40px;align-items:center;padding:32px 0;border-top:1px solid rgba(46,42,64,.14);}
+  .tierlist .tr:last-child{border-bottom:1px solid rgba(46,42,64,.14);}
+  .tierlist .num{display:block;font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+  .tierlist .tr.a .num{color:var(--sage);} .tierlist .tr.b .num{color:var(--indigo);} .tierlist .tr.c .num{color:var(--rose-d);}
+  .tierlist .nm{font-family:var(--display);font-size:clamp(24px,2.8vw,31px);font-weight:600;line-height:1.12;color:var(--ink);}
+  .tierlist p{font-size:16px;line-height:1.7;color:var(--body);max-width:52ch;}
+  .tierlist .gl{width:100%;max-width:160px;height:auto;overflow:visible;justify-self:end;}
+  .tierlist .gl .rider{transform-box:fill-box;transform-origin:center;transition:transform .45s cubic-bezier(.2,.8,.2,1);}
+  .tierlist .tr:hover .gl .rider{transform:scale(1.15);}
+  .tierlist .tr:hover .gl .rline{animation:routedash 1.4s linear infinite;}
+  @media(prefers-reduced-motion:reduce){ .tierlist .tr:hover .gl .rline{animation:none;} .tierlist .gl .rider{transition:none;} }
+  /* success metrics — elegant hierarchy, not a spreadsheet */
+  .metrics{margin-top:32px;}
+  .northstar-tile{position:relative;overflow:hidden;background:linear-gradient(150deg,#3b3a8f,#2c2b6e);color:var(--on-dark);border-radius:16px;padding:36px 40px;}
+  .northstar-tile .ns-star{position:absolute;right:24px;bottom:-16px;font-size:120px;line-height:1;color:rgba(255,255,255,.06);pointer-events:none;}
+  .northstar-tile .lbl{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(239,234,253,.6);}
+  .northstar-tile .val{position:relative;font-family:var(--display);font-size:clamp(26px,3.2vw,38px);font-weight:600;line-height:1.16;margin-top:12px;color:#fff;max-width:26ch;}
+  .kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px;}
+  .kpi-tile{background:var(--cream2);border-radius:16px;padding:24px;}
+  .kpi-tile .kt{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--rose-d);}
+  .kpi-tile .kn{font-family:var(--display);font-size:20px;font-weight:600;color:var(--ink);margin-top:12px;line-height:1.1;}
+  .kpi-tile .kd{font-size:14px;line-height:1.55;color:var(--body);margin-top:8px;}
+  @media(max-width:720px){ .kpi-grid{grid-template-columns:1fr;} }
+  @keyframes routedash{to{stroke-dashoffset:-22;}}
+
+  /* figures */
+  figure{margin-top:64px;}
+  .frame{border-radius:12px;overflow:hidden;background:var(--paper);position:relative;box-shadow:0 22px 50px rgba(46,42,64,.13);aspect-ratio:16/10;}
+  .frame img{width:100%;height:auto;display:block;}
+  /* once a real screenshot loads, let it define its own height (no crop) */
+  .frame.loaded{aspect-ratio:auto;}
+  figcaption{font-family:var(--mono);font-size:12px;letter-spacing:.4px;color:var(--muted);margin-top:16px;}
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:56px;}
+  .pair figure{margin-top:0;}
+
+  /* personality gallery — tidy cropped tiles */
+  .gal-wide .frame{aspect-ratio:16/9;}
+  .gal-wide .frame img{width:100%;height:100%;object-fit:cover;display:block;}
+  .frame.port{aspect-ratio:4/5;}
+  .frame.port img,.frame.port video{width:100%;height:100%;object-fit:cover;display:block;}
+
+  /* plain labelled list (the tiers) — text only{margin-top:32px;max-width:var(--read);}
+  .plain .it{padding:20px 0;border-top:1px solid rgba(46,42,64,.13);}
+  .plain .it:last-child{border-bottom:1px solid rgba(46,42,64,.13);}
+  .plain .it b{font-family:var(--display);font-size:22px;font-weight:600;color:var(--ink);}
+  .plain .it span{display:block;font-size:16px;line-height:1.65;color:var(--body);margin-top:4px;}
+  .kpi .row .v{font-size:16px;line-height:1.6;color:var(--body);}
+  .kpi .row .v b{font-family:var(--display);font-size:20px;font-weight:600;color:var(--ink);}
+
+  /* reflection — numbered endnotes, same grammar as the tier index */
+  .takeaways{margin-top:32px;}
+  .takeaways .t{display:grid;grid-template-columns:64px 1fr;gap:24px;padding:32px 0;border-top:1px solid rgba(46,42,64,.14);max-width:720px;}
+  .takeaways .t:last-child{border-bottom:1px solid rgba(46,42,64,.14);}
+  .takeaways .t .n{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--rose-d);padding-top:8px;}
+  .takeaways .t h4{font-family:var(--display);font-size:22px;font-weight:600;color:var(--ink);}
+  .takeaways .t p{font-size:16px;line-height:1.8;color:var(--body);margin-top:8px;}
+
+  /* end / footer */
+  .end{padding:120px 0 0;}
+  .end h3{font-family:var(--display);font-size:clamp(30px,4.6vw,52px);font-weight:600;letter-spacing:-.5px;}
+  .end h3 em{font-style:italic;color:var(--rose);}
+  .end .acts{display:flex;gap:16px;flex-wrap:wrap;margin-top:28px;}
+  .btn{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;padding:16px 24px;border-radius:30px;display:inline-flex;align-items:center;gap:8px;transition:transform .25s,background .25s;cursor:pointer;}
+  .btn.solid{background:var(--indigo);color:#fff;}
+  .btn.solid:hover{background:var(--indigo-d);transform:translateY(-2px);}
+  .btn.ghost{border:1.5px solid var(--indigo);color:var(--indigo);}
+  .btn.ghost:hover{background:rgba(59,58,143,.06);transform:translateY(-2px);}
+
+  .footer{margin-top:120px;position:relative;z-index:2;border-top:1px solid rgba(46,42,64,.1);}
+  .footer .fwrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:32px 32px;flex-wrap:wrap;max-width:var(--maxw);margin:0 auto;}
+  .tag-chip{display:inline-flex;align-items:center;gap:12px;background:var(--indigo);color:#fff;padding:8px 16px 8px 12px;border-radius:8px;}
+  .tag-chip .hole{width:12px;height:12px;border-radius:50%;border:2px solid rgba(255,255,255,.55);flex:none;}
+  .tag-chip .lt{font-family:var(--display);font-style:italic;font-weight:600;font-size:18px;display:flex;align-items:center;gap:8px;}
+  .tag-chip .lt .sp{color:var(--rose);font-style:normal;}
+  .footer .flinks{display:flex;gap:16px;flex-wrap:wrap;}
+  .footer .flinks a{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;opacity:.7;transition:opacity .25s;}
+  .footer .flinks a:hover{opacity:1;}
+  .footer .meta2{display:flex;gap:16px;align-items:center;font-family:var(--mono);font-size:12px;letter-spacing:1px;color:var(--muted);}
+  .footer .meta2 .top{cursor:pointer;transition:color .25s;}
+  .footer .meta2 .top:hover{color:var(--indigo);}
+
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1);}
+  .reveal.in{opacity:1;transform:translateY(0);}
+  @media (prefers-reduced-motion:reduce){ .reveal{transition:none;} }
+
+  @media(max-width:720px){ .pair{grid-template-columns:1fr;} .tierlist .tr{grid-template-columns:1fr;gap:16px;} .tierlist .gl{justify-self:start;}
+    .evgrid{grid-template-columns:1fr;gap:48px;} .ov-grid{grid-template-columns:1fr;gap:8px;}
+    .anno-legend{grid-template-columns:repeat(2,1fr);gap:24px;} .sec{padding-top:72px;} .hero-shot{margin-top:40px;}
+    .hero-grid{grid-template-columns:1fr;gap:28px;} .meta-col{flex-direction:row;flex-wrap:wrap;gap:24px 40px;} .visit{flex-basis:100%;} }
+  @media(max-width:560px){
+    nav{padding:12px 16px;} .wm{font-size:18px;}
+    .nav-toggle{display:flex;}
+    .nav-r{position:fixed;top:0;right:0;height:100vh;width:min(74vw,260px);flex-direction:column;align-items:stretch;gap:4px;
+      background:rgba(242,235,220,.98);backdrop-filter:blur(12px);padding:80px 20px 24px;box-shadow:-10px 0 44px rgba(46,42,64,.18);
+      transform:translateX(105%);transition:transform .38s cubic-bezier(.2,.8,.2,1);}
+    .nav-r.open{transform:translateX(0);}
+    .nav-r a{width:100%;padding:12px 16px;font-size:13px;letter-spacing:2px;border-radius:12px;opacity:1;}
+    .nav-r a.btn{margin-top:8px;text-align:center;justify-content:center;}
+    .wrap{padding:0 24px;}
+    .hero{padding-top:104px;}
+    .meta-col{flex-direction:column;gap:16px;}
+    .anno-legend{grid-template-columns:1fr;gap:20px;}
+  }
+
+  /* ===== MOBILE RHYTHM ===== */
+  @media(max-width:560px){
+    .sec{padding-top:64px;}
+    .hero-shot{margin-top:32px;}
+    .ba-f{margin-top:40px;}
+    .kick{margin:64px auto 0;font-size:20px;}
+    .evgrid{margin-top:64px;}
+    .ev.side{margin-top:64px;}
+    .tierlist{margin-top:32px;}
+    .tierlist .tr{padding:24px 0;}
+    .tierlist .gl{max-width:128px;}
+    .anno .pin{width:22px;height:22px;font-size:10px;}
+    .takeaways .t{grid-template-columns:40px 1fr;gap:16px;padding:24px 0;}
+    .facts{gap:16px;padding-top:8px;}
+    .stat-line .n{font-size:clamp(64px,20vw,96px);}
+    .duo{gap:16px;}
+  }
+
+  /* cross-page transition (progressive enhancement) */
+  @view-transition{navigation:auto;}
+  @media (prefers-reduced-motion:reduce){
+    ::view-transition-old(root),::view-transition-new(root){animation:none !important;}
+  }
+</style>
+</head>
+<body>
+  <div id="pageart" aria-hidden="true">
+    <svg width="480" height="1000" viewBox="0 0 480 1000" style="top:260px;right:-120px;"><path class="route" d="M40 40 Q 360 220 200 460 T 420 920"/></svg>
+    <svg width="420" height="940" viewBox="0 0 420 940" style="top:1900px;left:-100px;"><path class="route" d="M380 20 Q 80 230 250 470 T 60 920" opacity=".55"/></svg>
+    <svg width="230" height="230" viewBox="0 0 230 230" style="top:58%;right:2%;">
+      <g class="cartrose"><circle cx="115" cy="115" r="86" fill="none"/><circle cx="115" cy="115" r="60" fill="none"/>
+      <path d="M115 16 L127 115 L115 214 L103 115 Z"/><path d="M16 115 L115 103 L214 115 L115 127 Z"/></g>
+      <text x="115" y="40" text-anchor="middle" class="cartrose" style="font-family:var(--mono);font-size:13px;letter-spacing:1px;" fill="currentColor">N</text>
+    </svg>
+  </div>
+  <nav id="nav">
+    <a class="wm" href="index.html#top">Ian Kim <span class="sp">&#9992;</span></a>
+    <div class="nav-r" id="navLinks">
+      <a href="index.html#work">Work</a>
+      <a href="about.html">About</a>
+      <a href="index.html#contact">Contact</a>
+      <a href="https://drive.google.com/file/d/1bYq4r07i9nYkBTbbrEGq-AFQjUMQ2v5u/view?usp=sharing" target="_blank" rel="noopener" class="btn" id="resumeLink">Resume</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="nav-scrim" id="navScrim"></div>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <div class="wrap reveal">
+      <a class="back-link" href="index.html#work">&larr; Back to work</a>
+      <div class="hero-grid">
+        <div class="lead-col">
+          <div class="label">Moober &middot; Tiered Search</div>
+          <h1>Finding rides that were already there</h1>
+          <p class="hook">Nearly half of Moober&rsquo;s rides drove empty while riders who wanted those seats searched, saw nothing, and left. I redesigned how the platform matches riders to drivers.</p>
+        </div>
+        <div class="meta-col">
+          <div class="m"><span class="l">Role</span><span class="v">Product Designer</span></div>
+          <div class="m"><span class="l">Timeline</span><span class="v">Spring 2026</span></div>
+          <div class="m"><span class="l">Team</span><span class="v">2 PMs, 1 PD (me), 1 GD<br>1 PMM, 4 SWEs</span></div>
+          <a class="visit" href="https://mooberdavis.com" target="_blank" rel="noopener">Visit Moober &nearr;</a>
+        </div>
+      </div>
+    </div>
+    <div class="wrap">
+      <figure class="hero-shot reveal">
+        <div class="frame">
+          <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span>moober-hero</span></div>
+          <img class="auto-img" data-base="moober-hero" alt="Moober tiered search" />
+        </div>
+      </figure>
+    </div>
+  </header>
+
+  <!-- ===== OVERVIEW ===== -->
+  <section class="sec">
+    <div class="wrap reveal">
+      <div class="ov-grid">
+        <div>
+          <h2 class="sec-h">A rideshare app that couldn&rsquo;t connect its own users</h2>
+          <p class="body">Moober is UC&nbsp;Davis&rsquo;s student-only rideshare. Students carpool home for breaks or split the drive to the airport.</p>
+          <p class="body">I owned one problem: the search matching riders to drivers. It was quietly failing both sides of a <strong>live product I couldn&rsquo;t rebuild from scratch</strong>.</p>
+        </div>
+        <div class="facts">
+          <div class="f"><span class="l">On the platform</span><span class="v">2,000+ students</span></div>
+          <div class="f"><span class="l">Where</span><span class="v">UC&nbsp;Davis only</span></div>
+          <div class="f"><span class="l">Status</span><span class="v">Live &amp; in use</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== THE FIX, IN ONE GLANCE ===== -->
+  <section class="sec">
+    <div class="wrap reveal">
+      <div class="eyebrow">The solution</div>
+      <p class="statement">Match on the whole <em>route</em>, not just the city.</p>
+    </div>
+    <div class="wrap">
+      <figure class="ba-f reveal">
+        <figcaption class="ba-cap"><b class="was">Before</b><span>Search Fresno. Nothing.</span></figcaption>
+        <div class="frame"><div class="ph"><span>moober-search-before</span></div><img class="auto-img" data-base="moober-search-before" alt="Before: searching Fresno returns nothing" /></div>
+      </figure>
+      <figure class="ba-f reveal">
+        <figcaption class="ba-cap"><b class="now">After</b><span>Same search. Seven rides, tiered.</span></figcaption>
+        <div class="frame"><div class="ph"><span>moober-search-results</span></div><img class="auto-img" data-base="moober-search-results" alt="After: the same search returns seven tiered rides" /></div>
+      </figure>
+    </div>
+    <div class="wrap reveal">
+      <p class="body">Search reads the driver&rsquo;s <strong>actual route</strong> and sorts every result into three honest tiers, from perfect match to near miss.</p>
+<div class="tierlist">
+        <div class="tr a reveal">
+          <div class="nc"><span class="num">Tier 01</span><div class="nm">Direct match</div></div>
+          <p>The driver&rsquo;s destination is the rider&rsquo;s destination. These sort to the top.</p>
+          <svg class="gl" viewBox="0 0 160 72" role="img" aria-label="A route ending exactly at the rider's stop.">
+            <path class="rline" d="M12,36 H134" fill="none" stroke="#B26B52" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round"/>
+            <circle cx="12" cy="36" r="3" fill="#2E2A40"/>
+            <g class="rider">
+              <circle cx="144" cy="36" r="9" fill="none" stroke="#7E9061" stroke-width="2"/>
+              <circle cx="144" cy="36" r="3.5" fill="#7E9061"/>
+            </g>
+          </svg>
+        </div>
+        <div class="tr b reveal" style="transition-delay:.1s">
+          <div class="nc"><span class="num">Tier 02</span><div class="nm">On your route</div></div>
+          <p>The rider&rsquo;s city sits minutes off the driver&rsquo;s highway path, never more than the driver allows. A prompt nudges riders to message their exact drop-off.</p>
+          <svg class="gl" viewBox="0 0 160 72" role="img" aria-label="A route passing through the rider's stop on the way.">
+            <path class="rline" d="M12,36 H148" fill="none" stroke="#B26B52" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round"/>
+            <circle cx="12" cy="36" r="3" fill="#2E2A40"/>
+            <circle cx="148" cy="36" r="3" fill="#2E2A40"/>
+            <g class="rider">
+              <circle cx="80" cy="36" r="9" fill="none" stroke="#3B3A8F" stroke-width="2"/>
+              <circle cx="80" cy="36" r="3.5" fill="#3B3A8F"/>
+            </g>
+          </svg>
+        </div>
+        <div class="tr c reveal" style="transition-delay:.2s">
+          <div class="nc"><span class="num">Tier 03</span><div class="nm">Nearby</div></div>
+          <p>The ride ends within the rider&rsquo;s search radius. The badge shows the mileage gap, so the last mile is a decision, not a surprise.</p>
+          <svg class="gl" viewBox="0 0 160 72" role="img" aria-label="A route ending a short, measured gap away from the rider's stop.">
+            <path class="rline" d="M12,36 H124" fill="none" stroke="#B26B52" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round"/>
+            <circle cx="12" cy="36" r="3" fill="#2E2A40"/>
+            <circle cx="124" cy="36" r="3" fill="#2E2A40"/>
+            <line x1="128" y1="41" x2="136" y2="52" stroke="#8C4A38" stroke-width="1.4" stroke-dasharray="2 5"/>
+            <text x="120" y="62" text-anchor="end" font-family="'Archivo Narrow',sans-serif" font-size="9" letter-spacing="1.5" fill="#8C4A38">+2 MI</text>
+            <g class="rider">
+              <circle cx="140" cy="58" r="9" fill="none" stroke="#8C4A38" stroke-width="2"/>
+              <circle cx="140" cy="58" r="3.5" fill="#8C4A38"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="wrap">
+      <p class="kick reveal">Every search ends somewhere now. <span class="sp">&#9992;</span></p>
+    </div>
+  </section>
+
+  <!-- ===== THE PROBLEM ===== -->
+  <section class="sec">
+    <div class="wrap reveal">
+      <div class="eyebrow">The problem</div>
+      <p class="statement">The rides existed. The riders existed. <em>The search kept them apart.</em></p>
+    </div>
+    <div class="wrap">
+      <p class="body">Search matched on <strong>exact city name</strong>. Nothing else. A student living between Davis and a driver&rsquo;s destination was invisible, even when that driver was about to drive right past them. Search your city, get nothing, close the app.</p>
+      <div class="evgrid">
+        <div class="reveal">
+          <div class="ev">What the data said</div>
+          <div class="stat-line">
+            <div class="n">44%</div>
+            <div class="l">of rides ran with zero passengers.</div>
+            <div class="src">PostHog &middot; April 2026</div>
+          </div>
+        </div>
+        <div class="reveal" style="transition-delay:.1s">
+          <div class="ev">What riders told me</div>
+          <div class="ins">
+            <div class="it">A rider in <b>Fresno</b>, right on the Davis&ndash;LA route, saw nothing. He drove to LA to catch a ride that passed straight through his city.</div>
+            <div class="it">A first-year <b>assumed no one was heading their way</b> after a single empty search.</div>
+            <div class="it"><b>One dead end was usually enough.</b> With nothing to request or save, riders left for Facebook or Amtrak for good.</div>
+          </div>
+        </div>
+      </div>
+      <p class="kick reveal">44% wasn&rsquo;t a supply problem. <span class="sp">&#9992;</span> It was a search problem.</p>
+    </div>
+  </section>
+
+  <!-- ===== DESIGN DECISIONS ===== -->
+  <section class="sec">
+    <div class="wrap reveal">
+      <h2 class="sec-h">What makes it work</h2>
+      <p class="body">Two sides had to change: what riders see, and what drivers allow.</p>
+    </div>
+    <div class="wrap">
+      <div class="ev side reveal">The rider&rsquo;s side</div>
+      <div class="anno reveal">
+        <div class="frame">
+          <div class="ph"><span>moober-search-results</span></div>
+          <img class="auto-img" data-base="moober-search-results" alt="The tiered search results screen, annotated" />
+          <span class="pin" style="left:50%;top:33.5%;">1</span>
+          <span class="pin" style="left:84%;top:33.5%;">2</span>
+          <span class="pin" style="left:17.5%;top:45.5%;">3</span>
+          <span class="pin" style="left:36%;top:94%;">4</span>
+        </div>
+        <div class="anno-legend">
+          <div class="al"><span class="n">01</span><b>Radius slider</b><p>Riders widen the net themselves, up to 30 miles.</p></div>
+          <div class="al"><span class="n">02</span><b>Never zero</b><p>The same Fresno search now surfaces seven rides.</p></div>
+          <div class="al"><span class="n">03</span><b>Tier badges</b><p>Every result says what kind of match it is. No pretending.</p></div>
+          <div class="al"><span class="n">04</span><b>The whole route</b><p>Cards draw the driver&rsquo;s full path, with the rider&rsquo;s stop on it.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="ev side reveal">The driver&rsquo;s side</div>
+      <figure class="ba-f reveal">
+        <div class="frame"><div class="ph"><span>moober-search-toggle</span></div><img class="auto-img" data-base="moober-search-toggle" alt="Driver flexibility toggle in action" /></div>
+        <figcaption>Drivers set how far off their route they will go.</figcaption>
+      </figure>
+      <div class="anno-legend three reveal">
+        <div class="al"><span class="n">The call</span><b>Driver sets the limit</b><p>5, 15, or 30 minutes off route. They carry the cost, so they hold the dial.</p></div>
+        <div class="al"><span class="n">Ruled out</span><b>Rider-requested detours</b><p>Wrong person doing the asking, and booking turns into a negotiation.</p></div>
+        <div class="al"><span class="n">The constraint</span><b>Paid calls where they earn it</b><p>On-route matching needs a routing API call per search, which costs money. Nearby only needs distance between two points, which is free.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MEASURING SUCCESS ===== -->
+  <section class="sec">
+    <div class="wrap reveal">
+      <div class="eyebrow">Measuring success</div>
+      <h2 class="sec-h">How we&rsquo;ll know it&rsquo;s working</h2>
+      <p class="body">The feature is in build, so this is the bar I set for it.</p>
+      <div class="metrics">
+        <div class="northstar-tile">
+          <span class="ns-star" aria-hidden="true">&#9992;</span>
+          <div class="lbl">North-star metric</div>
+          <div class="val">Rides completed per active user, each quarter.</div>
+        </div>
+        <div class="kpi-grid">
+          <div class="kpi-tile"><div class="kt">Signal</div><div class="kn">Search-to-result</div><div class="kd">How often a search returns something usable.</div></div>
+          <div class="kpi-tile"><div class="kt">Signal</div><div class="kn">Toggle adoption</div><div class="kd">Whether drivers opt into detours.</div></div>
+          <div class="kpi-tile"><div class="kt">Signal</div><div class="kn">Search-to-booking</div><div class="kd">Whether the new matches actually convert.</div></div>
+        </div>
+      </div>
+      <p class="kick reveal">The bar is simple: <span class="sp">&#9992;</span> rides that actually happen.</p>
+    </div>
+  </section>
+
+  <!-- ===== REFLECTION ===== -->
+  <section class="sec">
+    <div class="wrap reveal">
+      <h2 class="sec-h">What I took away</h2>
+      <div class="takeaways">
+        <div class="t reveal"><span class="n">01</span><div><h4>Designing inside what already exists</h4><p>A live product, a real codebase, real constraints. The interesting work was fitting a smarter system into an interface students already knew.</p></div></div>
+        <div class="t reveal" style="transition-delay:.1s"><span class="n">02</span><div><h4>Honesty is a feature</h4><p>The tiers could have hidden their weaker matches. Labeling them plainly, mileage gap included, trades a little polish for trust. That matters when someone is planning a real trip.</p></div></div>
+        <div class="t reveal" style="transition-delay:.2s"><span class="n">03</span><div><h4>Next: ship it</h4><p>The designs are done and handed to engineering. Next is launch, then watching whether the empty-seat number moves.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PERSONALITY ===== -->
+  <section class="sec">
+    <div class="wrap reveal">
+      <h2 class="sec-h">The team behind it</h2>
+      <p class="body">A startup is mostly its people. Ours: the team, a trip to SF, and a thoroughly unserious promo reel.</p>
+    </div>
+    <div class="wrap">
+      <figure class="gal-wide reveal"><div class="frame"><img src="team.jpeg" alt="The Moober team" loading="lazy" decoding="async" onerror="this.style.display='none'" /></div><figcaption>The Moober team</figcaption></figure>
+      <div class="pair reveal">
+        <figure><div class="frame port"><img src="sf.jpeg" alt="A team trip to San Francisco" loading="lazy" decoding="async" onerror="this.style.display='none'" /></div><figcaption>A team trip to San Francisco</figcaption></figure>
+        <figure><div class="frame port"><video src="reels.mp4" muted loop autoplay playsinline preload="metadata"></video></div><figcaption>Our (very serious) promo reel</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== END ===== -->
+  <section class="end">
+    <div class="wrap reveal">
+      <h3>Thanks for <em>reading</em>.</h3>
+      <div class="acts">
+        <a class="btn solid" href="index.html#work">Back to work</a>
+        <a class="btn ghost" href="mailto:iansoojinkim@gmail.com">Email me</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="fwrap">
+      <div class="tag-chip"><span class="hole"></span><span class="lt"><span class="nm">Ian Kim</span><span class="sp">&#9992;</span></span></div>
+      <div class="flinks">
+        <a href="index.html#work">Work</a>
+        <a href="about.html">About</a>
+        <a href="mailto:iansoojinkim@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/ian-kim-549226356/" target="_blank" rel="noopener" id="footLinkedin">LinkedIn</a>
+      </div>
+      <div class="meta2"><span>&copy; 2026</span><span class="top" id="backTop">Back to top &#8593;</span></div>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  var nav=document.getElementById('nav');
+  function onScroll(){ nav.classList.toggle('solid', window.scrollY>40); }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  var navToggle=document.getElementById('navToggle');
+  var navLinks=document.getElementById('navLinks');
+  var navScrim=document.getElementById('navScrim');
+  function setMenu(open){
+    navLinks.classList.toggle('open',open);
+    navToggle.classList.toggle('open',open);
+    navScrim.classList.toggle('open',open);
+    navToggle.setAttribute('aria-expanded',open?'true':'false');
+  }
+  if(navToggle){
+    navToggle.addEventListener('click',function(){ setMenu(!navLinks.classList.contains('open')); });
+    navScrim.addEventListener('click',function(){ setMenu(false); });
+    navLinks.querySelectorAll('a').forEach(function(a){ a.addEventListener('click',function(){ setMenu(false); }); });
+    window.addEventListener('keydown',function(e){ if(e.key==='Escape') setMenu(false); });
+  }
+
+  var bt=document.getElementById('backTop');
+  if(bt){ bt.addEventListener('click',function(){ window.scrollTo({top:0,behavior:'smooth'}); }); }
+
+  var EXTS=['jpg','jpeg','png','gif','webp','JPG','JPEG','PNG','GIF'];
+  document.querySelectorAll('img.auto-img').forEach(function(im){
+    var base=im.getAttribute('data-base'), i=0;
+    im.loading='lazy'; im.decoding='async';
+    im.addEventListener('load',function(){
+      var fr=im.closest('.frame'); if(fr) fr.classList.add('loaded');
+      var ph=im.parentElement.querySelector('.ph'); if(ph) ph.style.display='none';
+    });
+    function nx(){ if(i>=EXTS.length){ im.style.display='none'; return; } im.src=base+'.'+EXTS[i++]; }
+    im.addEventListener('error',nx); nx();
+  });
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(function(el){ if(reduce){ el.classList.add('in'); } else { io.observe(el); } });
+
+})();
+</script>
+</body>
+</html>
