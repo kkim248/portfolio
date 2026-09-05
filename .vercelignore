@@ -17,3 +17,6 @@ IMG_3719.png
 _*.png
 .DS_Store
 recollection-system.jpg
+node_modules/
+package.json
+package-lock.json
