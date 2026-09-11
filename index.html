@@ -241,8 +241,31 @@
   .about .lead .pin{width:8px;height:8px;border-radius:50% 50% 50% 0;background:var(--rose);transform:rotate(45deg);display:inline-block;}
   .about h2{font-size:clamp(44px,6.4vw,82px);font-weight:600;letter-spacing:-1px;line-height:.98;margin-top:16px;}
   .about h2 em{font-style:italic;color:var(--rose);}
-  .about .desc{font-size:19px;line-height:1.8;color:#524c3f;margin-top:24px;max-width:56ch;}
+  .about .desc{font-size:18px;line-height:1.75;color:#524c3f;margin-top:24px;}
   .about .btn-row{margin-top:36px;}
+
+  .about .about-grid{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:64px;align-items:center;}
+  .about .card-about{max-width:620px;}
+  .pola-home{position:relative;width:236px;flex:none;margin:0;background:var(--paper);padding:12px 12px 0;
+    border-radius:2px;box-shadow:0 16px 32px rgba(46,42,64,.18);
+    transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s;
+    transform:rotate(-4deg) translateZ(0);will-change:transform;backface-visibility:hidden;}
+  .pola-home .tape{position:absolute;top:-12px;left:50%;width:84px;height:24px;
+    transform:translateX(-50%) rotate(5deg);background:rgba(178,107,82,.34);
+    border:1px solid rgba(140,74,56,.25);box-shadow:0 1px 4px rgba(46,42,64,.08);}
+  .pola-home .shot{position:relative;aspect-ratio:4/5;background:#d9cfbd;overflow:hidden;border-radius:2px;}
+  .pola-home .shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+  .pola-home figcaption{font-family:var(--hand);font-size:22px;color:#4a4636;text-align:center;padding:8px 4px 16px;line-height:1;}
+  .pola-home figcaption small{display:block;font-family:var(--mono);font-size:9px;letter-spacing:2px;
+    text-transform:uppercase;color:var(--muted);margin-top:4px;}
+  /* the reveal system animates transform too, so compose tilt + reveal above it */
+  .about .pola-home.reveal{transform:rotate(-4deg) translateY(28px);
+    transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s;}
+  .about .pola-home.reveal.in{transform:rotate(-4deg);}
+  .about .pola-home.reveal.in:hover{transform:rotate(0deg) translateY(-8px) scale(1.03);
+    box-shadow:0 24px 48px rgba(46,42,64,.26);z-index:5;}
+  @media(prefers-reduced-motion:reduce){ .pola-home{transition:none;} }
+  @media(max-width:900px){ .about .about-grid{grid-template-columns:1fr auto;gap:40px;} .pola-home{width:188px;} }
 
   /* about teaser: copy on the left{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1fr) auto;
     gap:64px;align-items:center;}
@@ -482,7 +505,9 @@
     .trip-stub h3{font-size:30px;line-height:1.08;}
     .trip-line{font-size:16px;line-height:1.6;margin-top:12px;}
     .trip .cta{font-size:11px;letter-spacing:1.5px;}
-    /* about */
+    /* about: polaroid is a desktop detail */
+    .pola-home{display:none;}
+    .about .about-grid{display:block;}
     .about{padding:80px 24px 80px;}
     .about h2{font-size:38px;}
     .about .desc{font-size:16px;line-height:1.7;}
@@ -764,11 +789,18 @@
 
   <!-- ===== ABOUT ===== -->
   <section class="about" id="about" data-stop="1">
-    <div class="card-about reveal">
+    <div class="about-grid">
+      <div class="card-about reveal">
       <div class="lead"><span class="pin"></span> About me</div>
       <h2>Ian <em>Kim</em></h2>
       <div class="desc">I&rsquo;m a senior at UC&nbsp;Davis studying design, originally from San Francisco. I started out as an art major, and I still care most about work that looks good and stays simple to use. Outside of that: FL&nbsp;Studio, a camera at sunset, and most F1 weekends.</div>
       <div class="btn-row"><a class="btn ghost" href="about.html">More about me &rarr;&#65038;</a></div>
+      </div>
+      <figure class="pola-home reveal">
+        <span class="tape" aria-hidden="true"></span>
+        <div class="shot"><img src="ian.jpeg" alt="Ian Kim" loading="lazy" decoding="async" onerror="this.closest('.pola-home').style.display='none'" /></div>
+        <figcaption>the designer<small>Davis, CA</small></figcaption>
+      </figure>
     </div>
   </section>
 
