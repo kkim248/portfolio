@@ -239,7 +239,7 @@
 
   .about .about-grid{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:64px;align-items:center;}
   .about .card-about{max-width:620px;}
-  .pola-home{position:relative;width:236px;flex:none;margin:0;background:var(--paper);padding:12px 12px 0;
+  .pola-home{position:relative;width:236px;flex:none;margin:0 12px 0 0;background:var(--paper);padding:12px 12px 0;
     border-radius:2px;box-shadow:0 16px 32px rgba(46,42,64,.18);
     transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s;
     transform:rotate(-4deg) translateZ(0);will-change:transform;backface-visibility:hidden;}
@@ -324,11 +324,12 @@
   .footer .wrap{max-width:var(--maxw);margin:0 auto;padding:32px 6vw;display:flex;align-items:center;
     justify-content:space-between;gap:24px;flex-wrap:wrap;}
   /* a little luggage tag holding the name */
-  .footer .tag-chip{display:flex;align-items:center;gap:12px;}
+  .footer .tag-chip{display:inline-flex;align-items:center;gap:12px;
+    background:linear-gradient(160deg,#48468f,#34326f);border:1px dashed rgba(242,235,220,.28);
+    border-radius:8px;padding:8px 16px 8px 12px;}
   .footer .tag-chip .hole{width:14px;height:14px;border-radius:50%;border:2px solid rgba(242,235,220,.4);position:relative;}
   .footer .tag-chip .hole::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--indigo-d);}
-  .footer .tag-chip .lt{background:linear-gradient(160deg,#48468f,#34326f);border:1px dashed rgba(242,235,220,.28);
-    border-radius:8px;padding:8px 16px;display:flex;align-items:center;gap:8px;}
+  .footer .tag-chip .lt{display:flex;align-items:center;gap:8px;}
   .footer .tag-chip .lt .nm{font-family:var(--display);font-style:italic;font-weight:600;font-size:18px;color:var(--cream);}
   .footer .tag-chip .lt .sp{color:var(--rose);}
   .footer .flinks{display:flex;gap:8px;flex-wrap:wrap;}

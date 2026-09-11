@@ -503,6 +503,10 @@
       if(i>=EXTS.length){ im.style.display='none'; return; }
       im.src=base+'.'+EXTS[i++];
     }
+    im.addEventListener('load',function(){
+      var fr=im.closest('.frame'); if(fr) fr.classList.add('loaded');
+      var ph=im.parentElement.querySelector('.ph'); if(ph) ph.style.display='none';
+    });
     im.addEventListener('error',next);
     next();
   });
