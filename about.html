@@ -18,7 +18,7 @@
   /* ===== BRAND TOKENS (shared with the portfolio) ===== */
   :root{
     --cream:#F2EBDC; --cream2:#E7DCC6; --indigo:#3B3A8F; --indigo-d:#2C2B6E;
-    --rose:#B26B52; --rose-d:#8C4A38; --sage:#7E9061; --ink:#2E2A40; --muted:#8a7f6d; --paper:#fffdf8; --on-dark:#efeafd;
+    --rose:#B26B52; --rose-d:#8C4A38; --sage:#7E9061; --sage-t:#616e4a; --ink:#2E2A40; --muted:#72695a; --paper:#fffdf8; --on-dark:#efeafd;
     --maxw:1180px;
     --display:'Cormorant Garamond',Georgia,serif;
     --mono:'Archivo Narrow',sans-serif; --sans:'Archivo','Archivo Narrow',sans-serif;
@@ -34,6 +34,13 @@
   @keyframes grain{0%{transform:translate(0,0);}20%{transform:translate(-6px,4px);}40%{transform:translate(5px,-5px);}
     60%{transform:translate(-4px,-3px);}80%{transform:translate(4px,5px);}100%{transform:translate(0,0);}}
   a{color:inherit;text-decoration:none;}
+
+  /* keyboard focus: visible on every interactive element */
+  a:focus-visible,button:focus-visible,[role="button"]:focus-visible{
+    outline:2px solid var(--indigo);outline-offset:3px;border-radius:4px;}
+  .contact a:focus-visible,.footer a:focus-visible,.endcta a:focus-visible,
+  .board-panel a:focus-visible{outline-color:var(--cream);}
+
 
   /* ===== BACKGROUND ART — cartographic ephemera + illustration accents =====
      One layer spanning the document; fades out before the dark CTA. */
@@ -240,7 +247,7 @@
     .pp-sub{font-size:14px;margin-top:4px;}
     /* keep only the two fields that matter — everything else is desktop detail */
     .pp-fields .f:nth-child(1),.pp-fields .f:nth-child(2),.pp-fields .f:nth-child(5),.pp-fields .f:nth-child(6){display:none;}
-    .pp-fields{grid-template-columns:1fr 1fr;gap:10px 12px;margin-top:12px;padding-top:12px;}
+    .pp-fields{grid-template-columns:1fr 1fr;gap:12px 12px;margin-top:12px;padding-top:12px;}
     .pp-fields .f .lbl{font-size:9px;letter-spacing:1px;}
     .pp-fields .f .val{font-size:14px;}
     .pp-mrz{font-size:9px;letter-spacing:1.2px;margin-top:4px;padding-top:8px;}
@@ -253,7 +260,7 @@
     .polas{gap:20px 12px;margin-top:32px;}
     .pola{width:calc(50% - 6px);padding:8px 8px 0;}
     .pola::before{width:56px;height:18px;top:-9px;}
-    .pola .cap{font-size:16px;padding:6px 2px 12px;}
+    .pola .cap{font-size:16px;padding:8px 2px 12px;}
     .pola .cap small{font-size:7px;letter-spacing:1.5px;}
     .endcta{padding:32px 24px;flex-direction:column;align-items:flex-start;}
     .bgart.compass{width:96px;top:20%;}
@@ -272,30 +279,30 @@
   @media(max-width:560px){
     .section-h{font-size:26px;line-height:1.18;}
     .kick{font-size:11px;letter-spacing:2px;}
-    .lede{font-size:16.5px;line-height:1.7;margin-top:16px;}
+    .lede{font-size:16px;line-height:1.7;margin-top:16px;}
     .lede + .lede{margin-top:12px;}
     .pola .cap{font-size:15px;}
-    .endcta{padding:28px 22px;gap:20px;}
+    .endcta{padding:28px 24px;gap:20px;}
     .endcta h3{font-size:26px;line-height:1.15;}
     .endcta p{font-size:14px;}
     .footer .fwrap{flex-direction:column;align-items:flex-start;gap:20px;padding:28px 24px 32px;}
-    .footer .flinks{gap:8px 18px;}
+    .footer .flinks{gap:8px 20px;}
     .footer .flinks a{font-size:11px;letter-spacing:1.5px;}
-    .footer .meta{font-size:11px;letter-spacing:1px;gap:14px;}
+    .footer .meta{font-size:11px;letter-spacing:1px;gap:16px;}
     #pageart svg{display:none;}
   }
 
   @media(max-width:560px){
     .passport{padding:92px 0 8px;}
-    .pp-book{padding:10px;}
-    .pp-page{grid-template-columns:112px 1fr;gap:18px 20px;padding:20px 18px;}
-    .pp-head{padding-bottom:10px;margin-bottom:2px;}
+    .pp-book{padding:12px;}
+    .pp-page{grid-template-columns:112px 1fr;gap:20px 20px;padding:20px 20px;}
+    .pp-head{padding-bottom:12px;margin-bottom:2px;}
     .pp-head .type{font-size:10px;letter-spacing:3px;}
     .pp-name{font-size:34px;line-height:1;}
-    .pp-sub{font-size:13px;line-height:1.35;margin-top:6px;}
-    .pp-fields{gap:14px 16px;margin-top:16px;padding-top:14px;}
+    .pp-sub{font-size:13px;line-height:1.35;margin-top:8px;}
+    .pp-fields{gap:16px 16px;margin-top:16px;padding-top:16px;}
     .pp-fields .f .val{font-size:14px;line-height:1.2;}
-    .pp-mrz{margin-top:10px;padding-top:12px;font-size:8.5px;letter-spacing:1px;}
+    .pp-mrz{margin-top:12px;padding-top:12px;font-size:9px;letter-spacing:1px;}
     .pp-photo .seal{width:34px;height:34px;font-size:6px;}
   }
 </style>

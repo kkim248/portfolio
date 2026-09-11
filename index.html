@@ -18,7 +18,7 @@
   /* ===== BRAND TOKENS ===== */
   :root{
     --cream:#F2EBDC; --cream2:#E7DCC6; --indigo:#3B3A8F; --indigo-d:#2C2B6E;
-    --rose:#B26B52; --rose-d:#8C4A38; --sage:#7E9061; --ink:#2E2A40; --muted:#8a7f6d; --paper:#fdfaf3; --on-dark:#e7e3f5; --on-dark-accent:#FBE3C8; --sage-lt:#9CC08B;
+    --rose:#B26B52; --rose-d:#8C4A38; --sage:#7E9061; --sage-t:#616e4a; --ink:#2E2A40; --muted:#72695a; --paper:#fdfaf3; --on-dark:#e7e3f5; --on-dark-accent:#FBE3C8; --sage-lt:#9CC08B;
     --maxw:1180px;
     --display:'Cormorant Garamond',Georgia,serif;
     --mono:'Archivo Narrow',sans-serif; --hand:'Caveat',cursive; --sans:'Archivo','Archivo Narrow',sans-serif;
@@ -34,6 +34,13 @@
   @keyframes grain{0%{transform:translate(0,0);}20%{transform:translate(-6px,4px);}40%{transform:translate(5px,-5px);}
     60%{transform:translate(-4px,-3px);}80%{transform:translate(4px,5px);}100%{transform:translate(0,0);}}
   a{color:inherit;text-decoration:none;}
+
+  /* keyboard focus: visible on every interactive element */
+  a:focus-visible,button:focus-visible,[role="button"]:focus-visible{
+    outline:2px solid var(--indigo);outline-offset:3px;border-radius:4px;}
+  .contact a:focus-visible,.footer a:focus-visible,.endcta a:focus-visible,
+  .board-panel a:focus-visible{outline-color:var(--cream);}
+
   .mono{font-family:var(--mono);letter-spacing:2px;text-transform:uppercase;}
 
   /* ===== PAGE ART: cartographic ephemera behind everything =====
@@ -317,7 +324,7 @@
   .footer .flinks a{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--on-dark);
     opacity:.8;padding:8px 12px;border-radius:30px;transition:opacity .25s,background .25s;}
   .footer .flinks a:hover{opacity:1;background:rgba(242,235,220,.08);}
-  .footer .meta{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:#8f8ad0;display:flex;align-items:center;gap:16px;}
+  .footer .meta{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:#9b96d5;display:flex;align-items:center;gap:16px;}
   .footer .meta .top{cursor:pointer;color:var(--on-dark);display:inline-flex;align-items:center;gap:8px;transition:color .25s;}
   .footer .meta .top:hover{color:#fff;}
 
@@ -435,7 +442,7 @@
     .scatter.blank{display:block;width:164px;right:4px;bottom:-40px;transform:rotate(5deg) !important;z-index:1;}
     .hero-balloon{top:96px;left:auto;right:5%;width:60px;}
     .hero-balloon img{width:100%;height:auto;display:block;}
-    .postcard{position:relative;left:auto;top:auto;width:100%;margin:32px 0 0;padding:10px 10px 12px;
+    .postcard{position:relative;left:auto;top:auto;width:100%;margin:32px 0 0;padding:12px;
       transform:rotate(-1.2deg) !important;animation:none;opacity:1;}
     .postcard .frame{aspect-ratio:4/3;}
     .postage{width:44px;height:44px;top:-12px;right:16px;}
@@ -461,43 +468,42 @@
     /* hero: keep the greeting clear of the stamp, tighten the type */
     .greet{left:22px;right:76px;top:18px;}
     .greet .from{font-size:9px;letter-spacing:1.5px;}
-    .greet h1{font-size:44px;margin-top:10px;}
-    .greet .role{font-size:14px;margin-top:6px;}
+    .greet h1{font-size:44px;margin-top:12px;}
+    .greet .role{font-size:14px;margin-top:8px;}
     .postage{width:40px;height:40px;top:-10px;right:12px;}
     .hero-balloon{top:88px;width:54px;}
     .cue{margin-top:40px;}
     .cue .mono{font-size:10px;letter-spacing:2px;}
     /* work */
-    .work-intro h2{font-size:27px;line-height:1.18;letter-spacing:-.2px;}
+    .work-intro h2{font-size:26px;line-height:1.18;letter-spacing:-.2px;}
     .work-intro .lead{font-size:11px;letter-spacing:2px;}
-    .trip-stub{padding:24px 22px 26px;}
+    .trip-stub{padding:24px 24px 24px;}
     .trip-no{font-size:10px;letter-spacing:1.5px;}
     .trip-stub h3{font-size:30px;line-height:1.08;}
-    .trip-line{font-size:15.5px;line-height:1.6;margin-top:10px;}
+    .trip-line{font-size:16px;line-height:1.6;margin-top:12px;}
     .trip .cta{font-size:11px;letter-spacing:1.5px;}
     /* about */
     .about{padding:80px 24px 80px;}
     .about h2{font-size:38px;}
-    .about .desc{font-size:16.5px;line-height:1.7;}
+    .about .desc{font-size:16px;line-height:1.7;}
     .about .lead{font-size:11px;letter-spacing:2px;}
     /* contact */
     .contact{padding:80px 24px 80px;}
-    .board-panel{padding:28px 22px 30px;}
+    .board-panel{padding:28px 24px 32px;}
     .board-panel h2{font-size:34px;line-height:1.08;}
-    .board-panel .strip{gap:14px 20px;}
+    .board-panel .strip{gap:16px 20px;}
     .board-panel .mail{font-size:17px;}
     /* footer: stack, and give the tag room */
     .footer .wrap{flex-direction:column;align-items:flex-start;gap:20px;padding:28px 24px 32px;}
-    .footer .flinks{gap:6px 4px;}
-    .footer .flinks a{font-size:11px;letter-spacing:1.5px;padding:6px 10px;}
-    .footer .meta{font-size:11px;gap:14px;}
+    .footer .flinks{gap:8px 4px;}
+    .footer .flinks a{font-size:11px;letter-spacing:1.5px;padding:8px 12px;}
+    .footer .meta{font-size:11px;gap:16px;}
   }
 
   @media(max-width:560px){
     /* stamps crowd the stub on a narrow card */
     .trip .stamp{display:none;}
-    /* polaroid: smaller, centred{grid-template-columns:1fr;gap:28px;justify-items:stretch;}
-    .about .desc{font-size:16.5px;line-height:1.7;max-width:none;}
+    .about .desc{font-size:16px;line-height:1.7;max-width:none;}
   }
 </style>
 </head>
