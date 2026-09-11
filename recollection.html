@@ -57,9 +57,9 @@
     flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:background .25s;}
   .nav-toggle:hover{background:rgba(46,42,64,.06);}
   .nav-toggle span{display:block;width:23px;height:2px;background:var(--ink);border-radius:2px;transition:transform .32s cubic-bezier(.2,.8,.2,1),opacity .25s;}
-  .nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .nav-toggle.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
   .nav-toggle.open span:nth-child(2){opacity:0;}
-  .nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  .nav-toggle.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
   .nav-scrim{position:fixed;inset:0;z-index:55;background:rgba(20,18,34,.34);backdrop-filter:blur(2px);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;}
   .nav-scrim.open{opacity:1;visibility:visible;}
 
@@ -268,6 +268,67 @@
   /* research question pull-quote */
   .pullq{font-family:var(--display);font-style:italic;font-size:clamp(22px,2.8vw,30px);line-height:1.4;color:var(--ink);
     margin:48px 0 0;padding-left:24px;border-left:2px solid var(--rose);max-width:var(--read);}
+
+  /* ===== MOBILE TUNING ===== */
+  @media(max-width:560px){
+    /* type: smaller, looser leading, less aggressive tracking */
+    .hero{padding-top:96px;}
+    .hero .label{font-size:11px;letter-spacing:2px;}
+    .hero h1{font-size:30px;line-height:1.14;letter-spacing:-.3px;margin-top:10px;}
+    .hook{font-size:16px;line-height:1.6;margin-top:16px;}
+    .meta-col{flex-direction:row;flex-wrap:wrap;gap:20px 32px;margin-top:28px;}
+    .meta-col .m .l{font-size:10px;letter-spacing:1.5px;}
+    .meta-col .m .v{font-size:17px;}
+    .visit{flex-basis:100%;margin-top:8px;}
+    h2.sec-h{font-size:26px;line-height:1.18;letter-spacing:-.2px;}
+    .statement{font-size:26px;line-height:1.22;letter-spacing:-.2px;}
+    p.body{font-size:16.5px;line-height:1.7;margin-top:20px;}
+    .eyebrow{font-size:11px;letter-spacing:2px;}
+    .ev{font-size:10px;letter-spacing:1.5px;}
+    .kick{font-size:18px;line-height:1.45;margin-top:56px;}
+    .stat-line .n{font-size:76px;letter-spacing:-1px;}
+    .stat-line .l{font-size:16px;line-height:1.55;margin-top:16px;}
+    .stat-line .src{font-size:10px;letter-spacing:1.5px;}
+    .ins .it{font-size:15.5px;line-height:1.65;padding:16px 0;}
+    .tierlist .nm{font-size:21px;}
+    .tierlist p{font-size:15.5px;line-height:1.65;}
+    .tierlist .num{font-size:10px;letter-spacing:1.5px;}
+    .takeaways .t h4{font-size:20px;}
+    .takeaways .t p{font-size:16px;line-height:1.7;}
+    .facts .f .v{font-size:20px;}
+    .pullq{font-size:19px;line-height:1.45;padding-left:16px;}
+    figcaption{font-size:11px;}
+    /* background route lines shouldn't cross the copy on a narrow screen */
+    #pageart svg{display:none;}
+    /* footer: stack cleanly instead of a cramped row */
+    .footer{margin-top:80px;}
+    .footer .fwrap{flex-direction:column;align-items:flex-start;gap:20px;padding:28px 24px 32px;}
+    .footer .flinks{gap:8px 18px;}
+    .footer .flinks a{font-size:11px;letter-spacing:1.5px;}
+    .footer .meta2{font-size:11px;letter-spacing:1px;gap:14px;}
+  }
+
+  @media(max-width:560px){
+    /* the 3-col legend must collapse: .anno-legend.three outranks .anno-legend */
+    .anno-legend,.anno-legend.three{grid-template-columns:1fr;gap:24px;margin-top:24px;}
+    .anno-legend .al{padding-top:16px;border-top:1px solid rgba(46,42,64,.13);}
+    .anno-legend .al b{font-size:19px;}
+    .anno-legend .al p{font-size:15.5px;line-height:1.65;}
+    .anno-legend .al .n{font-size:10px;letter-spacing:1.5px;}
+    /* tighten the hero image -> first section gap */
+    .sec{padding-top:48px;}
+    .hero-shot{margin-top:28px;}
+    .ov-grid{gap:8px;}
+    .facts{gap:16px;padding-top:12px;}
+    /* stacked media blocks */
+    .band{gap:24px;}
+    .band .rows .row{padding:16px 0;}
+    .band .rows .row b{font-size:19px;}
+    .band .rows .row p{font-size:15.5px;}
+    .duo{gap:20px;}
+    .evgrid{margin-top:48px;gap:36px;}
+    .ba-f{margin-top:32px;}
+  }
 </style>
 
 <body>

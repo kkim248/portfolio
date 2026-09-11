@@ -79,9 +79,9 @@
   .nav-toggle:hover{background:rgba(46,42,64,.06);}
   .nav-toggle span{display:block;width:23px;height:2px;background:var(--ink);border-radius:2px;
     transition:transform .32s cubic-bezier(.2,.8,.2,1),opacity .25s;}
-  .nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .nav-toggle.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
   .nav-toggle.open span:nth-child(2){opacity:0;}
-  .nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  .nav-toggle.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
   .nav-scrim{position:fixed;inset:0;z-index:55;background:rgba(20,18,34,.34);backdrop-filter:blur(2px);
     opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;}
   .nav-scrim.open{opacity:1;visibility:visible;}
@@ -266,6 +266,37 @@
   @view-transition{navigation:auto;}
   @media (prefers-reduced-motion:reduce){
     ::view-transition-old(root),::view-transition-new(root){animation:none !important;}
+  }
+
+  /* ===== MOBILE TUNING ===== */
+  @media(max-width:560px){
+    .section-h{font-size:26px;line-height:1.18;}
+    .kick{font-size:11px;letter-spacing:2px;}
+    .lede{font-size:16.5px;line-height:1.7;margin-top:16px;}
+    .lede + .lede{margin-top:12px;}
+    .pola .cap{font-size:15px;}
+    .endcta{padding:28px 22px;gap:20px;}
+    .endcta h3{font-size:26px;line-height:1.15;}
+    .endcta p{font-size:14px;}
+    .footer .fwrap{flex-direction:column;align-items:flex-start;gap:20px;padding:28px 24px 32px;}
+    .footer .flinks{gap:8px 18px;}
+    .footer .flinks a{font-size:11px;letter-spacing:1.5px;}
+    .footer .meta{font-size:11px;letter-spacing:1px;gap:14px;}
+    #pageart svg{display:none;}
+  }
+
+  @media(max-width:560px){
+    .passport{padding:92px 0 8px;}
+    .pp-book{padding:10px;}
+    .pp-page{grid-template-columns:112px 1fr;gap:18px 20px;padding:20px 18px;}
+    .pp-head{padding-bottom:10px;margin-bottom:2px;}
+    .pp-head .type{font-size:10px;letter-spacing:3px;}
+    .pp-name{font-size:34px;line-height:1;}
+    .pp-sub{font-size:13px;line-height:1.35;margin-top:6px;}
+    .pp-fields{gap:14px 16px;margin-top:16px;padding-top:14px;}
+    .pp-fields .f .val{font-size:14px;line-height:1.2;}
+    .pp-mrz{margin-top:10px;padding-top:12px;font-size:8.5px;letter-spacing:1px;}
+    .pp-photo .seal{width:34px;height:34px;font-size:6px;}
   }
 </style>
 </head>
