@@ -212,7 +212,7 @@ One quiet reading column, after lilithyu.com/about (inspiration only). Earlier v
 2. **A photo:** Ian at Crissy Field at sunset, printed as a cyanotype with `scripts/print-photo.mjs`. The script maps grey to Prussian blue shadows, cerulean midtones and paper highlights, with a gentle S-curve. It also writes a warm black and white alternative (`ian-beach-bw.jpg`). Use the script for any future photo, so every photo on the site is printed the same way. It is cropped to 2:1, keeping Ian, the bridge and the beach and dropping empty sky, with `--r-m` corners. From 768 it shares the text's left edge and is 80% of the column wide, ending short of the text's right edge, so the column isn't rigid. Ian wants the left edges aligned for cohesion.
 3. **The greeting:** "Hi, I'm Ian." in italic serif, the page's only animated line.
 4. **Text:** a short paragraph of design background (Fine Arts to product design; Moober and Buzzit), one line on sports with friends and good food, then **Off the clock**: a `.label` and `.ab__list`, three fun facts as a plain list with small blue dots (Tottenham, FL Studio, trips on a whim). Modelled on lilithyu.com/about. Keep design talk to that one paragraph.
-5. **Lately:** a `.label` and a `.gallery` row of three portrait prints at 3:4, with one-word captions (Eating, Snowboarding, Wandering). Below 640 the first print is full width and the other two sit side by side. They are printed darker than the default to match the beach photo's deep blue: `scripts/print-photo.mjs <in> <out> 2.7`, or 3.3 for snow. An earlier version linked words in a sentence to the prints on hover; Ian replaced it with plain copy. Any photo added here goes through `scripts/print-photo.mjs` first.
+5. **Lately:** a `.label` and a `.gallery` row of three portrait prints at 3:4, with one-word captions (Eating, Snowboarding, Wandering). Below 640 the first print is full width and the other two sit side by side. They are printed darker than the default to match the beach photo's deep blue: `scripts/print-photo.mjs <in> <out> 2.2`, or 2.7 for snow. 2.7 and 3.3 read too dark. An earlier version linked words in a sentence to the prints on hover; Ian replaced it with plain copy. Any photo added here goes through `scripts/print-photo.mjs` first.
 6. **Contact:** Email · LinkedIn · Résumé in mono, then the closing note.
 
 ---
@@ -385,6 +385,7 @@ The canvases and cursor live in `Base.astro` with `transition:persist`, so they 
 
 ## Recent rules (October 2026)
 
+- **Ink on desktop.** The ink is kept gentle, with displacement 1.4, fine specks at frequency 2 and a hole threshold of 2.52. The original (1.75 / 1.6 / 2.3) read as grainy and dotted.
 - **Ink on phones.** Below 768, serif lines use `#ink-m` and `#ink-w-m`: a finer, gentler version of the ink with almost no holes. Ian found the full grain too coarse at phone sizes.
 - **Projects without a case study.** Mark them `soon: true` with no `href` in `projects.ts`. The cover and name stop being links, the text link becomes a grey "Case study coming soon", and the cursor pill says "Coming soon" as soon as the pointer enters. It follows whichever project the scene is showing.
 - **Screens on phones.** Below 640, `.compare__panel` and `.shot-panel` pad by `--s-2`, so the UI gets the width.

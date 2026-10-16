@@ -58,19 +58,19 @@ const turn = { forwards: sheet, backwards: sheet };
   <svg width="0" height="0" style="position: absolute" aria-hidden="true" focusable="false">
     <filter id="ink" x="-2%" y="-10%" width="104%" height="120%" color-interpolation-filters="sRGB">
       <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" result="n"/>
-      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.75" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.4" xChannelSelector="R" yChannelSelector="G" result="d"/>
       <feGaussianBlur in="d" stdDeviation="0.35" result="b"/>
-      <feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="1" seed="9" result="s"/>
-      <feColorMatrix in="s" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.75 0 0 0 2.3" result="holes"/>
+      <feTurbulence type="fractalNoise" baseFrequency="2" numOctaves="1" seed="9" result="s"/>
+      <feColorMatrix in="s" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.75 0 0 0 2.52" result="holes"/>
       <feComposite in="b" in2="holes" operator="in"/>
     </filter>
     <!-- the same ink for a single word: a roomier region, so a word still bleeding in is never clipped -->
     <filter id="ink-w" x="-25%" y="-35%" width="150%" height="170%" color-interpolation-filters="sRGB">
       <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" result="n"/>
-      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.75" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.4" xChannelSelector="R" yChannelSelector="G" result="d"/>
       <feGaussianBlur in="d" stdDeviation="0.35" result="b"/>
-      <feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="1" seed="9" result="s"/>
-      <feColorMatrix in="s" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.75 0 0 0 2.3" result="holes"/>
+      <feTurbulence type="fractalNoise" baseFrequency="2" numOctaves="1" seed="9" result="s"/>
+      <feColorMatrix in="s" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.75 0 0 0 2.52" result="holes"/>
       <feComposite in="b" in2="holes" operator="in"/>
     </filter>
     <!-- phones: the same ink, finer and with fewer holes; at small sizes the full grain reads as noise -->
