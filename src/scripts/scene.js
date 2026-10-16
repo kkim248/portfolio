@@ -5,17 +5,30 @@ export function scene() {
   const scene = document.querySelector('.scene'); if (!scene) return;
   const covers = scene.querySelectorAll('.scene__cover'), texts = scene.querySelectorAll('.scene__text'), lis = scene.querySelectorAll('.scene__list li'), bar = scene.querySelector('.scene__bar');
   const n = covers.length, HOLD = 0.55;   // within each 130svh chapter: hold for 55%, then transition
-  let last = -1, raf = 0;
-  const frame = () => {
+  // shown[k]: how far the change INTO project k has gone. Scrolling up, it follows the scroll exactly. Scrolling down,
+  // once a change has begun it plays on by itself, so moving on to the next project takes less scrolling.
+  const wide = matchMedia('(min-width: 1024px)');
+  const shown = new Float32Array(n).fill(0); shown[0] = 1;
+  let last = -1, lastP = 0, down = true, then = performance.now(), raf = 0;
+  const frame = (now) => {
     raf = requestAnimationFrame(frame);
-    if (getComputedStyle(scene).display === 'none') return;
+    if (!wide.matches) return;   // phones and tablets get the plain stack instead
+    const dt = Math.min(64, now - then); then = now;
     const L = innerHeight * 1.3, p = clamp(-scene.getBoundingClientRect().top / L, 0, n - 1);
-    if (Math.abs(p - last) < 0.0005) return; last = p;
+    if (Math.abs(p - lastP) > 0.0005) { down = p > lastP; lastP = p; }
+    let moving = false;
+    for (let k = 1; k < n; k++) {
+      const raw = smooth(0, 1, (p - (k - 1) - HOLD) / (1 - HOLD));
+      let s = shown[k];
+      if (down && raw > 0.04) s = Math.max(raw, s + (1 - s) * (1 - Math.exp(-dt / 160)));
+      else s += (raw - s) * (down ? 1 : 1 - Math.exp(-dt / 70));
+      if (Math.abs(s - shown[k]) > 0.0005) moving = true;
+      shown[k] = s > 0.999 ? 1 : s < 0.001 ? 0 : s;
+    }
+    if (!moving && Math.abs(p - last) < 0.0005) return; last = p;
     for (let k = 0; k < n; k++) {
-      // t: how far the transition INTO project k has progressed (0 before, 1 after)
-      const t = k === 0 ? 1 : smooth(0, 1, (p - (k - 1) - HOLD) / (1 - HOLD));
-      // tOut: how far project k has been covered by the next one
-      const tOut = k === n - 1 ? 0 : smooth(0, 1, (p - k - HOLD) / (1 - HOLD));
+      // t: how far the change into project k has gone; tOut: how far project k has been covered by the next one
+      const t = shown[k], tOut = k === n - 1 ? 0 : shown[k + 1];
       const c = covers[k], img = c.firstElementChild;
       c.style.zIndex = k;
       // stack: the next project rises from below the screen as a whole card; the covered one sinks back and dims
@@ -32,8 +45,8 @@ export function scene() {
       texts[k].style.pointerEvents = vis > 0.5 ? 'auto' : 'none';
       texts[k].inert = vis < 0.5;
     }
-    // the next project becomes active halfway through its transition
-    const active = clamp(Math.floor(p + 1 - HOLD - (1 - HOLD) / 2), 0, n - 1);
+    // the next project becomes active halfway through its change
+    let active = 0; for (let k = 1; k < n; k++) if (shown[k] >= 0.5) active = k;
     lis.forEach((l, j) => l.classList.toggle('is-on', j === active));
     bar.style.setProperty('--p', (p + 1) / n);
   };

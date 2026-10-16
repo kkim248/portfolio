@@ -73,23 +73,6 @@ const turn = { forwards: sheet, backwards: sheet };
       <feColorMatrix in="s" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.75 0 0 0 2.52" result="holes"/>
       <feComposite in="b" in2="holes" operator="in"/>
     </filter>
-    <!-- phones: the same ink, finer and with fewer holes; at small sizes the full grain reads as noise -->
-    <filter id="ink-m" x="-2%" y="-10%" width="104%" height="120%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="4" result="n"/>
-      <feDisplacementMap in="SourceGraphic" in2="n" scale="0.9" xChannelSelector="R" yChannelSelector="G" result="d"/>
-      <feGaussianBlur in="d" stdDeviation="0.2" result="b"/>
-      <feTurbulence type="fractalNoise" baseFrequency="2.2" numOctaves="1" seed="9" result="s"/>
-      <feColorMatrix in="s" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.75 0 0 0 2.62" result="holes"/>
-      <feComposite in="b" in2="holes" operator="in"/>
-    </filter>
-    <filter id="ink-w-m" x="-25%" y="-35%" width="150%" height="170%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="4" result="n"/>
-      <feDisplacementMap in="SourceGraphic" in2="n" scale="0.9" xChannelSelector="R" yChannelSelector="G" result="d"/>
-      <feGaussianBlur in="d" stdDeviation="0.2" result="b"/>
-      <feTurbulence type="fractalNoise" baseFrequency="2.2" numOctaves="1" seed="9" result="s"/>
-      <feColorMatrix in="s" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.75 0 0 0 2.62" result="holes"/>
-      <feComposite in="b" in2="holes" operator="in"/>
-    </filter>
   </svg>
   <!-- The light stays lit across page changes: these persist, so the sun never flickers off and on -->
   <canvas class="light-gl" data-layer="shade" aria-hidden="true" transition:persist="light-shade"></canvas>

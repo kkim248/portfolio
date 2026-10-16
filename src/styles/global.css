@@ -121,10 +121,10 @@ img { display: block; max-width: 100%; height: auto; }
 .scene__cover:not([href]), .stack__cover:not([href]) { cursor: default; }
 .scene__list a:not([href]) { cursor: default; }
 
-body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 30; background: url('/assets/grain-tile.png'); opacity: 0.05; mix-blend-mode: multiply; }
+body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100lvh; pointer-events: none; z-index: 30; background: url('/assets/grain-tile.png'); opacity: 0.05; mix-blend-mode: multiply; }
 
 /* The light: one fixed layer over the whole page, multiplied onto everything beneath it */
-.light-gl { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 20; pointer-events: none; mix-blend-mode: multiply; opacity: 0; transition: opacity 2400ms cubic-bezier(0.3, 0, 0.2, 1); }
+.light-gl { position: fixed; top: 0; left: 0; width: 100%; height: 100lvh; z-index: 20; pointer-events: none; mix-blend-mode: multiply; opacity: 0; transition: opacity 2400ms cubic-bezier(0.3, 0, 0.2, 1); }
 .light-gl.is-on { opacity: 1; }
 /* glints sit on the paper, behind the type, so they never break up letters; the shade still falls over the words */
 .light-gl--glint { z-index: -1; mix-blend-mode: screen; }
@@ -153,9 +153,11 @@ body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-in
    last, so nothing changes when the words settle */
 .words.is-split { filter: none !important; }
 .words.is-split .w { filter: url(#ink-w); }
-@media (max-width: 767px) {
-  .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .closing p, .sign__name, .cs-hero h1, .sec h2, .sub, .tierrow__text h4, .hmw__q, .stat__big, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink-m); }
-  .words.is-split .w { filter: url(#ink-w-m); }
+/* phones and tablets render SVG filters at a low resolution, so the ink looked blurry and cost frames there.
+   On touch screens and small screens the type stays crisp, still multiplied into the paper. */
+@media (max-width: 767px), (hover: none) {
+  .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .closing p, .sign__name, .cs-hero h1, .sec h2, .sub, .tierrow__text h4, .hmw__q, .stat__big, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
+  .words.is-split .w { filter: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
   .words.is-split .w > span {
@@ -191,6 +193,12 @@ body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-in
 .top { row-gap: var(--s-5); align-items: start; }
 .top__id, .top__menu { grid-column: span 2; }
 .top__contact, .top__profile, .top__now { grid-column: span 4; }
+@media (max-width: 767px) {
+  .top { align-items: baseline; }
+  .top__menu { grid-column: 3 / -1; justify-self: end; }
+  .top__menu .menu { display: flex; gap: var(--s-5); }
+  .top__id .mono { display: none; }
+}
 @media (min-width: 768px) {
   .top__id { grid-column: 1 / span 2; } .top__menu { grid-column: 3 / span 2; } .top__contact { grid-column: 5 / span 4; }
   .top__profile { grid-column: 1 / span 4; } .top__now { grid-column: 5 / span 4; }

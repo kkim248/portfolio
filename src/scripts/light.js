@@ -156,12 +156,22 @@ const FS_GLINT = GLSL_COMMON + `
 export function startLight() {
   const canvases = [...document.querySelectorAll('.light-gl')];
   const layers = [];
+  // phones and tablets: the glints are left out and the shade draws at a lower resolution and 30fps, so scrolling
+  // stays smooth; the light moves slowly enough that nobody can tell
+  const touch = !fine;
   for (const canvas of canvases) {
     const glint = canvas.dataset.layer === 'glint';
+    if (glint && touch) { canvas.remove(); continue; }
     const p = glProgram(canvas, VS, glint ? FS_GLINT : FS_SHADE);
     if (!p) return;
-    layers.push({ canvas, ...p, scale: glint ? 0.75 : 0.5 });
+    layers.push({ canvas, ...p, scale: glint ? 0.75 : touch ? 0.4 : 0.5 });
   }
+  // the light covers the LARGE viewport (100lvh) from the top, so it never resizes or stretches while a phone's
+  // address bar slides away; boxes are measured against that height
+  const probe = document.createElement('div');
+  probe.style.cssText = 'position:fixed;top:0;left:0;width:0;height:100lvh;visibility:hidden;pointer-events:none';
+  document.body.appendChild(probe);
+  let VH = probe.offsetHeight || innerHeight;
 
   // the first screen and the closing note set how strong the light is; looked up again on every page
   // pages meant for reading (case studies) mark their body data-light="quiet": past the first screen the light
@@ -175,7 +185,9 @@ export function startLight() {
   const boxes = new Float32Array(64);
   const t0 = performance.now() - 8000;
 
+  let lastDraw = 0;
   function draw(now) {
+    if (touch && now - lastDraw < 32) return; lastDraw = now;
     px += (tx - px) * 0.04; py += (ty - py) * 0.04;
     // the light is full on the first screen, softer down the page, and fades out at the closing note
     let f = 1 - (quiet ? 0.75 : 0.4) * smooth(0, (first ? first.offsetHeight : innerHeight) * 0.9, scrollY);
@@ -183,7 +195,7 @@ export function startLight() {
     fade += (f - fade) * 0.1;
     const h = light.hover;
     if (h && !h.isConnected) light.hover = null;
-    else if (h) { const r = h.getBoundingClientRect(); rect = [r.left / innerWidth, r.top / innerHeight, r.right / innerWidth, r.bottom / innerHeight]; }
+    else if (h) { const r = h.getBoundingClientRect(); rect = [r.left / innerWidth, r.top / VH, r.right / innerWidth, r.bottom / VH]; }
     clearAmt += ((h ? 1 : 0) - clearAmt) * 0.08;
     // the images on screen right now, as fractions of the viewport (at most 16)
     let n = 0;
@@ -192,14 +204,14 @@ export function startLight() {
     else if (m) {
       const e = morphEase(Math.max(0, now - m.t0) / MORPH_MS), b = m.el.getBoundingClientRect();
       const r = [m.from.left + (b.left - m.from.left) * e, m.from.top + (b.top - m.from.top) * e, m.from.right + (b.right - m.from.right) * e, m.from.bottom + (b.bottom - m.from.bottom) * e];
-      boxes.set([r[0] / innerWidth, r[1] / innerHeight, r[2] / innerWidth, r[3] / innerHeight], 0); n = 1;
+      boxes.set([r[0] / innerWidth, r[1] / VH, r[2] / innerWidth, r[3] / VH], 0); n = 1;
     }
     for (const el of pics) {
       if (m && el === m.el) continue;
       if (n >= 16) break;
       const r = el.getBoundingClientRect();
       if (r.bottom < 0 || r.top > innerHeight || r.width === 0) continue;
-      boxes.set([r.left / innerWidth, r.top / innerHeight, r.right / innerWidth, r.bottom / innerHeight], n * 4); n++;
+      boxes.set([r.left / innerWidth, r.top / VH, r.right / innerWidth, r.bottom / VH], n * 4); n++;
     }
     for (const { gl, U } of layers) {
       gl.uniform1f(U('uTime'), reduce ? 20 : (now - t0) / 1000);
@@ -224,7 +236,9 @@ export function startLight() {
       const P = PALETTE;
       gl.uniform3fv(U('uSun'), P.sun); gl.uniform3fv(U('uShade'), P.shade); gl.uniform3fv(U('uWarm'), P.warm); gl.uniform3fv(U('uCool'), P.cool); gl.uniform1f(U('uStrength'), P.strength);
       // the shade is soft, so half resolution is plenty; glints need a little more
-      const size = () => { canvas.width = Math.max(1, Math.round(innerWidth * scale)); canvas.height = Math.max(1, Math.round(innerHeight * scale)); gl.viewport(0, 0, canvas.width, canvas.height); gl.uniform2f(U('uRes'), canvas.width, canvas.height); };
+      // resize only when the width or the large viewport changes (a rotation, a window resize), never for the address bar
+      let w0 = 0, h0 = 0;
+      const size = () => { VH = probe.offsetHeight || innerHeight; if (innerWidth === w0 && VH === h0) return; w0 = innerWidth; h0 = VH; canvas.width = Math.max(1, Math.round(innerWidth * scale)); canvas.height = Math.max(1, Math.round(VH * scale)); gl.viewport(0, 0, canvas.width, canvas.height); gl.uniform2f(U('uRes'), canvas.width, canvas.height); };
       size(); addEventListener('resize', size);
     }
     if (fine) addEventListener('pointermove', (e) => { tx = e.clientX / innerWidth - 0.5; ty = e.clientY / innerHeight - 0.5; }, { passive: true });
