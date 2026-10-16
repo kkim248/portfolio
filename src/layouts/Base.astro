@@ -1,0 +1,105 @@
+---
+import '@fontsource-variable/newsreader/opsz.css';
+import '@fontsource-variable/newsreader/opsz-italic.css';
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+
+interface Props { title?: string; description?: string }
+const {
+  title = 'Ian Kim, product designer',
+  description = "Ian Kim is a designer at UC Davis with an artist's eye for detail.",
+} = Astro.props;
+
+// the page lifts off the sheet and the next one settles onto it; the light and the cover are not part of this
+const ease = 'cubic-bezier(0.2, 0.7, 0.2, 1)';
+const sheet = {
+  old: { name: 'page-out', duration: '420ms', easing: ease, fillMode: 'both' },
+  new: { name: 'page-in', duration: '760ms', delay: '260ms', easing: ease, fillMode: 'both' },
+};
+const turn = { forwards: sheet, backwards: sheet };
+---
+<!doctype html>
+<html lang="en" transition:animation={turn}>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <meta name="theme-color" content="#F4F2EC">
+  <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)}>
+  <!-- the tab icon: a sprig from Anna Atkins's cyanotype of Spiraea aruncus, printed in the site blue (scripts/make-icon.mjs) -->
+  <link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Ian Kim">
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)}>
+  <meta property="og:image" content={new URL('/og.jpg', Astro.site)}>
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preload" href="/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/GeistMono-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <ClientRouter />
+  <!-- the opening plays on every full load (not on page-to-page navigation); decided before first paint so the page never flashes underneath it -->
+  <script is:inline>
+    try {
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.setAttribute('data-intro', '');
+        document.documentElement.style.setProperty('--intro', '120ms');
+      }
+    } catch (e) {}
+  </script>
+</head>
+<body>
+  <!-- Ink: serif type is printed, not rendered. Edges wander a hair, ink bleeds slightly, and a few
+       tiny gaps show where the ink did not take. Applied to the serif only; small text stays crisp. -->
+  <svg width="0" height="0" style="position: absolute" aria-hidden="true" focusable="false">
+    <filter id="ink" x="-2%" y="-10%" width="104%" height="120%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.75" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="0.35" result="b"/>
+      <feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="1" seed="9" result="s"/>
+      <feColorMatrix in="s" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.75 0 0 0 2.3" result="holes"/>
+      <feComposite in="b" in2="holes" operator="in"/>
+    </filter>
+    <!-- the same ink for a single word: a roomier region, so a word still bleeding in is never clipped -->
+    <filter id="ink-w" x="-25%" y="-35%" width="150%" height="170%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.75" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="0.35" result="b"/>
+      <feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="1" seed="9" result="s"/>
+      <feColorMatrix in="s" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.75 0 0 0 2.3" result="holes"/>
+      <feComposite in="b" in2="holes" operator="in"/>
+    </filter>
+    <!-- phones: the same ink, finer and with fewer holes; at small sizes the full grain reads as noise -->
+    <filter id="ink-m" x="-2%" y="-10%" width="104%" height="120%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="0.9" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="0.2" result="b"/>
+      <feTurbulence type="fractalNoise" baseFrequency="2.2" numOctaves="1" seed="9" result="s"/>
+      <feColorMatrix in="s" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.75 0 0 0 2.62" result="holes"/>
+      <feComposite in="b" in2="holes" operator="in"/>
+    </filter>
+    <filter id="ink-w-m" x="-25%" y="-35%" width="150%" height="170%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="0.9" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="0.2" result="b"/>
+      <feTurbulence type="fractalNoise" baseFrequency="2.2" numOctaves="1" seed="9" result="s"/>
+      <feColorMatrix in="s" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.75 0 0 0 2.62" result="holes"/>
+      <feComposite in="b" in2="holes" operator="in"/>
+    </filter>
+  </svg>
+  <!-- The light stays lit across page changes: these persist, so the sun never flickers off and on -->
+  <canvas class="light-gl" data-layer="shade" aria-hidden="true" transition:persist="light-shade"></canvas>
+  <canvas class="light-gl light-gl--glint" data-layer="glint" aria-hidden="true" transition:persist="light-glint"></canvas>
+
+  <div class="intro" aria-hidden="true"><i class="intro__shade"></i><i class="intro__glow"></i><i class="intro__flare"></i></div>
+
+  <slot />
+
+  <div class="cursor" aria-hidden="true" transition:persist="cursor"><span>View case study</span></div>
+  <script>import '../scripts/main.js';</script>
+</body>
+</html>

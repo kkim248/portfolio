@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import Top from '../components/Top.astro';
+import Work from '../components/Work.astro';
+import Foot from '../components/Foot.astro';
+---
+<Base>
+  <section class="first rel">
+    <Top current="work" />
+    <div class="statement grid">
+      <h1 class="words" style="--wd: 450ms">Designer with an artist's eye for <em>detail</em></h1>
+    </div>
+  </section>
+  <main>
+    <Work />
+  </main>
+  <Foot />
+</Base>

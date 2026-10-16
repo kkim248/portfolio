@@ -1,0 +1,18 @@
+---
+import { links } from '../data/site';
+// the slim bar for inner pages: name on the left, where you are in the middle, the menu inline on the right
+interface Props { current?: 'work' | 'about'; crumb: string; parent?: { label: string; href: string } }
+const { current = 'work', crumb, parent = { label: 'Work', href: '/' } } = Astro.props;
+const menu = [
+  { key: 'work', label: 'Work', href: '/' },
+  { key: 'about', label: 'About', href: '/about' },
+  { key: 'resume', label: 'Résumé', href: links.resume, ext: true },
+];
+---
+<header class="bar grid">
+  <a class="name bar__name" href="/">Ian Kim</a>
+  <p class="bar__crumb"><a href={parent.href}>{parent.label}</a><span aria-hidden="true">/</span><span aria-current="page">{crumb}</span></p>
+  <nav class="bar__menu" aria-label="Primary">
+    {menu.map((m) => <a href={m.href} aria-current={m.key === current ? 'page' : undefined} target={m.ext ? '_blank' : undefined} rel={m.ext ? 'noopener' : undefined}>{m.label}</a>)}
+  </nav>
+</header>

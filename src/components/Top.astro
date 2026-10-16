@@ -1,0 +1,36 @@
+---
+import { links } from '../data/site';
+// compact: the short row used on inner pages (name, menu, contact), without Profile and Now
+interface Props { current?: 'work' | 'about'; compact?: boolean }
+const { current = 'work', compact = false } = Astro.props;
+const menu = [
+  { key: 'work', label: 'Work', href: '/' },
+  { key: 'about', label: 'About', href: '/about' },
+  { key: 'resume', label: 'Résumé', href: links.resume, ext: true },
+];
+---
+<header class="top grid">
+  <div class="top__id enter" style="--i: 0">
+    <a class="name" href="/">Ian Kim</a>
+    <p class="mono muted">Product designer</p>
+  </div>
+  <nav class="top__menu enter" style="--i: 1" aria-label="Primary">
+    <ul class="menu">
+      {menu.map((m) => <li><a href={m.href} aria-current={m.key === current ? 'page' : undefined} target={m.ext ? '_blank' : undefined} rel={m.ext ? 'noopener' : undefined}>{m.label}</a></li>)}
+    </ul>
+  </nav>
+  <div class="top__contact enter" style="--i: 2">
+    <p class="label">Contact</p>
+    <ul class="contact mono"><li><a href={links.email}>Email</a></li><li><a href={links.linkedin} target="_blank" rel="noopener">LinkedIn</a></li></ul>
+  </div>
+  {!compact && <>
+  <div class="top__profile enter" style="--i: 3">
+    <p class="label">Profile</p>
+    <p>Product designer and senior at UC Davis, from San Francisco. I started in Fine Arts and still draw.</p>
+  </div>
+  <div class="top__now enter" style="--i: 4">
+    <p class="label">Now</p>
+    <p>Designing Moober and Buzzit, two live apps for Davis students.</p>
+  </div>
+  </>}
+</header>

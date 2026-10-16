@@ -1,0 +1,59 @@
+---
+import { Image } from 'astro:assets';
+import { projects } from '../data/projects';
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+<section class="work" aria-labelledby="work-title">
+  <canvas class="spill spill--quiet-l" data-aspect="1.25" data-origin="0.45 0.45" data-seed="5" data-strength="0.6" aria-hidden="true"></canvas>
+  <div class="work__head grid">
+    <h2 id="work-title" class="words">Selected work</h2>
+    <p class="work__count label">{pad(projects.length)} projects</p>
+  </div>
+
+  <!-- desktop: a pinned scene; each project holds for a stretch of scroll, the next rises over it -->
+  <div class="scene rel" style={`--n: ${projects.length}`}>
+    <div class="scene__pin">
+      <aside class="scene__side">
+        <div>
+          <ul class="scene__list">
+            {projects.map((p, i) => <li class={i === 0 ? 'is-on' : undefined}><span class="mono">{pad(i + 1)}</span><a href={p.href} aria-disabled={p.soon ? 'true' : undefined}>{p.title}</a></li>)}
+          </ul>
+          <div class="scene__bar" aria-hidden="true"><i></i></div>
+        </div>
+        <div class="scene__texts">
+          {projects.map((p) => (
+            <div class="scene__text">
+              <p class="meta label">{p.meta.map((m) => <span>{m}</span>)}</p>
+              <h3>{p.summary}</h3>
+              {p.soon ? <p class="cta soon">Case study coming soon</p> : <a class="cta" href={p.href}><span>View case study</span><span class="arrow">&rarr;&#65038;</span></a>}
+            </div>
+          ))}
+        </div>
+      </aside>
+      <div class="scene__stage">
+        {projects.map((p, i) => (
+          <a class="scene__cover" href={p.href} tabindex="-1" data-slug={p.slug} data-soon={p.soon ? '' : undefined}>
+            <Image src={p.cover} alt={p.alt} widths={[800, 1200, 1600, p.cover.width]} sizes="(min-width: 1024px) 58vw, 100vw" quality={86} loading={i === 0 ? 'eager' : 'lazy'} />
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- phones and tablets: a simple stack, text under each cover -->
+  <div class="stack">
+    <div class="grid stack__grid">
+      {projects.map((p, i) => (
+        <article class="stack__item reveal" style="grid-column: 1 / -1">
+          <a class="stack__cover" href={p.href} tabindex="-1" data-slug={p.slug} data-soon={p.soon ? '' : undefined}>
+            <Image src={p.cover} alt={p.alt} widths={[640, 960, 1280, 1600]} sizes="calc(100vw - 40px)" quality={86} />
+          </a>
+          <p class="meta label"><span>{pad(i + 1)} {p.title}</span><span>{p.year}</span></p>
+          <h3>{p.summary}</h3>
+          {p.soon ? <p class="cta soon">Case study coming soon</p> : <a class="cta" href={p.href}><span>View case study</span><span class="arrow">&rarr;&#65038;</span></a>}
+        </article>
+      ))}
+    </div>
+  </div>
+  <canvas class="spill spill--quiet-r" data-aspect="1.1" data-origin="0.55 0.5" data-seed="11" data-strength="0.55" aria-hidden="true"></canvas>
+</section>

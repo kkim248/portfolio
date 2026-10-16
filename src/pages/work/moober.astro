@@ -1,0 +1,221 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Bar from '../../components/Bar.astro';
+import Foot from '../../components/Foot.astro';
+import { projects } from '../../data/projects';
+import before from '../../assets/moober/moober-search-before.png';
+import after from '../../assets/moober/moober-search-results.png';
+import resultsCrop from '../../assets/moober/moober-search-results-crop.png';
+import trip from '../../assets/moober/moober-trip-details.png';
+import tierDirect from '../../assets/moober/tier-direct.png';
+import tierRoute from '../../assets/moober/tier-route.png';
+import tierNearby from '../../assets/moober/tier-nearby.png';
+import team from '../../assets/moober/team.jpeg';
+import sf from '../../assets/moober/sf.jpeg';
+
+const p = projects.find((x) => x.slug === 'moober')!;
+const shots = { widths: [800, 1200, 1600, 2400], sizes: '(min-width: 1024px) 720px, 100vw', quality: 88 };
+const index = [['overview', 'Overview'], ['solution', 'Solution'], ['problem', 'Problem'], ['ideas', 'Explorations'], ['how', 'How it works'], ['takeaways', 'Takeaways'], ['team', 'Team']];
+// the rider's side: the part of the results screen each feature lives in (x, y, w, h as fractions of the screen)
+const features = [
+  { r: [0.1967, 0.3187, 0.2767, 0.0328], title: 'Radius slider', text: 'Riders widen the net themselves, up to 30 miles.' },
+  { r: [0.7233, 0.3187, 0.08, 0.0328], title: 'Result count', text: 'How many rides fit, across all three tiers.' },
+  { r: [0.1967, 0.4381, 0.1983, 0.0351], title: 'Tier badges', text: 'Every result says what kind of match it is.' },
+  { r: [0.2227, 0.8833, 0.319, 0.0366], title: 'The whole route', text: "Each card shows the driver's path and where the rider fits on it." },
+];
+// callouts on the results screen: the exact point each one points at (fractions of the cropped 1980 x 1964 screen),
+// which margin it sits in, and how far down that margin
+const callouts = [
+  { at: [0.012, 0.2775], side: 'l', y: 0.16 },
+  { at: [0.99, 0.2775], side: 'r', y: 0.24 },
+  { at: [0.012, 0.4089], side: 'l', y: 0.46 },
+  { at: [0.6, 0.8926], side: 'r', y: 0.82 },
+];
+// the result card for each tier, exported from the Moober UI
+const tiers = [
+  { title: 'Direct match', shot: tierDirect, alt: 'A Direct result: Davis, CA to Fresno, CA, Friday March 8 at noon, $15, two of four seats taken.', text: "Going exactly where the rider is going. This is all the old search could show." },
+  { title: 'On your route', shot: tierRoute, alt: "An On your route result: Davis, CA to Los Angeles, CA with a blue stop partway along the route, $15.", text: "Headed somewhere else, like LA, but passing through Fresno within the driver's detour limit." },
+  { title: 'Nearby', shot: tierNearby, alt: 'A Nearby result: Davis, CA to Clovis, CA, $15, with a footer reading 4.2 mi from Fresno, you handle last mile.', text: "Ends close by, and the card says exactly how far, so the rider decides before booking." },
+];
+---
+<Base title="Moober: tiered search, a case study by Ian Kim" description="Nearly half of Moober's rides drove empty while riders searched and saw nothing. I redesigned how the platform matches riders to drivers.">
+  <!-- first screen: everything you need to know, cover included -->
+  <section class="cs-hero rel">
+    <Bar current="work" crumb="Moober" />
+    <div class="cs-hero__body grid">
+      <div class="cs-hero__head">
+        <p class="label enter" style="--i: 1">Moober, tiered search</p>
+        <h1 class="words" style="--wd: 250ms">Finding rides that were already there</h1>
+      </div>
+      <figure class="cs-cover" data-slug={p.slug} style="view-transition-name: cover">
+        <Image src={p.cover} alt={p.alt} widths={[800, 1200, 1600, p.cover.width]} sizes="(min-width: 1024px) 58vw, 100vw" quality={86} loading="eager" fetchpriority="high" />
+      </figure>
+      <div class="cs-hero__meta">
+        <p class="cs-lede reveal" style="--i: 3">Nearly half of Moober's rides drove empty while riders who wanted those seats searched, saw nothing, and left. I redesigned how the platform matches riders to drivers.</p>
+        <dl class="cs-info reveal" style="--i: 4">
+          <div><dt class="label">Role</dt><dd>Product Designer</dd></div>
+          <div><dt class="label">Timeline</dt><dd>Spring 2026</dd></div>
+          <div class="cs-info__wide"><dt class="label">Team</dt><dd>2 PMs, 1 PD (me), 1 GD, 1 PMM, 4 SWEs</dd></div>
+        </dl>
+        <a class="cta reveal" style="--i: 5" href="https://mooberdavis.com/" target="_blank" rel="noopener">
+          <span>Visit Moober</span><span class="arrow">&nearr;&#65038;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- the framework: a quiet index at the margin, one centred reading column. Everything is there to read at once;
+       the only motion in the body is the before and after. -->
+  <div class="cs grid" data-light="quiet">
+    <nav class="cs-index" aria-label="Sections">
+      <a class="cs-index__back mono" href="/">&larr;&#65038; Work</a>
+      <ul>{index.map(([id, t]) => <li><a href={`#${id}`}>{t}</a></li>)}</ul>
+    </nav>
+
+    <main class="cs-col">
+      <!-- the first read: what Moober is, what I owned, then the ten-second version -->
+      <section class="sec" id="overview">
+        <p class="sec__label">Overview</p>
+        <h2>A rideshare app that couldn't connect its own users</h2>
+        <div class="prose">
+          <p>Moober is UC Davis's student-only rideshare, used by 2,000+ students to carpool home or split a ride to the airport. I redesigned the search that matches riders with drivers.</p>
+        </div>
+        <div class="cards cards--3">
+          <article class="card"><p class="card__num mono">01</p><h3>The problem</h3><p>44% of rides drove empty while riders searched, saw nothing, and left.</p></article>
+          <article class="card"><p class="card__num mono">02</p><h3>What I did</h3><p>Search now follows each driver's whole route and sorts results into three tiers.</p></article>
+          <article class="card"><p class="card__num mono">03</p><h3>Where it stands</h3><p>Designed and handed off to engineering. The feature is now in build.</p></article>
+        </div>
+      </section>
+
+      <section class="sec" id="solution">
+        <p class="sec__label">Solution</p>
+        <h2>Match on the whole route, not just the city.</h2>
+        <!-- before and after: pinned, the result wipes across the empty search as you scroll -->
+        <div class="compare" data-compare>
+          <div class="compare__pin">
+            <div class="panel compare__panel">
+              <div class="compare__frame">
+                <Image class="compare__img" src={before} alt="Before: searching Davis to Fresno returns no results." {...shots} />
+                <div class="compare__after"><Image class="compare__img" src={after} alt="After: the same search returns rides along the route, sorted into tiers." {...shots} /></div>
+                <i class="compare__line" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="compare__caps">
+              <p class="compare__cap compare__cap--before"><span class="label label--accent">Before</span> Search Fresno. Nothing.</p>
+              <p class="compare__cap compare__cap--after"><span class="label label--accent">After</span> Same search. Rides along the route, tiered.</p>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="sub">Three honest tiers</h3>
+        <p class="sub__lead">Best match first, and every card says plainly what kind of match it is.</p>
+        <ol class="tierlist">
+          {tiers.map((t, i) => (
+            <li class="tierrow">
+              <div class="tierrow__text">
+                <p class="label label--accent">Tier 0{i + 1}</p>
+                <h4>{t.title}</h4>
+                <p>{t.text}</p>
+              </div>
+              <Image class="tierrow__shot" src={t.shot} alt={t.alt} widths={[600, 1000, 1400]} sizes="(min-width: 900px) 560px, 100vw" />
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="sec" id="problem">
+        <p class="sec__label">Problem</p>
+        <h2>It wasn't a supply problem. It was a search problem.</h2>
+        <!-- the number that started the project -->
+        <figure class="panel stat">
+          <p class="label label--accent">PostHog, April 2026</p>
+          <p class="stat__big">44%</p>
+          <p class="stat__text">of listed rides drove empty, even with plenty of riders on the app.</p>
+        </figure>
+        <div class="prose">
+          <p>Search only matched the exact destination city. A driver heading to LA passed right through Fresno, but a rider in Fresno never saw the ride.</p>
+        </div>
+        <h3 class="sub">What riders told us</h3>
+        <p class="sub__lead">We interviewed riders we recruited with a gift card giveaway.</p>
+        <div class="cards cards--2">
+          <article class="card"><p class="card__num mono">From riders</p><h3>The ride drove right past him</h3><p>One student drove to LA to catch a ride that passed through his hometown.</p></article>
+          <article class="card"><p class="card__num mono">From riders</p><h3>One dead end was enough</h3><p>Another searched once, saw nothing, and assumed the app was dead.</p></article>
+        </div>
+        <div class="hmw">
+          <p class="label">The question</p>
+          <p class="hmw__q">How might we give students more ride options and fill their search results?</p>
+        </div>
+      </section>
+
+      <section class="sec" id="ideas">
+        <p class="sec__label">Explorations</p>
+        <h2>Other ideas we weighed</h2>
+        <div class="cards cards--3">
+          <article class="card"><p class="card__num mono">Dropped</p><h3>Static zones</h3><p>Too imprecise. Close on a map isn't close in traffic.</p></article>
+          <article class="card"><p class="card__num mono">Dropped</p><h3>Manual waypoints</h3><p>More steps for drivers, and drivers are the supply.</p></article>
+          <article class="card"><p class="card__num mono">Shipped alongside</p><h3>Request board</h3><p>Too slow on its own, so it launched next to search to fill the gaps.</p></article>
+        </div>
+      </section>
+
+      <section class="sec" id="how">
+        <p class="sec__label">How it works</p>
+        <h2>Two sides had to change: what riders see, and what drivers allow.</h2>
+
+        <h3 class="sub">Riders: what the search shows</h3>
+        <!-- the results screen with its four new parts pointed out in the margins -->
+        <figure class="annotated" data-annotated>
+          <div class="annotated__shot">
+            <Image src={resultsCrop} alt="The tiered search results screen for Davis to Fresno, with four new parts pointed out." {...shots} sizes="(min-width: 1024px) 600px, 100vw" />
+            {callouts.map((c, i) => <b class="annotated__dot" style={`left: ${c.at[0] * 100}%; top: ${c.at[1] * 100}%`} data-dot={i} aria-hidden="true">{i + 1}</b>)}
+          </div>
+          <svg class="annotated__lines" aria-hidden="true"></svg>
+          {features.map((f, i) => (
+            <div class={`annotated__note annotated__note--${callouts[i].side}`} style={`--y: ${callouts[i].y}`} data-note={i}>
+              <span class="mono">0{i + 1}</span><strong>{f.title}</strong><span>{f.text}</span>
+            </div>
+          ))}
+        </figure>
+
+        <figure class="panel shot-panel">
+          <div class="shot"><Image src={trip} alt="Trip details for a Davis to Los Angeles ride via Fresno: pickup, the rider's stop, and drop-off, with the driver and a Reserve a seat button." {...shots} /></div>
+          <figcaption class="caption">Riders confirm their stop, and it's checked against the driver's detour limit automatically.</figcaption>
+        </figure>
+
+        <h3 class="sub">Drivers: how far they'll go</h3>
+        <figure class="panel shot-panel">
+          <div class="shot"><img src="/media/moober-toggle.gif" width="1438" height="820" alt="Posting a new carpool: trunk space, seats, pricing, and the toggle for pickups along the way." loading="lazy" /></div>
+          <figcaption class="caption">Drivers opt into pickups along the way and choose a maximum detour.</figcaption>
+        </figure>
+        <div class="cards cards--3">
+          <article class="card"><p class="card__num mono">The call</p><h3>Driver sets the limit</h3><p>5, 15, or 30 minutes. They carry the cost, so they hold the dial.</p></article>
+          <article class="card"><p class="card__num mono">Ruled out</p><h3>Rider-requested detours</h3><p>They would turn every booking into a negotiation.</p></article>
+          <article class="card"><p class="card__num mono">The constraint</p><h3>3,000 free map lookups a day</h3><p>Only Tier 2 needs the paid map service. The other tiers use free distance math.</p></article>
+        </div>
+      </section>
+
+      <section class="sec" id="takeaways">
+        <p class="sec__label">Takeaways</p>
+        <h2>What I took away</h2>
+        <div class="prose">
+          <p><strong>Constraints are design material.</strong> A limit of 3,000 free map lookups a day, found early with engineering, is the reason the tiers exist.</p>
+          <p><strong>Honesty is a feature.</strong> Showing the mileage gap up front trades a little polish for a lot more trust.</p>
+          <p><strong>What's next.</strong> After launch, I'll watch whether riders who find rides actually book them.</p>
+        </div>
+      </section>
+
+      <section class="sec" id="team">
+        <p class="sec__label">Team</p>
+        <h2>The team behind it</h2>
+        <div class="prose"><p>A startup is mostly its people. Ours: the team, a trip to SF, and a thoroughly unserious promo reel.</p></div>
+        <div class="gallery">
+          <figure style="--a: 1.5"><Image src={team} alt="The Moober team, ten students standing arm in arm on a tree-lined path." widths={[600, 1000, 1400]} sizes="(min-width: 1024px) 420px, 100vw" /><figcaption class="caption">The Moober team</figcaption></figure>
+          <figure style="--a: 0.75"><Image src={sf} alt="A team trip to San Francisco: Moober written in the sand on a beach." widths={[400, 700, 1000]} sizes="(min-width: 1024px) 210px, 50vw" /><figcaption class="caption">A trip to San Francisco</figcaption></figure>
+          <figure style="--a: 0.5625"><div class="clip"><video src="/media/moober-reel.mp4#t=0.5" width="720" height="1280" muted loop playsinline preload="auto" data-autoplay aria-label="The team's promo reel"></video></div><figcaption class="caption">Our promo reel</figcaption></figure>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <Foot />
+</Base>

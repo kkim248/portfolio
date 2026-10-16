@@ -1,24 +1,10 @@
-# OS
+node_modules/
+dist/
+.astro/
 .DS_Store
 
-# working notes / throwaways
-PROJECT-CONTEXT.md
-font-options.html
-_*.png
-
-# oversized originals (web-sized versions are committed instead)
-originals/
-*.pdf
-reels.mov
-IMG_3719.png
-recollection-hero.png
-recollection-ia-after.png
-recollection-midfi.png
-recollection-system.png
-recollection-home.gif
-recollection-offer.gif
-recollection-system.jpg
-node_modules/
-package.json
-package-lock.json
-moober-hero.png
+# kept locally, not deployed
+_archive/
+legacy/
+.vercel/
+.claude/

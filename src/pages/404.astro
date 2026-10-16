@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import Bar from '../components/Bar.astro';
+import Foot from '../components/Foot.astro';
+---
+<Base title="Page not found, Ian Kim" description="This page doesn't exist.">
+  <Bar crumb="Not found" parent={{ label: 'Home', href: '/' }} />
+
+  <!-- the About page's reading column, with nothing in it but the way back -->
+  <main class="ab grid">
+    <article class="ab__col">
+      <h1 class="ab__hello words" style="--wd: 150ms">Nothing here.</h1>
+      <div class="ab__text">
+        <p>This page doesn't exist. <a href="/">Head back home</a>.</p>
+      </div>
+    </article>
+  </main>
+
+  <Foot />
+</Base>

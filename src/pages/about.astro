@@ -1,0 +1,54 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Bar from '../components/Bar.astro';
+import Foot from '../components/Foot.astro';
+// printed as a cyanotype with scripts/print-photo.mjs (a warm black and white version sits beside it: ian-beach-bw.jpg)
+import photo from '../assets/about/ian-beach-cyanotype.jpg';
+// cropped wider than the print: most of the height is empty sky, so the frame keeps Ian, the bridge and the beach
+const aspect = 2;
+// a few more prints of life outside work, printed with the same cyanotype script so they read as one set
+import lunch from '../assets/about/lunch-cyanotype.jpg';
+import snow from '../assets/about/snow-cyanotype.jpg';
+import bridge from '../assets/about/bridge-cyanotype.jpg';
+---
+<Base title="About Ian Kim" description="Ian Kim is a product designer and a senior at UC Davis, originally from San Francisco.">
+  <Bar current="about" crumb="About" parent={{ label: 'Home', href: '/' }} />
+
+  <!-- one quiet reading column: a photo, a greeting, a few short paragraphs, and how to reach me -->
+  <main class="ab grid">
+    <article class="ab__col">
+      <figure class="ab__photo" style={`--a: ${aspect}`}>
+        <Image src={photo} alt="Ian on a beach in San Francisco at sunset, the Golden Gate Bridge behind him, printed in cyanotype blue." widths={[480, 720, 1080, photo.width]} sizes="(min-width: 768px) 560px, 100vw" loading="eager" />
+      </figure>
+
+      <h1 class="ab__hello words" style="--wd: 150ms">Hi, I'm Ian.</h1>
+
+      <div class="ab__text">
+        <p>I'm a designer and a senior at UC Davis, originally from San Francisco. I started out in Fine Arts, then moved into product design to make things people use every day. Right now I design for <a href="/work/moober">Moober</a> and Buzzit, two live apps for Davis students.</p>
+        <p>When I'm not designing, I'm usually playing sports with friends or out looking for good food.</p>
+      </div>
+
+      <section class="ab__off" aria-labelledby="off">
+        <p class="label" id="off">Off the clock</p>
+        <ul class="ab__list">
+          <li>Watching Tottenham, for better or worse</li>
+          <li>Making music in FL Studio</li>
+          <li>Booking trips on a whim, like Korea and Japan this summer</li>
+        </ul>
+      </section>
+
+      <section class="ab__lately" aria-labelledby="lately">
+        <p class="label" id="lately">Lately</p>
+        <div class="gallery">
+          <figure style="--a: 0.75"><Image src={lunch} alt="Ian at a restaurant table, mid-bite, with a tray of small dishes in front of him, printed in cyanotype blue." widths={[300, 500, 800]} sizes="(min-width: 768px) 220px, 50vw" /><figcaption class="caption">Eating</figcaption></figure>
+          <figure style="--a: 0.75"><Image src={snow} alt="Ian sitting in the snow in a helmet beside his snowboard, a friend with a camera next to him, printed in cyanotype blue." widths={[300, 500, 800]} sizes="(min-width: 768px) 220px, 50vw" /><figcaption class="caption">Snowboarding</figcaption></figure>
+          <figure style="--a: 0.75"><Image src={bridge} alt="Friends walking across a bridge walkway toward the city skyline, printed in cyanotype blue." widths={[300, 500, 800]} sizes="(min-width: 768px) 220px, 50vw" /><figcaption class="caption">Wandering</figcaption></figure>
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <Foot />
+</Base>
