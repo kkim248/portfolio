@@ -130,7 +130,7 @@ const tiers = [
         <!-- the number that started the project, beside what riders told us -->
         <div class="evidence">
           <figure class="panel stat">
-            <p class="label label--accent">Moober data, April 2026</p>
+            <p class="label label--accent">PostHog, April 2026</p>
             <p class="stat__big">44%</p>
             <p class="stat__text">of listed rides drove empty, even with plenty of riders on the app.</p>
           </figure>
@@ -162,25 +162,25 @@ const tiers = [
 
       <section class="sec" id="constraint">
         <p class="sec__label">Constraint</p>
-        <h2>We could only afford 3,000 map requests a day</h2>
+        <h2>Only 3,000 free API calls a day</h2>
         <div class="prose">
-          <p>To know whether a driver will pass near a rider, the app has to ask a map service. That service is free for 3,000 requests a day, and as a student startup we couldn't pay for more. So every search had to use as few requests as possible.</p>
+          <p>Checking whether a driver passes near a rider takes calls to a routing API, and its free tier stops at 3,000 calls a day. A student startup can't absorb a surprise bill, so search had to make as few calls as possible.</p>
         </div>
         <!-- what the app saves, and what it still has to ask the map service for each match -->
         <figure class="panel calls">
           <div class="calls__groups">
-            <div class="calls__group"><p class="label">Saved once, when a ride is posted</p><p class="calls__chips"><span class="chip">Driver's start</span><span class="chip">Driver's destination</span></p></div>
-            <div class="calls__group"><p class="label">Saved once per rider</p><p class="calls__chips"><span class="chip">Rider's location</span></p></div>
-            <div class="calls__group"><p class="label label--accent">Asked for each match</p><p class="calls__chips"><span class="chip chip--spent">Driver to rider</span><span class="chip chip--spent">Rider to destination</span></p></div>
+            <div class="calls__group"><p class="label">Stored once per ride</p><p class="calls__chips"><span class="chip">Driver start</span><span class="chip">Driver end</span></p></div>
+            <div class="calls__group"><p class="label">Cached per rider</p><p class="calls__chips"><span class="chip">Rider start</span></p></div>
+            <div class="calls__group"><p class="label label--accent">Called per match check</p><p class="calls__chips"><span class="chip chip--spent">Start &rarr;&#65038; Pickup</span><span class="chip chip--spent">Pickup &rarr;&#65038; End</span></p><p class="caption">Timed in minutes, against the driver's 5, 15 or 30 minute limit.</p></div>
           </div>
           <div class="calls__sum">
             <p class="calls__big">5 &rarr;&#65038; 2</p>
-            <p class="calls__line">map requests per match: five the first time, two once the driver and rider are saved</p>
-            <p class="calls__line">That's about <strong>1,500 matches a day</strong>, and only "On your route" rides need them.</p>
+            <p class="calls__line">calls per match check: five the first time, two once the ride is stored and the rider is cached</p>
+            <p class="calls__line">That's about <strong>1,500 checks a day</strong>, and only Tier 2, On your route, spends them.</p>
           </div>
         </figure>
         <div class="prose">
-          <p>Our technical PM built the saving. I designed the tiers so only one of them needs the map service: direct matches just compare destinations, and nearby rides use simple distance, which is free.</p>
+          <p>Our TPM designed the storage and caching. I designed the tiers so only Tier 2 spends calls: Tier 1 is an exact match, and Tier 3 uses free straight-line distance. Free math handles the easy cases, and the API only answers the hard ones.</p>
         </div>
       </section>
 
@@ -223,7 +223,7 @@ const tiers = [
         <p class="sec__label">Takeaways</p>
         <h2>What I took away</h2>
         <div class="prose">
-          <p><strong>Constraints are design material.</strong> We found the map request limit with engineering early, before the design was locked, and it's the reason the tiers exist. It made the search easier to read, too.</p>
+          <p><strong>Constraints are design material.</strong> We found the call limit with engineering early, before the design was locked, and it's the reason the tiers exist. It made the search easier to read, too.</p>
           <p><strong>Honesty is a feature.</strong> Showing the mileage gap up front trades a little polish for a lot more trust.</p>
           <p><strong>What's next.</strong> After launch, I'll watch whether riders who find rides actually book them.</p>
         </div>
