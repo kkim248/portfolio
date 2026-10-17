@@ -139,7 +139,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 
 /* printed type: every serif line carries the ink filter and sits into the paper */
 .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .closing p, .sign__name,
-.cs-hero h1, .sec h2, .sub, .tierrow__text h4, .hmw__q, .stat__big, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
+.cs-hero h1, .sec h2, .sub, .tierrow__text h4, .hmw__q, .stat__big, .calls__big, .counts dt, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
 
 /* words arrive the way ink takes on wet paper: each word bleeds in from a soft blur, a little bluer while it is
    wet, written left to right along a feathered edge, and dries to ink. Staggered word by word, like a pen. Every
@@ -156,7 +156,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* phones and tablets render SVG filters at a low resolution, so the ink looked blurry and cost frames there.
    On touch screens and small screens the type stays crisp, still multiplied into the paper. */
 @media (max-width: 767px), (hover: none) {
-  .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .closing p, .sign__name, .cs-hero h1, .sec h2, .sub, .tierrow__text h4, .hmw__q, .stat__big, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
+  .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .closing p, .sign__name, .cs-hero h1, .sec h2, .sub, .tierrow__text h4, .hmw__q, .stat__big, .calls__big, .counts dt, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
   .words.is-split .w { filter: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -353,6 +353,40 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .stat { display: grid; gap: var(--s-3); }
 .stat__big { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); color: var(--blue); }
 .stat__text { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); max-width: 48ch; }
+
+/* the number beside what riders said: the stat on the left, three short stories on the right */
+.evidence { display: grid; gap: var(--s-5); }
+.evidence .stat { align-content: center; }
+.evidence__stories { display: grid; gap: var(--s-3); align-content: center; }
+.story { padding: var(--s-4) var(--s-5); border-radius: var(--r-m); background: var(--surface); box-shadow: var(--shadow-card); font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink); }
+@media (min-width: 900px) { .evidence { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); } }
+
+/* the constraint: where each map call goes, then what a check costs */
+.calls { display: grid; gap: var(--s-6); }
+.calls__groups { display: grid; gap: var(--s-5); }
+.calls__group { display: grid; gap: var(--s-2); }
+.calls__chips { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+.chip { padding: var(--s-2) var(--s-3); border-radius: var(--r-s); border: 1px solid var(--rule); background: var(--surface); font-size: var(--fs-body-s); line-height: var(--lh-snug); color: var(--ink); white-space: nowrap; }
+.chip--spent { border-color: var(--blue-line); color: var(--blue); }
+.calls__sum { display: grid; gap: var(--s-2); align-content: center; }
+.calls__big { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); color: var(--blue); }
+.calls__line { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); max-width: 36ch; }
+.calls__line strong { font-weight: var(--w-strong); color: var(--ink); }
+@media (min-width: 900px) { .calls { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); } .calls__sum { padding-left: var(--s-6); border-left: 1px solid var(--rule); } }
+
+/* honesty as a feature: the nearby card up close, with the radius slider tucked under it */
+.gap { display: grid; gap: var(--s-4); justify-items: center; }
+.gap .label { justify-self: start; }
+.gap__card { width: 100%; max-width: 760px; height: auto; border-radius: var(--r-s); box-shadow: var(--shadow-screen); }
+.gap__slider { width: 70%; max-width: 420px; height: auto; justify-self: end; margin-top: calc(var(--s-5) * -1); border-radius: var(--r-s); background: var(--surface); box-shadow: var(--shadow-screen); }
+.gap .caption { text-align: center; max-width: 60ch; }
+@media (max-width: 639px) { .gap__slider { width: 90%; margin-top: 0; } }   /* on phones the card is small, so the slider sits under it, not over it */
+
+/* the team in numbers */
+.counts { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--s-4); padding-block: var(--s-5); border-block: 1px solid var(--rule); }
+.counts div { display: grid; gap: var(--s-1); justify-items: center; text-align: center; }
+.counts dt { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); color: var(--ink); }
+.counts .is-me dt, .counts .is-me dd { color: var(--blue); }
 
 /* the question: a centred, quiet moment closing the problem. No box, no rule. */
 .hmw { justify-self: center; display: grid; justify-items: center; gap: var(--s-3); text-align: center; margin-top: var(--s-8); max-width: var(--measure); }

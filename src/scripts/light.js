@@ -178,7 +178,7 @@ export function startLight() {
   // drops to about a quarter, so moving shadows never sweep across paragraphs
   let first = null, foot = null, quiet = false;
   let pics = [];
-  const PICS = '.scene__cover, .stack__cover, .cs-cover, .ab__photo, .gallery figure > img, .gallery .clip, .shot, .annotated__shot, .compare__frame, .tierrow__shot';
+  const PICS = '.scene__cover, .stack__cover, .cs-cover, .ab__photo, .gallery figure > img, .gallery .clip, .shot, .annotated__shot, .compare__frame, .tierrow__shot, .gap__card, .gap__slider, .story';
   const find = () => { first = document.querySelector('.first'); foot = document.querySelector('.foot'); quiet = !!document.querySelector('[data-light="quiet"]'); light.hover = null; pics = [...document.querySelectorAll(PICS)]; };
   find(); document.addEventListener('astro:page-load', find); document.addEventListener('astro:after-swap', find);
   let px = 0, py = 0, tx = 0, ty = 0, fade = 1, clearAmt = 0, rect = [0, 0, 0, 0];

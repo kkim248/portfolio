@@ -182,7 +182,13 @@ The light, paper and type carry over. A recruiter scans a case study, so the bod
    - **The index:** a quiet sticky index at the left margin from 1200; below that, none.
    - **Each section:** a blue section label, a `--fs-heading` serif heading (at most two lines), then content (section rhythm in 2.3).
    - **Subheadings:** serif `.sub` leading straight into its intro (`.sub__lead`).
-3. **The story, in order:**
+3. **The story, in order** (October 2026, rebuilt from Ian's portfolio review deck; the slides are reference only, never used as images): Overview, Solution, Problem, Explorations, **Constraint**, How it works, Takeaways, Team. The constraint comes before the final design because it shaped the tiers.
+   - **Problem:** `.evidence` puts the 44% `.stat` panel beside three short rider stories (`.story`, on white cards). The stories are Ian's paraphrases, so they are written as stories, never in quotation marks. Then the root cause, then the question.
+   - **Constraint:** the map-call breakdown, `.panel.calls`. On the left, `.chip` groups for what's stored once per ride, what's cached, and what a check spends (`.chip--spent`, in blue). On the right, "5 → 2" calls per check and 3,000 ÷ 2 ≈ 1,500 checks a day. Then one paragraph that credits the TPM for storage and caching.
+   - **How it works, riders:** after the annotated screen comes `.panel.gap`, "The gap, stated up front": a close crop of the Nearby card's footer with the 30 mi slider tucked over its corner (under it on phones).
+   - **Team:** `.counts` is the team in numbers, with Ian's role in blue.
+   Earlier notes on the order follow.
+
    - **Overview:** context first, so a recruiter knows what Moober is right away. It has a heading, one short paragraph, then the three summary cards: the problem, what I did, and where it stands (handed off, in build). Never claim results the feature hasn't produced. Summary and Context used to be separate sections.
    - **Copy budget:** Ian finds most portfolios lighter on copy. Keep each card to one sentence and paragraphs to two, and let headings and images carry the story. Explain jargon in plain words, for example "map lookups" rather than API calls.
    - **Solution:** placed straight after Overview, so a recruiter sees the impact first. It holds the before/after wipe, then "Three honest tiers" as a ranked list. Each row has the tier's label, title and text in a 300px column, and the real result card, exported from the Moober UI (`tier-*.png`), filling the rest (about 576 wide on desktop). The earlier HTML replica (`.ride`) is gone.
