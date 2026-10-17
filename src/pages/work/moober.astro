@@ -8,6 +8,9 @@ import before from '../../assets/moober/moober-search-before.png';
 import after from '../../assets/moober/moober-search-results.png';
 import resultsCrop from '../../assets/moober/moober-search-results-crop.png';
 import trip from '../../assets/moober/moober-trip-details.png';
+import mobileResults from '../../assets/moober/mobile-results.png';
+import mobileTrip from '../../assets/moober/mobile-trip.png';
+import mobilePost from '../../assets/moober/mobile-post.png';
 import tierDirect from '../../assets/moober/tier-direct.png';
 import tierRoute from '../../assets/moober/tier-route.png';
 import tierNearby from '../../assets/moober/tier-nearby.png';
@@ -122,6 +125,14 @@ const tiers = [
             </li>
           ))}
         </ol>
+
+        <h3 class="sub">On a phone, too</h3>
+        <!-- the same feature in the mobile design: results, a trip with its stops, posting a ride -->
+        <div class="phones">
+          <figure><Image src={mobileResults} alt="Mobile search results: the radius slider, then Direct and On Your Route rides with their routes." widths={[300, 520, 780]} sizes="(min-width: 1024px) 260px, 33vw" /><figcaption class="caption">Tiered results</figcaption></figure>
+          <figure><Image src={mobileTrip} alt="Mobile trip details with the stops along the way opened: another rider's stop, then yours, before the drop-off." widths={[300, 520, 780]} sizes="(min-width: 1024px) 260px, 33vw" /><figcaption class="caption">Stops along the way</figcaption></figure>
+          <figure><Image src={mobilePost} alt="Posting a new carpool on mobile, with the Open to pickups along the way toggle." widths={[300, 520, 780]} sizes="(min-width: 1024px) 260px, 33vw" /><figcaption class="caption">Posting a ride</figcaption></figure>
+        </div>
       </section>
 
       <section class="sec" id="problem">
