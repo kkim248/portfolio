@@ -184,9 +184,10 @@ The light, paper and type carry over. A recruiter scans a case study, so the bod
    - **Subheadings:** serif `.sub` leading straight into its intro (`.sub__lead`).
 3. **The story, in order** (October 2026, rebuilt from Ian's portfolio review deck; the slides are reference only, never used as images): Overview, Solution, Problem, Explorations, **Constraint**, How it works, Takeaways, Team. The constraint comes before the final design because it shaped the tiers.
    - **Problem:** `.evidence` puts the 44% `.stat` panel beside three short rider stories (`.story`, on white cards). The stories are Ian's paraphrases, so they are written as stories, never in quotation marks. Then the root cause, then the question.
-   - **Constraint:** the map-call breakdown, `.panel.calls`. On the left, `.chip` groups for what's stored once per ride, what's cached, and what a check spends (`.chip--spent`, in blue). On the right, "5 → 2" calls per check and 3,000 ÷ 2 ≈ 1,500 checks a day. Then one paragraph that credits the TPM for storage and caching.
-   - **How it works, riders:** after the annotated screen comes `.panel.gap`, "The gap, stated up front": a close crop of the Nearby card's footer with the 30 mi slider tucked over its corner (under it on phones).
-   - **Team:** `.counts` is the team in numbers, with Ian's role in blue.
+   - **Constraint:** the map-call breakdown, `.panel.calls`. Plain words throughout. On the left, `.chip` groups for what's saved when a ride is posted, what's saved per rider, and what's asked for each match (`.chip--spent`, in blue). On the right, "5 → 2" map requests per match and about 1,500 matches a day. Then one paragraph that credits the technical PM for the saving.
+   - Ian tried and removed "The gap, stated up front" (a close-up of the Nearby card) and a team-in-numbers row. Keep How it works and Team as they were.
+   - **Plain words.** Write the case study for someone with no context: "map requests", not API calls; "Fixed zones" and "Drivers list every city", not static zones and waypoints; captions that name the search ("Davis to Fresno").
+   - **Text width.** In a case study, paragraphs run the full column width, the same as the screens (`.cs-col .prose p`). The 680px measure read as narrow there.
    Earlier notes on the order follow.
 
    - **Overview:** context first, so a recruiter knows what Moober is right away. It has a heading, one short paragraph, then the three summary cards: the problem, what I did, and where it stands (handed off, in build). Never claim results the feature hasn't produced. Summary and Context used to be separate sections.

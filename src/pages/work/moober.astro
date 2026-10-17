@@ -8,8 +8,6 @@ import before from '../../assets/moober/moober-search-before.png';
 import after from '../../assets/moober/moober-search-results.png';
 import resultsCrop from '../../assets/moober/moober-search-results-crop.png';
 import trip from '../../assets/moober/moober-trip-details.png';
-import gapCard from '../../assets/moober/gap-card.png';
-import gapSlider from '../../assets/moober/gap-slider.png';
 import tierDirect from '../../assets/moober/tier-direct.png';
 import tierRoute from '../../assets/moober/tier-route.png';
 import tierNearby from '../../assets/moober/tier-nearby.png';
@@ -37,7 +35,7 @@ const callouts = [
 // the result card for each tier, exported from the Moober UI
 const tiers = [
   { title: 'Direct match', shot: tierDirect, alt: 'A Direct result: Davis, CA to Fresno, CA, Friday March 8 at noon, $15, two of four seats taken.', text: "Going exactly where the rider is going. This is all the old search could show." },
-  { title: 'On your route', shot: tierRoute, alt: "An On your route result: Davis, CA to Los Angeles, CA with a blue stop partway along the route, $15.", text: "Headed somewhere else, like LA, but passing through Fresno within the driver's detour limit." },
+  { title: 'On your route', shot: tierRoute, alt: "An On your route result: Davis, CA to Los Angeles, CA with a blue stop partway along the route, $15.", text: "Headed somewhere else, like LA, but passing through Fresno, within how far the driver is willing to detour." },
   { title: 'Nearby', shot: tierNearby, alt: 'A Nearby result: Davis, CA to Clovis, CA, $15, with a footer reading 4.2 mi from Fresno, you handle last mile.', text: "Ends close by, and the card says exactly how far, so the rider decides before booking." },
 ];
 ---
@@ -104,8 +102,8 @@ const tiers = [
               </div>
             </div>
             <div class="compare__caps">
-              <p class="compare__cap compare__cap--before"><span class="label label--accent">Before</span> Search Fresno. Nothing.</p>
-              <p class="compare__cap compare__cap--after"><span class="label label--accent">After</span> Same search. Rides along the route, tiered.</p>
+              <p class="compare__cap compare__cap--before"><span class="label label--accent">Before</span> Davis to Fresno. No rides found.</p>
+              <p class="compare__cap compare__cap--after"><span class="label label--accent">After</span> The same search, with rides along the route, sorted into tiers.</p>
             </div>
           </div>
         </div>
@@ -132,7 +130,7 @@ const tiers = [
         <!-- the number that started the project, beside what riders told us -->
         <div class="evidence">
           <figure class="panel stat">
-            <p class="label label--accent">PostHog, April 2026</p>
+            <p class="label label--accent">Moober data, April 2026</p>
             <p class="stat__big">44%</p>
             <p class="stat__text">of listed rides drove empty, even with plenty of riders on the app.</p>
           </figure>
@@ -144,7 +142,7 @@ const tiers = [
           </div>
         </div>
         <div class="prose">
-          <p>The reason: search only matched the exact destination city. A driver heading to LA passed right through Fresno, but a rider in Fresno never saw the ride. We heard this from riders we recruited through a gift card giveaway.</p>
+          <p>The reason: search only matched the exact destination city. A driver heading to LA passed right through Fresno, but a rider in Fresno never saw the ride.</p>
         </div>
         <div class="hmw">
           <p class="label">The question</p>
@@ -156,33 +154,33 @@ const tiers = [
         <p class="sec__label">Explorations</p>
         <h2>Other ideas we weighed</h2>
         <div class="cards cards--3">
-          <article class="card"><p class="card__num mono">Dropped</p><h3>Static zones</h3><p>Too imprecise. Close on a map isn't close in traffic.</p></article>
-          <article class="card"><p class="card__num mono">Dropped</p><h3>Manual waypoints</h3><p>More steps for drivers, and drivers are the supply.</p></article>
-          <article class="card"><p class="card__num mono">Shipped alongside</p><h3>Request board</h3><p>Too slow on its own, so it launched next to search to fill the gaps.</p></article>
+          <article class="card"><p class="card__num mono">Dropped</p><h3>Fixed zones</h3><p>Group cities into zones. Too imprecise: close on a map isn't close in traffic.</p></article>
+          <article class="card"><p class="card__num mono">Dropped</p><h3>Drivers list every city</h3><p>More work for drivers, and without drivers there are no rides.</p></article>
+          <article class="card"><p class="card__num mono">Shipped alongside</p><h3>Request board</h3><p>Riders post a trip and wait. Too slow on its own, so it launched next to search.</p></article>
         </div>
       </section>
 
       <section class="sec" id="constraint">
         <p class="sec__label">Constraint</p>
-        <h2>Only 3,000 free map lookups a day</h2>
+        <h2>We could only afford 3,000 map requests a day</h2>
         <div class="prose">
-          <p>Checking a detour needs a routing service that's free up to 3,000 calls a day. A student-run app can't absorb a surprise bill, so we designed for the fewest calls possible.</p>
+          <p>To know whether a driver will pass near a rider, the app has to ask a map service. That service is free for 3,000 requests a day, and as a student startup we couldn't pay for more. So every search had to use as few requests as possible.</p>
         </div>
-        <!-- where each call goes: what is stored, what is cached, and what a single match check still spends -->
+        <!-- what the app saves, and what it still has to ask the map service for each match -->
         <figure class="panel calls">
           <div class="calls__groups">
-            <div class="calls__group"><p class="label">Stored once per ride</p><p class="calls__chips"><span class="chip">Driver start</span><span class="chip">Driver end</span></p></div>
-            <div class="calls__group"><p class="label">Cached</p><p class="calls__chips"><span class="chip">Passenger start</span></p></div>
-            <div class="calls__group"><p class="label label--accent">Spent per match check</p><p class="calls__chips"><span class="chip chip--spent">Start &rarr;&#65038; Pickup</span><span class="chip chip--spent">Pickup &rarr;&#65038; End</span></p><p class="caption">Timed in minutes, against the driver's 5, 15 or 30 minute limit.</p></div>
+            <div class="calls__group"><p class="label">Saved once, when a ride is posted</p><p class="calls__chips"><span class="chip">Driver's start</span><span class="chip">Driver's destination</span></p></div>
+            <div class="calls__group"><p class="label">Saved once per rider</p><p class="calls__chips"><span class="chip">Rider's location</span></p></div>
+            <div class="calls__group"><p class="label label--accent">Asked for each match</p><p class="calls__chips"><span class="chip chip--spent">Driver to rider</span><span class="chip chip--spent">Rider to destination</span></p></div>
           </div>
           <div class="calls__sum">
             <p class="calls__big">5 &rarr;&#65038; 2</p>
-            <p class="calls__line">calls per check, once the ride and the rider are stored</p>
-            <p class="calls__line"><strong>3,000 &divide; 2 &asymp; 1,500 checks a day</strong>, and only Tier 2 spends them.</p>
+            <p class="calls__line">map requests per match: five the first time, two once the driver and rider are saved</p>
+            <p class="calls__line">That's about <strong>1,500 matches a day</strong>, and only "On your route" rides need them.</p>
           </div>
         </figure>
         <div class="prose">
-          <p>My TPM designed the storage and caching. I designed the tiers so only Tier 2 spends calls: Tier 1 is an exact match, and Tier 3 uses free straight-line distance. Free math handles the easy cases, and the map service only answers the hard ones.</p>
+          <p>Our technical PM built the saving. I designed the tiers so only one of them needs the map service: direct matches just compare destinations, and nearby rides use simple distance, which is free.</p>
         </div>
       </section>
 
@@ -205,14 +203,6 @@ const tiers = [
           ))}
         </figure>
 
-        <!-- honesty as a feature: the rider sets the radius, and a nearby ride says exactly how far it ends -->
-        <figure class="panel gap">
-          <p class="label label--accent">The gap, stated up front</p>
-          <Image class="gap__card" src={gapCard} alt="A nearby ride's card: Davis, CA to Clovis, CA, with a footer reading 4.2 mi from Fresno, you handle last mile." widths={[700, 1100, 1600]} sizes="(min-width: 1024px) 760px, 100vw" />
-          <Image class="gap__slider" src={gapSlider} alt="The search radius slider set to 30 miles." widths={[500, 860]} sizes="(min-width: 1024px) 420px, 80vw" />
-          <figcaption class="caption">Riders choose how wide to search. A ride that ends nearby says exactly how far, so they decide before they book, not after.</figcaption>
-        </figure>
-
         <figure class="panel shot-panel">
           <div class="shot"><Image src={trip} alt="Trip details for a Davis to Los Angeles ride via Fresno: pickup, the rider's stop, and drop-off, with the driver and a Reserve a seat button." {...shots} /></div>
           <figcaption class="caption">Riders confirm their stop, and it's checked against the driver's detour limit automatically.</figcaption>
@@ -224,8 +214,8 @@ const tiers = [
           <figcaption class="caption">Drivers opt into pickups along the way and choose a maximum detour.</figcaption>
         </figure>
         <div class="cards cards--2">
-          <article class="card"><p class="card__num mono">The call</p><h3>Driver sets the limit</h3><p>5, 15, or 30 minutes. They carry the cost, so they hold the dial.</p></article>
-          <article class="card"><p class="card__num mono">Ruled out</p><h3>Rider-requested detours</h3><p>They would turn every booking into a negotiation.</p></article>
+          <article class="card"><p class="card__num mono">The call</p><h3>Driver sets the limit</h3><p>Drivers pick a 5, 15 or 30 minute detour. They carry the cost, so they decide.</p></article>
+          <article class="card"><p class="card__num mono">Ruled out</p><h3>Riders asking for detours</h3><p>Every booking would turn into a negotiation.</p></article>
         </div>
       </section>
 
@@ -233,7 +223,7 @@ const tiers = [
         <p class="sec__label">Takeaways</p>
         <h2>What I took away</h2>
         <div class="prose">
-          <p><strong>Constraints are design material.</strong> We found the call limit with engineering early, before the design was locked, and it's the reason the tiers exist. It made the search easier to read, too.</p>
+          <p><strong>Constraints are design material.</strong> We found the map request limit with engineering early, before the design was locked, and it's the reason the tiers exist. It made the search easier to read, too.</p>
           <p><strong>Honesty is a feature.</strong> Showing the mileage gap up front trades a little polish for a lot more trust.</p>
           <p><strong>What's next.</strong> After launch, I'll watch whether riders who find rides actually book them.</p>
         </div>
@@ -243,13 +233,6 @@ const tiers = [
         <p class="sec__label">Team</p>
         <h2>The team behind it</h2>
         <div class="prose"><p>A startup is mostly its people. Ours: the team, a trip to SF, and a thoroughly unserious promo reel.</p></div>
-        <dl class="counts">
-          <div><dt>2</dt><dd class="label">PMs</dd></div>
-          <div class="is-me"><dt>1</dt><dd class="label">PD (me)</dd></div>
-          <div><dt>1</dt><dd class="label">GD</dd></div>
-          <div><dt>1</dt><dd class="label">PMM</dd></div>
-          <div><dt>4</dt><dd class="label">SWEs</dd></div>
-        </dl>
         <div class="gallery">
           <figure style="--a: 1.5"><Image src={team} alt="The Moober team, ten students standing arm in arm on a tree-lined path." widths={[600, 1000, 1400]} sizes="(min-width: 1024px) 420px, 100vw" /><figcaption class="caption">The Moober team</figcaption></figure>
           <figure style="--a: 0.75"><Image src={sf} alt="A team trip to San Francisco: Moober written in the sand on a beach." widths={[400, 700, 1000]} sizes="(min-width: 1024px) 210px, 50vw" /><figcaption class="caption">A trip to San Francisco</figcaption></figure>
