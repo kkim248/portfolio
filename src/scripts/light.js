@@ -123,7 +123,7 @@ const FS_SHADE = GLSL_COMMON + `
     vec2 g2 = vec2((0.1 + 0.08 * cos(t * 0.035)) * sa, 0.98 + 0.05 * sin(t * 0.03));
     float a1 = exp(-dot(ap - g1, ap - g1) / 0.55), a2 = exp(-dot(ap - g2, ap - g2) / 0.7);
     vec3 tint = mix(mix(vec3(1.0), uWarm, a1), uCool, a2 * (1.0 - 0.5 * a1));
-    vec3 col = leaf * tint;
+    vec3 col = leaf * mix(vec3(1.0), tint, clamp(uFade * 1.2, 0.0, 1.0));   // the colour wash steps back with the light
     // refracted light: a faint network of bright threads drifting through the shade, like sun through water or
     // glass, where two slow noise fields cross; strongest during a breeze
     vec2 cp = uv * 5.0 + vec2(t * 0.05, -t * 0.035);
@@ -174,12 +174,14 @@ export function startLight() {
   let VH = probe.offsetHeight || innerHeight;
 
   // the first screen and the closing note set how strong the light is; looked up again on every page
-  // pages meant for reading (case studies) mark their body data-light="quiet": past the first screen the light
-  // drops to about a quarter, so moving shadows never sweep across paragraphs
-  let first = null, foot = null, quiet = false;
+  // pages meant for reading mark data-light on their main: "quiet" for case studies, "soft" for About
+  // how strong the light is on each page: full on the homepage's first screen, then it steps back so the work
+  // and the words carry the page. data-light="quiet" (case studies) and "soft" (About) keep it lower still.
+  const LEVELS = { home: [1, 0.2], quiet: [1, 0.18], soft: [0.26, 0.2] };
+  let first = null, foot = null, level = LEVELS.home;
   let pics = [];
   const PICS = '.scene__cover, .stack__cover, .cs-cover, .ab__photo, .gallery figure > img, .gallery .clip, .shot, .annotated__shot, .compare__frame, .tierrow__shot, .story, .phones img';
-  const find = () => { first = document.querySelector('.first'); foot = document.querySelector('.foot'); quiet = !!document.querySelector('[data-light="quiet"]'); light.hover = null; pics = [...document.querySelectorAll(PICS)]; };
+  const find = () => { first = document.querySelector('.first'); foot = document.querySelector('.foot'); level = LEVELS[document.querySelector('[data-light]')?.dataset.light] || LEVELS.home; light.hover = null; pics = [...document.querySelectorAll(PICS)]; };
   find(); document.addEventListener('astro:page-load', find); document.addEventListener('astro:after-swap', find);
   let px = 0, py = 0, tx = 0, ty = 0, fade = 1, clearAmt = 0, rect = [0, 0, 0, 0];
   const boxes = new Float32Array(64);
@@ -190,7 +192,7 @@ export function startLight() {
     if (touch && now - lastDraw < 32) return; lastDraw = now;
     px += (tx - px) * 0.04; py += (ty - py) * 0.04;
     // the light is full on the first screen, softer down the page, and fades out at the closing note
-    let f = 1 - (quiet ? 0.75 : 0.4) * smooth(0, (first ? first.offsetHeight : innerHeight) * 0.9, scrollY);
+    let f = level[0] + (level[1] - level[0]) * smooth(0, (first ? first.offsetHeight : innerHeight) * 0.9, scrollY);
     if (foot) f *= 1 - 0.85 * smooth(0, innerHeight * 0.8, innerHeight - foot.getBoundingClientRect().top);
     fade += (f - fade) * 0.1;
     const h = light.hover;
