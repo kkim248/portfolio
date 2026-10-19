@@ -484,7 +484,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @media (max-width: 1023px) {
   .abx { overflow: visible; }
   .abx__stage { height: auto; row-gap: var(--s-5); }
-  .abx__photos { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1.27fr; gap: var(--s-3); }
+  .abx__photos { grid-column: 1 / -1; margin-right: 0; display: grid; grid-template-columns: 1fr 1.27fr; gap: var(--s-3); }
   .abx__ph { position: static; width: auto !important; height: auto !important; }
   .abx__ph--beach { grid-column: 1 / -1; aspect-ratio: 581 / 257; }
   .abx__ph--bridge { grid-row: span 2; }
