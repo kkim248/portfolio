@@ -471,7 +471,8 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .abx__plant { position: absolute; transform: rotate(-90deg); transform-origin: 50% 50%;   /* turned so its stem runs off the right edge and the bottom stays whole */
   opacity: 0.55; mix-blend-mode: multiply; pointer-events: none; }
 .abx__marks { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; mix-blend-mode: multiply; fill: var(--pop); }
-.abx__marks .s, .abx__marks ellipse, .abx__light path { fill: none; stroke: var(--pop); stroke-width: 1.2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.abx__marks .abx__line { fill: none; stroke: url(#abx-fade); stroke-width: 1; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.abx__marks .s, .abx__marks ellipse { fill: none; stroke: var(--pop); stroke-width: 1.2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 .abx__text p { position: absolute; width: calc(380 / 14.4 * 1%); margin: 0; font-family: var(--serif); font-size: var(--fs-compose); line-height: var(--lh-text); color: var(--ink-slate); }
 .abx + .foot { padding-top: var(--s-7); }
 @media (max-width: 899px) {
