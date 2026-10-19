@@ -459,18 +459,19 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 
 /* ---------- about: one quiet reading column. A photo, a greeting in italic serif, a few short paragraphs with
    gentle emphasis, and how to reach me. ---------- */
-/* About: Ian's frame as one composition. The stage is the frame's 1440 x 804 area below the bar; every piece is
+/* About: Ian's frame as one composition. The stage is the frame's 1440 x 700 area below the bar; every piece is
    placed on it in percent, so it scales as a whole. Below 900 it settles into a plain stack. */
 .abx { position: relative; overflow: clip; padding-top: var(--s-5); }   /* clips the plant at the page edge and above the footer */
 /* the whole composition fits the first screen: as wide as the page allows, unless that would be taller than the
    screen below the bar */
-.abx__stage { position: relative; width: min(100%, (100svh - 112px) * 1440 / 804); margin-inline: auto; aspect-ratio: 1440 / 804; container-type: inline-size; }
+.abx__stage { position: relative; width: min(100%, (100svh - 104px) * 1440 / 700); margin-inline: auto; aspect-ratio: 1440 / 700; container-type: inline-size; }
 .abx__ph { position: absolute; margin: 0; overflow: hidden; }
 .abx__ph img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.abx__plant { position: absolute; height: auto; opacity: 0.55; mix-blend-mode: multiply; pointer-events: none; }
+.abx__plant { position: absolute; opacity: 0.55; mix-blend-mode: multiply; pointer-events: none; }
 .abx__marks { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; mix-blend-mode: multiply; fill: var(--pop); }
 .abx__marks .s, .abx__marks ellipse, .abx__marks path[d^="M"]:not([class]) { fill: none; stroke: var(--pop); stroke-width: 1.2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 .abx__text p { position: absolute; width: calc(380 / 14.4 * 1%); margin: 0; font-family: var(--serif); font-size: clamp(14px, 1.32cqw, 32px); line-height: 1.55; color: var(--ink-slate); }
+.abx + .foot { padding-top: var(--s-7); }
 @media (max-width: 899px) {
   .abx { padding-inline: var(--margin); overflow: visible; }
   .abx__stage { width: 100%; }

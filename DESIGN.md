@@ -216,10 +216,10 @@ The light, paper and type carry over. A recruiter scans a case study, so the bod
 
 Built from Ian's own Figma frame (file MY-PORTFOLIOOO, "About — type 2 + accents A"). Ian rejected many generated layouts before this one, so change it only from his frame.
 
-- **One composition on a 1440 x 804 stage** (`.abx__stage`, everything placed in percent so it scales as one). It always fits the first screen: the stage is as wide as the page unless that would be taller than the screen below the bar, and the text scales with it (`cqw`). `.abx` clips the plant at the page edge and above the footer.
+- **One composition on a 1440 x 700 stage** (frame y 100 to 800) (`.abx__stage`, everything placed in percent so it scales as one). It always fits the first screen: the stage is as wide as the page unless that would be taller than the screen below the bar, and the text scales with it (`cqw`). `.abx` clips at the page edge and the stage's foot, and the footer follows closely (`.abx + .foot`).
 - **Photos:** beach, bridge, coastal trail and the group snowboarding shot in Ian's slate colouring, exported from his frame at 2x (`slate-*.jpg`). The beach photo is wide on top, the bridge is tall, and the other two are stacked.
 - **Words:** no greeting. Two serif paragraphs (`--ink-slate`), no links (Ian found the underlined Moober link ugly), the second offset right and down: design first, then life outside it. Ian found a heading less elegant.
-- **The plant:** the forget-me-not cut-out, cropped by the page's right edge, at 55% multiply.
+- **The plant:** the forget-me-not cut-out, whole from the top of the stage down to its foot (never cut at the bottom), its far side off the page's right edge, at 55% multiply.
 - **Marks:** fine `--pop` electric-blue lines, each touching a photo: a light spray off the beach photo's top edge, one long curve from it with a single loop, an open circle on the gutter where the photos meet, an orbit with a dot around the foot of the snow photo. Nothing on the left: Ian rejected the ringed asterisk and a dotted trail there, and every earlier set of floating marks, labels, rules and ornaments.
 - **Below 900:** a plain stack: the photo grid, then the paragraphs (the second indented); no marks or plant.
 
