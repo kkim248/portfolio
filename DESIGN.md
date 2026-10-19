@@ -214,16 +214,14 @@ The light, paper and type carry over. A recruiter scans a case study, so the bod
 
 ### 3.4 About (`/about`)
 
-One quiet reading column, after lilithyu.com/about (inspiration only). Earlier versions were rejected: the draggable prints, then a portrait-and-rows layout with the pastels.
+Built from Ian's own Figma frame (file MY-PORTFOLIOOO, "About — type 2 + accents A"). Ian rejected many generated layouts before this one, so change it only from his frame.
 
-1. **The bar**, as on every inner page (section 3.1).
-2. **A photo:** Ian at Crissy Field at sunset, printed as a cyanotype with `scripts/print-photo.mjs`. The script maps grey to Prussian blue shadows, cerulean midtones and paper highlights, with a gentle S-curve. It also writes a warm black and white alternative (`ian-beach-bw.jpg`). Use the script for any future photo, so every photo on the site is printed the same way. It is cropped to 2:1, keeping Ian, the bridge and the beach and dropping empty sky, with `--r-m` corners. From 768 it shares the text's left edge and is 80% of the column wide, ending short of the text's right edge, so the column isn't rigid. Ian wants the left edges aligned for cohesion.
-3. **The greeting:** "Hi, I'm Ian." in italic serif, the page's only animated line.
-4. **Text:** a short paragraph of design background (Fine Arts to product design; Moober and Buzzit), one line on sports with friends and good food, then **Off the clock**: a `.label` and `.ab__list`, three fun facts as a plain list with small blue dots (Tottenham, FL Studio, trips on a whim). Modelled on lilithyu.com/about. Keep design talk to that one paragraph.
-5. **Lately:** a `.label` and a `.gallery` row of three portrait prints at 3:4, with one-word captions (Eating, Snowboarding, Wandering). Below 640 the first print is full width and the other two sit side by side. They are printed darker than the default to match the beach photo's deep blue: `scripts/print-photo.mjs <in> <out> 1.9`, or 2.35 for snow. Higher values read too dark. An earlier version linked words in a sentence to the prints on hover; Ian replaced it with plain copy. Any photo added here goes through `scripts/print-photo.mjs` first.
-6. **Contact:** Email · LinkedIn · Résumé in mono, then the closing note.
-
----
+- **One composition on a 1440 x 804 stage** (`.abx__stage`, everything placed in percent so it scales as one; max width 1680).
+- **Photos:** beach, bridge, coastal trail and the group snowboarding shot in Ian's slate colouring, exported from his frame at 2x (`slate-*.jpg`). The beach photo is wide on top, the bridge is tall, and the other two are stacked.
+- **Words:** no greeting. Two serif paragraphs (`--ink-slate`), the second offset right and down: design first, then life outside it. Ian found a heading less elegant.
+- **The plant:** the forget-me-not cut-out, cropped by the page's right edge, at 55% multiply.
+- **Marks:** fine `--pop` electric-blue lines, each touching a photo: a light spray off the beach photo's top edge, one long curve from it with a single loop, an open circle on the gutter where the photos meet, an orbit with a dot around the foot of the snow photo, and a short dotted trail leaving the bridge photo. Ian rejected the ringed asterisk here, and every earlier set of floating marks, labels, rules and ornaments.
+- **Below 900:** a plain stack: the photo grid, then the paragraphs (the second indented); no marks or plant.
 
 ## 4. Materials
 

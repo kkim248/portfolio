@@ -20,6 +20,8 @@
   --tint: rgb(34 31 27 / 0.04);        /* panels and cards: a slightly deeper patch of the same paper */
   --blue-tint: rgb(31 58 147 / 0.16);  /* halos around blue marks */
   --blue-line: rgb(31 58 147 / 0.3);   /* fine blue rings */
+  --pop: #1E3FE0;      /* electric blue, for the fine marks on About only */
+  --ink-slate: #3A3F55; /* reading text set beside the slate photos */
 
   /* depth: two shadows only */
   --shadow-card: 0 0 0 1px rgb(34 31 27 / 0.05), 0 6px 18px rgb(34 31 27 / 0.06);
@@ -459,24 +461,38 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 
 /* ---------- about: one quiet reading column. A photo, a greeting in italic serif, a few short paragraphs with
    gentle emphasis, and how to reach me. ---------- */
+/* About: Ian's frame as one composition. The stage is the frame's 1440 x 804 area below the bar; every piece is
+   placed on it in percent, so it scales as a whole. Below 900 it settles into a plain stack. */
+.abx { position: relative; overflow-x: clip; padding-top: var(--s-6); }
+.abx__stage { position: relative; width: min(100%, 1680px); margin-inline: auto; aspect-ratio: 1440 / 804; }
+.abx__ph { position: absolute; margin: 0; overflow: hidden; }
+.abx__ph img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.abx__plant { position: absolute; height: auto; opacity: 0.55; mix-blend-mode: multiply; pointer-events: none; }
+.abx__marks { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; mix-blend-mode: multiply; fill: var(--pop); }
+.abx__marks .s, .abx__marks ellipse, .abx__marks path[d^="M"]:not([class]) { fill: none; stroke: var(--pop); stroke-width: 1.2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.abx__text p { position: absolute; width: calc(380 / 14.4 * 1%); margin: 0; font-family: var(--serif); font-size: clamp(16px, 1.32vw, 22px); line-height: 1.55; color: var(--ink-slate); }
+.abx__text a { color: var(--blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+@media (max-width: 899px) {
+  .abx { padding-inline: var(--margin); }
+  .abx__stage { aspect-ratio: auto; display: grid; grid-template-columns: 1fr 1.27fr; gap: var(--s-3); }
+  .abx__ph, .abx__text p { position: static; width: auto !important; height: auto !important; }
+  .abx__ph--beach { grid-column: 1 / -1; aspect-ratio: 581 / 257; }
+  .abx__ph--bridge { grid-row: span 2; }
+  .abx__ph--trail, .abx__ph--group { aspect-ratio: 311 / 170; }
+  .abx__text { grid-column: 1 / -1; display: grid; gap: var(--s-4); margin-top: var(--s-5); }
+  .abx__text p { font-size: var(--fs-body); }
+  .abx__text p + p { padding-left: var(--s-6); }
+  .abx__marks, .abx__plant { display: none; }
+}
 .ab { padding-top: var(--s-9); }
 .ab__col { grid-column: 1 / -1; justify-self: center; width: min(var(--measure), 100%); display: grid; gap: var(--s-5); }
 /* the photo shares the text's left edge but stops short of its right, so the column isn't one rigid block */
-.ab__photo { width: 100%; margin-bottom: var(--s-4); }
-@media (min-width: 768px) { .ab__photo { width: 80%; } }
-.ab__photo img { display: block; width: 100%; height: auto; aspect-ratio: var(--a); object-fit: cover; object-position: 50% 82%; border-radius: var(--r-m); }
 .ab__hello { font-family: var(--serif); font-style: italic; font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); }
 .ab__text { display: grid; gap: var(--s-5); }
 .ab__text p { font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-2); }
 .ab__text em { font-family: var(--serif); font-style: italic; font-size: 1.12em; color: var(--ink); }
 .ab__text a { color: var(--blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.25em; }
 /* a row of recent prints, between the words and the links */
-/* a few fun facts, as a plain list */
-.ab__off { display: grid; gap: var(--s-3); }
-.ab__list { display: grid; gap: var(--s-2); }
-.ab__list li { position: relative; padding-left: var(--s-5); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-2); }
-.ab__list li::before { content: ""; position: absolute; left: var(--s-1); top: calc(var(--lh-body) * 0.5em); width: var(--s-1); height: var(--s-1); transform: translateY(-50%); border-radius: 50%; background: var(--blue); }
-.ab__lately { display: grid; gap: var(--s-3); margin-top: var(--s-5); }
 
 /* ---------- page transition: the content lifts off the sheet and the next page settles onto it, while the
    light carries on and the cover travels between its two places ---------- */
