@@ -272,8 +272,8 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @media (min-width: 1024px) { .scene { display: block; } .stack { display: none; } }
 
 /* ---------- the closing note, on every page. The light softens here; the page ends quietly. ---------- */
-.foot { padding-block: var(--section) var(--s-7); }
-.foot__row { row-gap: var(--s-4); align-items: baseline; padding-top: var(--s-5); border-top: 1px solid var(--ink); }
+.foot { padding-block: var(--s-8) var(--s-7); }   /* the same short footer on every page */
+.foot__row { row-gap: var(--s-4); align-items: baseline; padding-top: var(--s-5); border-top: 1px solid var(--rule); }
 .foot__note { grid-column: 1 / -1; font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-heading-l); line-height: var(--lh-heading); letter-spacing: var(--track-heading); }
 .foot__links { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-6); }
 .foot__links a { display: inline-flex; gap: var(--s-2); }
@@ -284,9 +284,10 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .spill { position: absolute; pointer-events: none; mix-blend-mode: multiply; z-index: 0; display: block; opacity: 0.9; }
 .spill--quiet-r { width: clamp(150px, 14vw, 260px); right: -2vw; bottom: -40px; opacity: 0.8; }
 .spill--quiet-l { width: clamp(150px, 13vw, 240px); left: -4vw; top: 10px; opacity: 0.8; }
-.spill--foot { width: clamp(220px, 22vw, 420px); left: -5vw; top: calc(var(--section) - var(--s-7)); }
+.spill--foot { width: clamp(220px, 22vw, 420px); left: -5vw; top: var(--s-6); }
 /* blotches may hang past the page edge; clip them there so the page never scrolls sideways (clip, not hidden, keeps the pinned scene sticky) */
-.work, .foot { position: relative; overflow-x: clip; }
+.work { position: relative; overflow-x: clip; }
+.foot { position: relative; overflow: clip; }   /* the watercolor never extends the page below the footer */
 .work > *:not(.spill), .foot > *:not(.spill) { position: relative; z-index: 1; }
 @media (max-width: 1023px) { .spill--quiet-r, .spill--quiet-l { display: none; } .spill--foot { width: 56vw; left: auto; right: -14vw; top: 30px; opacity: 0.8; } }
 
@@ -475,7 +476,6 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .abx__marks .abx__line { fill: none; stroke: url(#abx-fade); stroke-width: 1; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 .abx__marks .s, .abx__marks ellipse { fill: none; stroke: var(--pop); stroke-width: 1.2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 .abx__plant { position: absolute; right: calc(var(--u) * -95); top: calc(var(--s-5) + var(--u) * 200); width: calc(var(--u) * 300); height: auto; transform: rotate(-28deg); opacity: 0.55; mix-blend-mode: multiply; pointer-events: none; }   /* upright, leaning in, its stem off the page's right edge */
-.abx + .foot { padding-top: var(--s-7); }
 @media (max-width: 1023px) {
   .abx { overflow: visible; }
   .abx__stage { height: auto; row-gap: var(--s-5); }
