@@ -216,11 +216,11 @@ The light, paper and type carry over. A recruiter scans a case study, so the bod
 
 Built from Ian's own Figma frame (file MY-PORTFOLIOOO, "About — type 2 + accents A"). Ian rejected many generated layouts before this one, so change it only from his frame.
 
-- **One composition on a 1440 x 804 stage** (`.abx__stage`, everything placed in percent so it scales as one; max width 1680).
+- **One composition on a 1440 x 804 stage** (`.abx__stage`, everything placed in percent so it scales as one). It always fits the first screen: the stage is as wide as the page unless that would be taller than the screen below the bar, and the text scales with it (`cqw`). `.abx` clips the plant at the page edge and above the footer.
 - **Photos:** beach, bridge, coastal trail and the group snowboarding shot in Ian's slate colouring, exported from his frame at 2x (`slate-*.jpg`). The beach photo is wide on top, the bridge is tall, and the other two are stacked.
-- **Words:** no greeting. Two serif paragraphs (`--ink-slate`), the second offset right and down: design first, then life outside it. Ian found a heading less elegant.
+- **Words:** no greeting. Two serif paragraphs (`--ink-slate`), no links (Ian found the underlined Moober link ugly), the second offset right and down: design first, then life outside it. Ian found a heading less elegant.
 - **The plant:** the forget-me-not cut-out, cropped by the page's right edge, at 55% multiply.
-- **Marks:** fine `--pop` electric-blue lines, each touching a photo: a light spray off the beach photo's top edge, one long curve from it with a single loop, an open circle on the gutter where the photos meet, an orbit with a dot around the foot of the snow photo, and a short dotted trail leaving the bridge photo. Ian rejected the ringed asterisk here, and every earlier set of floating marks, labels, rules and ornaments.
+- **Marks:** fine `--pop` electric-blue lines, each touching a photo: a light spray off the beach photo's top edge, one long curve from it with a single loop, an open circle on the gutter where the photos meet, an orbit with a dot around the foot of the snow photo. Nothing on the left: Ian rejected the ringed asterisk and a dotted trail there, and every earlier set of floating marks, labels, rules and ornaments.
 - **Below 900:** a plain stack: the photo grid, then the paragraphs (the second indented); no marks or plant.
 
 ## 4. Materials
@@ -397,7 +397,7 @@ The canvases and cursor live in `Base.astro` with `transition:persist`, so they 
 - **Screens on phones.** Below 640, `.compare__panel` and `.shot-panel` pad by `--s-2`, so the UI gets the width.
 - **Annotated dots.** Dots sit just outside the element they name, never on it. On phones they are 16px.
 - **Copy voice.** Plain and standard, nothing clever. The homepage headline is a conventional portfolio line that fits on two lines on desktop: "Designer with an artist's eye for detail" (no closing period) (two lines from tablet up, three on phones) The footer note is two short sentences, "Thanks for stopping by. Let's work together.", with the second linking to email. A single line looked lost in the footer. Ian draws and doesn't paint.
-- **Footer bottom row.** One line, "Designed and built by Ian", right aligned across the full width.
+- **Footer.** No bottom row: Ian removed "Designed and built by Ian" site-wide.
 - **Links inside split type.** `.words` wraps each word in inline-blocks, and underlines don't pass into those. So a link inside split type underlines its inner word spans too (`.closing p a .w > span`); otherwise only the spaces get underlined.
 - **Shipping basics.** `Base.astro` sets the canonical URL, Open Graph and Twitter tags, and the tab icon. The icon is the three-leaf sprig from Anna Atkins's cyanotype of *Spiraea aruncus* (ca. 1851-54, public domain, the Met), lifted out of the plate and printed in `--blue` and `--on-blue` by `scripts/make-icon.mjs` into `/favicon.png` (64) and `/apple-touch-icon.png` (180). The source plate is `_archive/public-unused/assets/botanicals/atkins-spiraea.jpg`. It ties the icon to the site's cyanotype idea: a real leaf printed by sunlight. `/og.jpg` (1200 x 630) is a capture of the homepage hero. `src/pages/404.astro` uses the About column. Assets that nothing references are moved to `_archive/public-unused/` rather than deployed; `public/` only holds files the site uses.
 - **Checking renders.** The in-app browser pane is often hidden. To see real pages, capture them with headless Chrome over the DevTools protocol at 390, 1440 and so on, with reduced motion on so the intro is skipped.
