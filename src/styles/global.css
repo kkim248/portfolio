@@ -463,7 +463,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
    placed on it in percent, so it scales as a whole. Below 900 it settles into a plain stack. */
 .abx { position: relative; overflow: clip; padding-top: var(--s-5); --u: calc(clamp(520px, 100svh - var(--s-9), 1000px) / 672); }   /* one unit of height: the photos (672 units) fit the first screen */
 .abx__stage { position: relative; height: calc(var(--u) * 700); }
-.abx__photos { grid-column: 1 / span 6; grid-row: 1; position: relative; }
+.abx__photos { grid-column: 1 / span 6; grid-row: 1; position: relative; margin-right: var(--gutter); }   /* a gutter short of column 6, so two gutters separate photos and words */
 .abx__ph { position: absolute; margin: 0; overflow: hidden; }
 .abx__ph img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .abx__ph--beach { left: 0; width: 100%; top: calc(var(--u) * 28); height: calc(var(--u) * 257); }
