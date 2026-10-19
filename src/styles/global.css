@@ -22,6 +22,7 @@
   --blue-line: rgb(31 58 147 / 0.3);   /* fine blue rings */
   --pop: #1E3FE0;      /* electric blue, for the fine marks on About only */
   --ink-slate: #3A3F55; /* reading text set beside the slate photos */
+  --fs-compose: clamp(14px, 1.32cqw, 32px); /* text inside a scaled composition (About): 19px on a 1440 stage */
 
   /* depth: two shadows only */
   --shadow-card: 0 0 0 1px rgb(34 31 27 / 0.05), 0 6px 18px rgb(34 31 27 / 0.06);
@@ -464,13 +465,13 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .abx { position: relative; overflow: clip; padding-top: var(--s-5); }   /* clips the plant at the page edge and above the footer */
 /* the whole composition fits the first screen: as wide as the page allows, unless that would be taller than the
    screen below the bar */
-.abx__stage { position: relative; width: min(100%, (100svh - 104px) * 1440 / 700); margin-inline: auto; aspect-ratio: 1440 / 700; container-type: inline-size; }
+.abx__stage { position: relative; width: min(100%, (100svh - var(--s-9) - var(--s-2)) * 1440 / 700); margin-inline: auto; aspect-ratio: 1440 / 700; container-type: inline-size; }
 .abx__ph { position: absolute; margin: 0; overflow: hidden; }
 .abx__ph img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .abx__plant { position: absolute; opacity: 0.55; mix-blend-mode: multiply; pointer-events: none; }
 .abx__marks { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; mix-blend-mode: multiply; fill: var(--pop); }
-.abx__marks .s, .abx__marks ellipse, .abx__marks path[d^="M"]:not([class]) { fill: none; stroke: var(--pop); stroke-width: 1.2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
-.abx__text p { position: absolute; width: calc(380 / 14.4 * 1%); margin: 0; font-family: var(--serif); font-size: clamp(14px, 1.32cqw, 32px); line-height: 1.55; color: var(--ink-slate); }
+.abx__marks .s, .abx__marks ellipse, .abx__light path { fill: none; stroke: var(--pop); stroke-width: 1.2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.abx__text p { position: absolute; width: calc(380 / 14.4 * 1%); margin: 0; font-family: var(--serif); font-size: var(--fs-compose); line-height: var(--lh-text); color: var(--ink-slate); }
 .abx + .foot { padding-top: var(--s-7); }
 @media (max-width: 899px) {
   .abx { padding-inline: var(--margin); overflow: visible; }
