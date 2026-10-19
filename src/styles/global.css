@@ -273,7 +273,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @media (min-width: 1024px) { .scene { display: block; } .stack { display: none; } }
 
 /* ---------- the closing note, on every page. The light softens here; the page ends quietly. ---------- */
-.foot { padding-block: var(--section) var(--s-9); }
+.foot { padding-block: var(--section) var(--s-7); }
 .note-grid { row-gap: var(--s-6); padding-top: var(--s-5); border-top: 1px solid var(--ink); }
 .note-grid .label { grid-column: 1 / -1; }
 .closing { grid-column: 1 / -1; }
