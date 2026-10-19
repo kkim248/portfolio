@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 import Bar from '../components/Bar.astro';
 import Foot from '../components/Foot.astro';
 // Ian's About frame in Figma (MY-PORTFOLIOOO, "About — type 2 + accents A"), set on the site grid: the photos span
-// columns 1 to 6, the first paragraph starts on column 7 and the second on column 8. Heights come from the screen
+// columns 1 to 6, the first paragraph spans columns 8 to 10 and the second 9 to 11. Heights come from the screen
 // (--u, one 672th of it), so the whole composition fits the first view at any width.
 import beach from '../assets/about/slate-beach.jpg';
 import bridge from '../assets/about/slate-bridge.jpg';
@@ -30,8 +30,8 @@ const shot = { widths: [400, 700, 1100], sizes: '(min-width: 900px) 45vw, 100vw'
       <p class="abx__p abx__p--2">When I'm not designing, I'm usually playing sports with friends or out looking for good food. I watch Tottenham, for better or worse, make music in FL Studio, and book trips on a whim, like Korea and Japan this summer.</p>
       <!-- the marks, drawn on the content box at 1440 (1312 wide, 700 of --u tall) -->
       <svg class="abx__marks" viewBox="0 0 1312 700" preserveAspectRatio="none" aria-hidden="true">
-        <defs><linearGradient id="abx-fade" gradientUnits="userSpaceOnUse" x1="0" y1="140" x2="0" y2="704"><stop offset="0" stop-color="var(--pop)" stop-opacity="0"/><stop offset=".06" stop-color="var(--pop)"/><stop offset=".9" stop-color="var(--pop)"/><stop offset="1" stop-color="var(--pop)" stop-opacity="0"/></linearGradient></defs>
-        <path class="abx__line" d="M596 156 C 640 152, 666 186, 665 248 S 652 392, 668 470 C 690 550, 777 600, 822 562 C 862 528, 832 488, 797 510 C 760 534, 777 624, 843 704"/>
+        <defs><linearGradient id="abx-fade" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="704"><stop offset="0" stop-color="var(--pop)" stop-opacity="0"/><stop offset=".06" stop-color="var(--pop)"/><stop offset=".9" stop-color="var(--pop)"/><stop offset="1" stop-color="var(--pop)" stop-opacity="0"/></linearGradient></defs>
+        <path class="abx__line" d="M565 28 C 640 -2, 714 60, 711 172 S 700 400, 717 482 C 741 562, 802 604, 842 566 C 880 530, 852 490, 816 512 C 778 536, 796 626, 862 704"/>
         <path class="s" d="M335.6 277.5 A57 57 0 1 1 310.5 247.6"/>
         <ellipse class="s" cx="540" cy="635" rx="146" ry="44" transform="rotate(-12 540 635)"/><circle cx="669" cy="612" r="3.5"/>
       </svg>
