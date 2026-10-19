@@ -22,7 +22,6 @@
   --blue-line: rgb(31 58 147 / 0.3);   /* fine blue rings */
   --pop: #1E3FE0;      /* electric blue, for the fine marks on About only */
   --ink-slate: #3A3F55; /* reading text set beside the slate photos */
-  --fs-compose: clamp(14px, 1.32cqw, 32px); /* text inside a scaled composition (About): 19px on a 1440 stage */
 
   /* depth: two shadows only */
   --shadow-card: 0 0 0 1px rgb(34 31 27 / 0.05), 0 6px 18px rgb(34 31 27 / 0.06);
@@ -462,29 +461,35 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
    gentle emphasis, and how to reach me. ---------- */
 /* About: Ian's frame as one composition. The stage is the frame's 1440 x 700 area below the bar; every piece is
    placed on it in percent, so it scales as a whole. Below 900 it settles into a plain stack. */
-.abx { position: relative; overflow: clip; padding-top: var(--s-5); --stage-w: min(100vw, (100svh - var(--s-9)) * 1440 / 672);   /* fit the photos (frame y 100 to 772) in the first screen; only empty paper may fall below */ }   /* clips the plant at the page edge and above the footer */
-/* the whole composition fits the first screen: as wide as the page allows, unless that would be taller than the
-   screen below the bar */
-.abx__stage { position: relative; width: min(100%, var(--stage-w)); margin-inline: auto; aspect-ratio: 1440 / 700; container-type: inline-size; }
+.abx { position: relative; overflow: clip; padding-top: var(--s-5); --u: calc(clamp(520px, 100svh - var(--s-9), 1000px) / 672); }   /* one unit of height: the photos (672 units) fit the first screen */
+.abx__stage { position: relative; height: calc(var(--u) * 700); }
+.abx__photos { grid-column: 1 / span 6; grid-row: 1; position: relative; }
 .abx__ph { position: absolute; margin: 0; overflow: hidden; }
 .abx__ph img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.abx__plant { position: absolute; right: calc(var(--stage-w) * -0.066); top: calc(var(--s-5) + var(--stage-w) * 0.139); width: calc(var(--stage-w) * 0.208); height: auto; transform: rotate(-28deg); opacity: 0.55; mix-blend-mode: multiply; pointer-events: none; }   /* upright, leaning in, its stem off the page's right edge */
-.abx__marks { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; mix-blend-mode: multiply; fill: var(--pop); }
+.abx__ph--beach { left: 0; width: 100%; top: calc(var(--u) * 28); height: calc(var(--u) * 257); }
+.abx__ph--bridge { left: 0; width: 42.2%; top: calc(var(--u) * 309); height: calc(var(--u) * 361); }
+.abx__ph--trail, .abx__ph--group { left: 46.5%; width: 53.5%; }
+.abx__ph--trail { top: calc(var(--u) * 309); height: calc(var(--u) * 164); }
+.abx__ph--group { top: calc(var(--u) * 497); height: calc(var(--u) * 175); }
+.abx__p { grid-row: 1; align-self: start; margin: 0; font-family: var(--serif); font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink-slate); }
+.abx__p--1 { grid-column: 7 / span 4; margin-top: calc(var(--u) * 24); }
+.abx__p--2 { grid-column: 8 / span 4; margin-top: calc(var(--u) * 233); }
+.abx__marks { position: absolute; top: 0; bottom: 0; left: var(--margin); right: var(--margin); width: calc(100% - 2 * var(--margin)); height: 100%; overflow: visible; pointer-events: none; mix-blend-mode: multiply; fill: var(--pop); }
 .abx__marks .abx__line { fill: none; stroke: url(#abx-fade); stroke-width: 1; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 .abx__marks .s, .abx__marks ellipse { fill: none; stroke: var(--pop); stroke-width: 1.2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
-.abx__text p { position: absolute; width: calc(380 / 14.4 * 1%); margin: 0; font-family: var(--serif); font-size: var(--fs-compose); line-height: var(--lh-text); color: var(--ink-slate); }
+.abx__plant { position: absolute; right: calc(var(--u) * -95); top: calc(var(--s-5) + var(--u) * 200); width: calc(var(--u) * 300); height: auto; transform: rotate(-28deg); opacity: 0.55; mix-blend-mode: multiply; pointer-events: none; }   /* upright, leaning in, its stem off the page's right edge */
 .abx + .foot { padding-top: var(--s-7); }
-@media (max-width: 899px) {
-  .abx { padding-inline: var(--margin); overflow: visible; }
-  .abx__stage { width: 100%; }
-  .abx__stage { aspect-ratio: auto; display: grid; grid-template-columns: 1fr 1.27fr; gap: var(--s-3); }
-  .abx__ph, .abx__text p { position: static; width: auto !important; height: auto !important; }
+@media (max-width: 1023px) {
+  .abx { overflow: visible; }
+  .abx__stage { height: auto; row-gap: var(--s-5); }
+  .abx__photos { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1.27fr; gap: var(--s-3); }
+  .abx__ph { position: static; width: auto !important; height: auto !important; }
   .abx__ph--beach { grid-column: 1 / -1; aspect-ratio: 581 / 257; }
   .abx__ph--bridge { grid-row: span 2; }
   .abx__ph--trail, .abx__ph--group { aspect-ratio: 311 / 170; }
-  .abx__text { grid-column: 1 / -1; display: grid; gap: var(--s-4); margin-top: var(--s-5); }
-  .abx__text p { font-size: var(--fs-body); }
-  .abx__text p + p { padding-left: var(--s-6); }
+  .abx__p { grid-row: auto; margin-top: 0 !important; }
+  .abx__p--1 { grid-column: 1 / -1; }
+  .abx__p--2 { grid-column: 1 / -1; padding-left: var(--s-6); }
   .abx__marks, .abx__plant { display: none; }
 }
 .ab { padding-top: var(--s-9); }
