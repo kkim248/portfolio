@@ -471,9 +471,11 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .abx__ph--trail, .abx__ph--group { left: 46.5%; width: 53.5%; }
 .abx__ph--trail { top: calc(var(--u) * 309); height: calc(var(--u) * 164); }
 .abx__ph--group { top: calc(var(--u) * 497); height: calc(var(--u) * 173); }   /* ends level with the bridge photo (309 + 361) */
-.abx__p { grid-row: 1; align-self: start; margin: 0; font-family: var(--serif); font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink-slate); }
-.abx__p--1 { grid-column: 7 / span 3; margin-top: calc(var(--u) * 24); }
-.abx__p--2 { grid-column: 8 / span 3; margin-top: calc(var(--u) * 233); }
+/* the words span columns 7 to 10: the first paragraph on 7 to 9, the second one column in and always a step below it */
+.abx__words { grid-column: 7 / span 4; grid-row: 1; align-self: start; display: grid; row-gap: var(--s-6); margin-top: calc(var(--u) * 24); --col: calc((100% - 3 * var(--gutter)) / 4); }
+.abx__p { margin: 0; font-family: var(--serif); font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink-slate); }
+.abx__p--1 { width: calc(var(--col) * 3 + var(--gutter) * 2); }
+.abx__p--2 { width: calc(var(--col) * 3 + var(--gutter) * 2); margin-left: calc(var(--col) + var(--gutter)); }
 .abx__marks { position: absolute; top: 0; bottom: 0; left: var(--margin); right: var(--margin); width: calc(100% - 2 * var(--margin)); height: 100%; overflow: visible; pointer-events: none; mix-blend-mode: multiply; fill: var(--pop); }
 .abx__marks .abx__line { fill: none; stroke: url(#abx-fade); stroke-width: 1; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 .abx__marks .s, .abx__marks ellipse { fill: none; stroke: var(--pop); stroke-width: 1.2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
@@ -487,9 +489,9 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
   .abx__ph--beach { grid-column: 1 / -1; aspect-ratio: 581 / 257; }
   .abx__ph--bridge { grid-row: span 2; }
   .abx__ph--trail, .abx__ph--group { aspect-ratio: 311 / 170; }
-  .abx__p { grid-row: auto; margin-top: 0 !important; }
-  .abx__p--1 { grid-column: 1 / -1; }
-  .abx__p--2 { grid-column: 1 / -1; padding-left: var(--s-6); }
+  .abx__words { grid-column: 1 / -1; grid-row: auto; margin-top: 0; row-gap: var(--s-4); }
+  .abx__p--1, .abx__p--2 { width: auto; }
+  .abx__p--2 { margin-left: var(--s-6); }
   .abx__marks, .abx__plant { display: none; }
 }
 .ab { padding-top: var(--s-9); }
