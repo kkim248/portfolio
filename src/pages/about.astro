@@ -18,8 +18,9 @@ const shot = { widths: [400, 700, 1100], sizes: '(min-width: 900px) 40vw, 100vw'
   <Bar current="about" crumb="About" parent={{ label: 'Home', href: '/' }} />
 
   <main class="abx" data-light="soft">
+    <!-- the plant is set against the page's right edge, not the stage, so its stem always leaves the page -->
+    <Image class="abx__plant" src={plant} alt="" widths={[600, 1000]} sizes="25vw" />
     <div class="abx__stage">
-      <Image class="abx__plant" src={plant} alt="" widths={[600, 1000]} sizes="50vw" style={at(1186, 418, 272, 416)} />
       <figure class="abx__ph abx__ph--beach" style={at(127, 128, 581, 257)}><Image src={beach} alt="Ian on the beach at Crissy Field at sunset, the Golden Gate Bridge behind him." {...shot} loading="eager" /></figure>
       <figure class="abx__ph abx__ph--bridge" style={at(128, 409, 245, 361)}><Image src={bridge} alt="Friends walking across a bridge toward the city skyline." {...shot} /></figure>
       <figure class="abx__ph abx__ph--trail" style={at(397, 409, 311, 164)}><Image src={trail} alt="Two friends on a coastal trail above the ocean." {...shot} /></figure>
