@@ -1,21 +1,15 @@
 ---
 import { links } from '../data/site';
 ---
-<!-- A closing note. The light softens here; the page ends quietly. -->
+<!-- A short closing line and the ways to reach Ian; the watercolor spills in behind it as the page ends. -->
 <footer class="foot rel">
   <canvas class="spill spill--foot" data-aspect="0.9" data-origin="0.5 0.55" data-seed="7" data-strength="0.7" aria-hidden="true"></canvas>
-  <div class="note-grid grid">
-    <p class="label">A note</p>
-    <div class="closing">
-      <p class="words">Thanks for stopping by. Let's <a href={links.email}>work together.</a></p>
-      <div class="sign reveal" style="--i: 2">
-        <span class="sign__name">Ian</span>
-        <ul class="sign__links mono">
-          <li><a href={links.email}>Email <span class="arrow">&nearr;&#65038;</span></a></li>
-          <li><a href={links.linkedin} target="_blank" rel="noopener">LinkedIn <span class="arrow">&nearr;&#65038;</span></a></li>
-          <li><a href={links.resume} target="_blank" rel="noopener">Résumé <span class="arrow">&nearr;&#65038;</span></a></li>
-        </ul>
-      </div>
-    </div>
+  <div class="foot__row grid">
+    <p class="foot__note words">Thanks for stopping by!</p>
+    <ul class="foot__links mono">
+      <li><a href={links.email}>Email <span class="arrow">&nearr;&#65038;</span></a></li>
+      <li><a href={links.linkedin} target="_blank" rel="noopener">LinkedIn <span class="arrow">&nearr;&#65038;</span></a></li>
+      <li><a href={links.resume} target="_blank" rel="noopener">Résumé <span class="arrow">&nearr;&#65038;</span></a></li>
+    </ul>
   </div>
 </footer>
