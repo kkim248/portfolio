@@ -462,7 +462,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
    gentle emphasis, and how to reach me. ---------- */
 /* About: Ian's frame as one composition. The stage is the frame's 1440 x 700 area below the bar; every piece is
    placed on it in percent, so it scales as a whole. Below 900 it settles into a plain stack. */
-.abx { position: relative; overflow: clip; padding-top: var(--s-5); --stage-w: min(100vw, (100svh - var(--s-9) - var(--s-2)) * 1440 / 700); }   /* clips the plant at the page edge and above the footer */
+.abx { position: relative; overflow: clip; padding-top: var(--s-5); --stage-w: min(100vw, (100svh - var(--s-9)) * 1440 / 672);   /* fit the photos (frame y 100 to 772) in the first screen; only empty paper may fall below */ }   /* clips the plant at the page edge and above the footer */
 /* the whole composition fits the first screen: as wide as the page allows, unless that would be taller than the
    screen below the bar */
 .abx__stage { position: relative; width: min(100%, var(--stage-w)); margin-inline: auto; aspect-ratio: 1440 / 700; container-type: inline-size; }
