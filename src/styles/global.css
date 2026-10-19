@@ -470,7 +470,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .abx__ph--bridge { left: 0; width: 42.2%; top: calc(var(--u) * 309); height: calc(var(--u) * 361); }
 .abx__ph--trail, .abx__ph--group { left: 46.5%; width: 53.5%; }
 .abx__ph--trail { top: calc(var(--u) * 309); height: calc(var(--u) * 164); }
-.abx__ph--group { top: calc(var(--u) * 497); height: calc(var(--u) * 175); }
+.abx__ph--group { top: calc(var(--u) * 497); height: calc(var(--u) * 173); }   /* ends level with the bridge photo (309 + 361) */
 .abx__p { grid-row: 1; align-self: start; margin: 0; font-family: var(--serif); font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink-slate); }
 .abx__p--1 { grid-column: 7 / span 3; margin-top: calc(var(--u) * 24); }
 .abx__p--2 { grid-column: 8 / span 3; margin-top: calc(var(--u) * 233); }
