@@ -141,7 +141,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 
 /* printed type: every serif line carries the ink filter and sits into the paper */
 .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note,
-.cs-hero h1, .sec h2, .sub, .tierrow__text h4, .calls__big, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
+.cs-hero h1, .sec h2, .sub, .tierrow__text h4, .hmw__q, .stat__big, .calls__big, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
 
 /* words arrive the way ink takes on wet paper: each word bleeds in from a soft blur, a little bluer while it is
    wet, written left to right along a feathered edge, and dries to ink. Staggered word by word, like a pen. Every
@@ -158,7 +158,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* phones and tablets render SVG filters at a low resolution, so the ink looked blurry and cost frames there.
    On touch screens and small screens the type stays crisp, still multiplied into the paper. */
 @media (max-width: 767px), (hover: none) {
-  .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note, .cs-hero h1, .sec h2, .sub, .tierrow__text h4, .calls__big, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
+  .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note, .cs-hero h1, .sec h2, .sub, .tierrow__text h4, .hmw__q, .stat__big, .calls__big, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
   .words.is-split .w { filter: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -332,11 +332,32 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* a subheading inside a section: it opens a new part, so it has room above, and leads straight into its content */
 .sub { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); margin-top: var(--s-8); }
 .sub + * { margin-top: calc(var(--s-3) * -1); }
-.sub__lead { font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-2); max-width: var(--measure); }
+.sub__lead, .prose p { font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-2); max-width: var(--measure); }
 /* in a case study, text runs the full width of the column, the same as the screens */
-.cs-col .sub__lead { max-width: none; }
+.cs-col .sub__lead, .cs-col .prose p { max-width: none; }
 .sub__lead + .tierlist { margin-top: calc(var(--s-2) * -1); }
+.prose { display: grid; gap: var(--s-4); }
+.prose strong { font-weight: var(--w-strong); color: var(--ink); }
 
+/* cards: short pieces read at a glance (summary, findings, driver decisions, takeaways) */
+.cards { display: grid; gap: var(--s-5); }
+@media (min-width: 768px) { .cards--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .cards--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.card { display: grid; gap: var(--s-2); align-content: start; padding: clamp(var(--s-5), 2vw, var(--s-6)); border-radius: var(--r-l); background: var(--tint); }
+.card .card__num { margin-bottom: var(--s-2); font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--blue); }
+.card h3 { font-weight: var(--w-strong); font-size: var(--fs-body); line-height: var(--lh-snug); color: var(--ink); }
+.card p:not(.card__num) { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); }
+/* a stat card: the number is the headline */
+/* a single figure: the number, its source, one line */
+.stat { display: grid; gap: var(--s-3); }
+.stat__big { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); color: var(--blue); }
+.stat__text { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); max-width: 48ch; }
+
+/* the number beside what riders said: the stat on the left, three short stories on the right */
+.evidence { display: grid; gap: var(--s-5); }
+.evidence .stat { align-content: center; }
+.evidence__stories { display: grid; gap: var(--s-3); align-content: center; }
+.story { padding: var(--s-4) var(--s-5); border-radius: var(--r-m); background: var(--surface); box-shadow: var(--shadow-card); font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink); }
+@media (min-width: 900px) { .evidence { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); } }
 
 /* the constraint: where each map call goes, then what a check costs */
 .calls { display: grid; gap: var(--s-6); }
@@ -352,6 +373,10 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @media (min-width: 900px) { .calls { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); } .calls__sum { padding-left: var(--s-6); border-left: 1px solid var(--rule); } }
 
 
+/* the question: a centred, quiet moment closing the problem. No box, no rule. */
+.hmw { justify-self: center; display: grid; justify-items: center; gap: var(--s-3); text-align: center; margin-top: var(--s-8); max-width: var(--measure); }
+.hmw__q { font-family: var(--serif); font-style: italic; font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); text-wrap: balance; }
+
 /* three honest tiers as a ranked list: each tier's words on the left, the result as the app shows it on the right */
 .tierlist { display: grid; }
 .tierrow { display: grid; gap: var(--s-4) var(--s-8); padding-block: var(--s-6); border-top: 1px solid var(--rule); align-items: center; }
@@ -360,21 +385,24 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .tierrow__text h4 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); }
 .tierrow__text p:not(.label) { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); max-width: 44ch; }
 .tierrow__shot { display: block; width: 100%; height: auto; }
-/* the mobile design: three phone screens in a row, lifted like the desktop screens */
-.phones { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-5); padding: var(--s-6) var(--s-5); border-radius: var(--r-l); background: var(--tint); }
-.phones figure { display: grid; gap: var(--s-3); justify-items: center; }
-.phones img { display: block; width: 100%; max-width: 260px; height: auto; border-radius: var(--r-l); box-shadow: var(--shadow-screen); }
-.phones .caption { text-align: center; }
-@media (max-width: 639px) { .phones { gap: var(--s-3); padding: var(--s-4) var(--s-3); } .phones img { border-radius: var(--r-s); } }
+/* the desktop screen with its phone version beside it, overlapping the corner (used once, for trip details) */
+.duo { position: relative; display: grid; gap: var(--s-4); padding: clamp(var(--s-5), 5%, var(--s-7)); padding-right: 24%; }
+.duo__main img { display: block; width: 100%; height: auto; border-radius: var(--r-s); box-shadow: var(--shadow-screen); }
+.duo__phone { position: absolute; right: 5%; top: clamp(var(--s-5), 5%, var(--s-7)); width: 22%; }
+.duo__phone img { display: block; width: 100%; height: auto; border-radius: var(--r-l); box-shadow: var(--shadow-screen); }
+.duo .caption { text-align: center; }
+@media (max-width: 639px) { .duo { padding: var(--s-3); padding-right: 30%; } .duo__phone { width: 27%; right: var(--s-3); top: var(--s-3); } }
 @media (min-width: 900px) { .tierrow { grid-template-columns: minmax(0, 300px) minmax(0, 1fr); } }
 
 /* panels and screens: a deeper patch of the paper, with product screens lying on it */
 .panel { background: var(--tint); border-radius: var(--r-l); padding: clamp(var(--s-5), 4.5%, var(--s-7)); }
+.shot-panel { display: grid; place-items: center; gap: var(--s-3); padding: clamp(var(--s-3), 3%, var(--s-6)); }
 .shot { position: relative; width: 100%; }
 .shot img { display: block; width: 100%; height: auto; border-radius: var(--r-s); box-shadow: var(--shadow-screen); }
 /* captions: one style everywhere, centred when they sit under a screen in a panel */
 .caption { font-size: var(--fs-small); line-height: var(--lh-text); color: var(--ink-3); }
-@media (max-width: 639px) { .compare__panel { padding: var(--s-2); } }
+.shot-panel .caption { justify-self: center; text-align: center; max-width: 60ch; }
+@media (max-width: 639px) { .compare__panel, .shot-panel { padding: var(--s-2); } }
 
 /* before and after: pinned in the column, the result wipes across the empty search as you scroll */
 .compare { position: relative; height: 220svh; }
@@ -517,102 +545,3 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 @keyframes intro-open { to { --open: 1; } }
 @keyframes intro-flare { 0% { opacity: 0; } 40% { opacity: 0.42; } 100% { opacity: 0; } }
 @keyframes intro-fallback { to { opacity: 0; visibility: hidden; } }
-
-/* ---------- visual first: the Moober case study's panels. Each one plays once as it arrives (.is-in, set by
-   case.js on [data-play]); with reduced motion they show their end state. ---------- */
-.lead { font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-2); max-width: var(--measure); }
-.facts { display: grid; gap: var(--s-4) var(--s-6); padding-block: var(--s-5); border-block: 1px solid var(--rule); }
-.facts dt { margin-bottom: var(--s-1); }
-.facts dd { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink); }
-@media (min-width: 768px) { .facts { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-
-/* a desktop screen with the phone laid over its corner */
-.duo { position: relative; padding: clamp(var(--s-5), 6%, var(--s-8)); padding-right: 24%; }
-.duo--right { padding-right: clamp(var(--s-5), 6%, var(--s-8)); padding-left: 24%; }
-.duo__main img { display: block; width: 100%; height: auto; border-radius: var(--r-s); box-shadow: var(--shadow-screen); }
-.duo__phone { position: absolute; right: 6%; top: 9%; bottom: 9%; width: 21%; display: flex; align-items: flex-end; }   /* never taller than the panel: a tall screen is cropped from the top down */
-.duo--right .duo__phone { right: auto; left: 6%; }
-.duo__phone img { display: block; width: 100%; height: auto; max-height: 100%; object-fit: cover; object-position: top; border-radius: var(--r-l); box-shadow: var(--shadow-screen); }
-
-/* 100 listed rides; the empty ones light up in turn */
-.rides { display: grid; gap: var(--s-6); align-items: center; }
-.rides__grid { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: clamp(var(--s-1), 0.9vw, var(--s-3)); max-width: 360px; }
-.rides__grid i { aspect-ratio: 1; border-radius: 50%; background: var(--rule); }
-.rides__grid i.is-empty { background: transparent; box-shadow: inset 0 0 0 1.5px var(--blue-line); }
-.rides__key { display: grid; gap: var(--s-2); align-content: center; }
-.rides__key p:not(.label) { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); max-width: 26ch; }
-.rides__key p.rides__big { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); color: var(--blue); }
-@media (min-width: 768px) { .rides { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); } }
-
-/* one ride, Davis to Los Angeles, passing a rider in Fresno who never sees it */
-.route__map { display: block; width: 100%; height: auto; overflow: visible; }
-.route__road { fill: none; stroke: var(--rule); stroke-width: 2; stroke-linecap: round; }
-.route__drive { fill: none; stroke: var(--blue); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
-.route__stop { fill: var(--surface); stroke: var(--ink); stroke-width: 2; }
-.route__stop--end { fill: var(--ink); }
-.route__city { font-family: var(--mono); font-size: var(--fs-label); letter-spacing: var(--track-label); text-transform: uppercase; fill: var(--ink-3); }
-.route__rider circle { fill: var(--ink); }
-.route__rider .route__ring { fill: none; stroke: var(--ink); stroke-width: 1.5; opacity: 0; }
-.route__search { opacity: 0; }
-.route__search rect { fill: var(--surface); stroke: var(--rule); }
-.route__q { font-family: var(--sans); font-size: var(--fs-label-l); fill: var(--ink); }
-.route__none { font-family: var(--mono); font-size: var(--fs-label); letter-spacing: var(--track-label); text-transform: uppercase; fill: var(--blue); }
-.route__car { fill: var(--blue); opacity: 0; }
-
-/* three ideas, each with a small drawing */
-.ideas { display: grid; gap: var(--s-4); }
-@media (min-width: 768px) { .ideas { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.idea { display: grid; gap: var(--s-4); align-content: start; padding: var(--s-5); border-radius: var(--r-l); background: var(--tint); }
-.idea svg { display: block; width: 100%; height: auto; }
-.idea figcaption { display: grid; gap: var(--s-1); font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); }
-.idea strong { margin-top: var(--s-1); font-weight: var(--w-strong); font-size: var(--fs-body); line-height: var(--lh-snug); color: var(--ink); }
-.idea__zone { fill: none; stroke: var(--ink-3); stroke-width: 1.2; stroke-dasharray: 4 5; }
-.idea__dot { fill: var(--ink-2); }
-.idea__dot--x { fill: var(--blue); }
-.idea__card { fill: var(--surface); stroke: var(--rule); }
-.idea__card--blue { stroke: var(--blue-line); }
-.idea__row { stroke: var(--rule); stroke-width: 6; stroke-linecap: round; }
-.idea__row--blue { stroke: var(--blue-tint); }
-
-/* what riders said */
-.stories { display: grid; gap: var(--s-5); }
-@media (min-width: 768px) { .stories { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.stories p { padding-top: var(--s-4); border-top: 1px solid var(--ink); font-family: var(--serif); font-style: italic; font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); }
-
-/* the constraint: stored and cached ticks off, the count falls from 5 to 2 */
-.chip--saved { position: relative; transition: color var(--dur-base) var(--ease), border-color var(--dur-base) var(--ease); }
-.calls__big { display: inline-grid; }
-.calls__from, .calls__to { grid-area: 1 / 1; transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease); }
-.calls__to { opacity: 0; transform: translateY(var(--s-4)); }
-
-/* the takeaways, as a short numbered list */
-.takeaways { display: grid; gap: var(--s-4); counter-reset: t; max-width: var(--measure); }
-.takeaways li { position: relative; padding-left: var(--s-7); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-2); counter-increment: t; }
-.takeaways li::before { content: "0" counter(t); position: absolute; left: 0; top: 0.35em; font-family: var(--mono); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--blue); }
-.takeaways strong { font-weight: var(--w-strong); color: var(--ink); }
-
-@media (prefers-reduced-motion: no-preference) {
-  [data-play].duo .duo__main, [data-play] .tierrow, [data-play] .idea, [data-play].stories p { opacity: 0; transform: translateY(var(--s-4)); transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease); transition-delay: calc(var(--i, 0) * 140ms); }
-  [data-play].duo .duo__phone { opacity: 0; transform: translateY(var(--s-8)); transition: opacity var(--dur-slow) var(--ease) 250ms, transform var(--dur-enter) var(--ease) 250ms; }
-  [data-play].rides .rides__grid i.is-empty { transition: background var(--dur-base) var(--ease) calc(300ms + var(--i) * 14ms); }
-  [data-play].route .route__drive { transition: stroke-dashoffset 2600ms cubic-bezier(0.45, 0, 0.25, 1) 300ms; }
-  [data-play].route .route__search { transition: opacity var(--dur-base) var(--ease) 1500ms; }
-  [data-play].route .route__ring { transition: opacity 1ms 1500ms; }
-  [data-play].route.is-in .route__ring { animation: route-ping 1600ms var(--ease) 1500ms 2 both; }
-  [data-play].calls .calls__from { transition-delay: 900ms; }
-  [data-play].calls .calls__to { transition-delay: 900ms; }
-  [data-play].calls .chip--saved { transition-delay: calc(200ms + var(--i, 0) * 120ms); }
-}
-@keyframes route-ping { from { opacity: 0.6; transform: scale(1); } to { opacity: 0; transform: scale(2.6); } }
-.route__ring { transform-box: fill-box; transform-origin: center; }
-[data-play].is-in .duo__main, [data-play].is-in .duo__phone, [data-play].is-in .tierrow, [data-play].is-in .idea, [data-play].is-in.stories p { opacity: 1; transform: none; }
-[data-play].is-in .rides__grid i.is-empty { background: var(--blue); }
-[data-play].is-in .route__drive { stroke-dashoffset: 0; }
-[data-play].is-in .route__search { opacity: 1; }
-[data-play].is-in .route__car { opacity: 1; }
-[data-play].is-in .chip--saved { color: var(--ink-3); border-color: transparent; background: transparent; }
-.chip--saved::before { content: "✓"; display: inline-block; vertical-align: top; width: 0; overflow: hidden; color: var(--blue); transition: width var(--dur-base) var(--ease); transition-delay: inherit; }
-[data-play].is-in .chip--saved::before { width: 1.1em; }
-[data-play].is-in .calls__from { opacity: 0; transform: translateY(calc(var(--s-4) * -1)); }
-[data-play].is-in .calls__to { opacity: 1; transform: none; }
-@media (max-width: 767px) { .route__city { font-size: 20px; } .route__search { transform: translate(206px, 4px) scale(1.65); } .duo { padding: var(--s-4); padding-right: 28%; } .duo--right { padding-right: var(--s-4); padding-left: 28%; } .duo__phone { width: 26%; right: 4%; } .duo--right .duo__phone { left: 4%; } }
