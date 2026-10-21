@@ -182,6 +182,15 @@ The light, paper and type carry over. A recruiter scans a case study, so the bod
    - **The index:** a quiet sticky index at the left margin from 1200; below that, none.
    - **Each section:** a blue section label, a `--fs-heading` serif heading (at most two lines), then content (section rhythm in 2.3).
    - **Subheadings:** serif `.sub` leading straight into its intro (`.sub__lead`).
+3. **Visual first** (October 2026, after calebwu.ca/RevisionDojo). Every beat is a label, a short title, one sentence at most, and one panel that carries it. Panels marked `data-play` animate once as they arrive (`case.js` adds `.is-in`); with reduced motion they show their end state. Text was cut by about half.
+   - **Overview:** one sentence, a three-part `.facts` row (problem, solution, status), and a `.duo` (the desktop results with the phone laid over its corner).
+   - **Solution:** the before/after wipe, then the three tiers rising in turn.
+   - **Problem:** `.rides`, 100 listed rides where the 44 empty ones light up in blue, beside the number; `.route`, one ride drawn from Davis to LA past a rider in Fresno, with the search card reading "0 rides found" as the car passes; three short rider stories (paraphrased, never quoted).
+   - **Explorations:** three `.idea` cards, each with a small drawing.
+   - **Constraint:** the stored and cached chips tick off and the count falls from 5 to 2.
+   - **How it works:** the annotated results screen, then two `.duo` panels (trip details, posting a ride) with the phone beside the desktop screen. Mobile screens are laid out with the designs, never as a section of their own.
+   - **Takeaways:** a short numbered list. **Team:** photos and the reel.
+   Earlier notes follow.
 3. **The story, in order** (October 2026, rebuilt from Ian's portfolio review deck; the slides are reference only, never used as images): Overview, Solution, Problem, Explorations, **Constraint**, How it works, Takeaways, Team. The constraint comes before the final design because it shaped the tiers.
    - **Problem:** `.evidence` puts the 44% `.stat` panel beside three short rider stories (`.story`, on white cards). The stories are Ian's paraphrases, so they are written as stories, never in quotation marks. Then the root cause, then the question.
    - **Constraint:** the map-call breakdown, `.panel.calls`. On the left, `.chip` groups for what's stored once per ride, cached per rider, and called per match check (`.chip--spent`, in blue). On the right, "5 → 2" calls per check and about 1,500 checks a day. Then one paragraph that credits the TPM for storage and caching.

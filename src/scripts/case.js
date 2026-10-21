@@ -25,7 +25,7 @@ export function caseStudy() {
   }
 
   // product screens are held out of the leaf shadows while they cross the middle of the screen, so they stay legible
-  const screens = [...document.querySelectorAll('.compare__frame, .shot, .tierlist, .annotated')];
+  const screens = [...document.querySelectorAll('.compare__frame, .duo, .tierlist, .annotated')];
   if (screens.length) {
     let raf = 0, lastY = -1;
     const loop = () => {
@@ -136,6 +136,26 @@ export function caseStudy() {
     const ro = new ResizeObserver(draw); ro.observe(fig);
     draw(); stops.push(() => ro.disconnect());
   });
+
+  // panels that play once as they arrive. The route panel also drives its car along the road.
+  const plays = [...document.querySelectorAll('[data-play]')];
+  if (plays.length) {
+    const drive = (fig) => {
+      const road = fig.querySelector('.route__road'), car = fig.querySelector('.route__car');
+      if (!road || !car) return;
+      const L = road.getTotalLength(), place = (k) => { const pt = road.getPointAtLength(L * k); car.setAttribute('cx', pt.x); car.setAttribute('cy', pt.y); };
+      if (reduce) { place(1); return; }
+      const t0 = performance.now() + 300, dur = 2600, ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+      const tick = (now) => { const k = clamp((now - t0) / dur, 0, 1); place(ease(k)); if (k < 1) requestAnimationFrame(tick); };
+      place(0); requestAnimationFrame(tick);
+    };
+    const play = (el) => { el.classList.add('is-in'); drive(el); };
+    if (reduce) plays.forEach(play);
+    else {
+      const io = new IntersectionObserver((entries) => entries.forEach((e) => { if (e.isIntersecting) { play(e.target); io.unobserve(e.target); } }), { threshold: 0.35 });
+      plays.forEach((el) => io.observe(el)); stops.push(() => io.disconnect());
+    }
+  }
 
   // the reel plays only while it is on screen
   document.querySelectorAll('video[data-autoplay]').forEach((v) => {
