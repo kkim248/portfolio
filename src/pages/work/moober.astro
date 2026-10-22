@@ -9,7 +9,6 @@ import after from '../../assets/moober/moober-search-results.png';
 import resultsCrop from '../../assets/moober/moober-search-results-crop.png';
 import trip from '../../assets/moober/moober-trip-details.png';
 import mobileTrip from '../../assets/moober/mobile-trip.png';
-import mobileResults from '../../assets/moober/mobile-results.png';
 import tierDirect from '../../assets/moober/tier-direct.png';
 import tierRoute from '../../assets/moober/tier-route.png';
 import tierNearby from '../../assets/moober/tier-nearby.png';
@@ -18,7 +17,7 @@ import sf from '../../assets/moober/sf.jpeg';
 
 const p = projects.find((x) => x.slug === 'moober')!;
 const shots = { widths: [800, 1200, 1600, 2400], sizes: '(min-width: 1024px) 720px, 100vw', quality: 88 };
-const index = [['overview', 'Overview'], ['solution', 'Solution'], ['problem', 'Problem'], ['ideas', 'Explorations'], ['constraint', 'Constraint'], ['how', 'How it works'], ['takeaways', 'Takeaways'], ['team', 'Team']];
+const index = [['overview', 'Overview'], ['problem', 'Problem'], ['ideas', 'Explorations'], ['constraint', 'Constraint'], ['solution', 'Solution'], ['how', 'How it works'], ['takeaways', 'Takeaways'], ['team', 'Team']];
 // the rider's side: the part of the results screen each feature lives in (x, y, w, h as fractions of the screen)
 const features = [
   { r: [0.1967, 0.3187, 0.2767, 0.0328], title: 'Radius slider', text: 'Riders widen the net themselves, up to 30 miles.' },
@@ -79,58 +78,14 @@ const tiers = [
       <!-- Bill Guo's case study as the model: a quiet offset note, then the work on a plate of the site's dappled light -->
       <section class="sec sec--plates" id="overview">
         <div class="note">
-          <p class="note__label">Overview</p>
+          <p class="sec__label">Overview</p>
           <h2>A rideshare app that couldn't connect its own users</h2>
-          <p>Moober is UC Davis's student-only rideshare, used by 2,000+ students. I redesigned the search that matches riders with drivers, now designed, handed off and in build.</p>
+          <p>Moober is UC Davis's student-only rideshare, used by 2,000+ students. 44% of its rides drove empty while riders searched and saw nothing. I redesigned the search so it follows each driver's whole route. It's designed, handed off and in build.</p>
         </div>
         <figure class="plate"><Image src={after} alt="The tiered search results for Davis to Fresno on desktop." {...shots} /></figure>
-        <div class="plates">
-          <figure class="plate"><Image src={trip} alt="Trip details for a Davis to Los Angeles ride via Fresno: pickup, the rider's stop, and drop-off." {...shots} /></figure>
-          <figure class="plate plate--phone"><Image src={mobileResults} alt="The tiered results on a phone." widths={[300, 520, 780]} sizes="(min-width: 1024px) 220px, 40vw" /></figure>
-        </div>
       </section>
 
-      <section class="sec sec--plates" id="solution">
-        <p class="chapter"><span>Solution</span></p>
-        <div class="note">
-          <p class="note__label">The idea</p>
-          <h2>Match on the whole route, not just the city.</h2>
-          <p>The same Davis to Fresno search, before and after. Scroll to see it change.</p>
-        </div>
-        <!-- before and after: pinned, the result wipes across the empty search as you scroll -->
-        <div class="compare" data-compare>
-          <div class="compare__pin">
-            <div class="plate compare__panel">
-              <div class="compare__frame">
-                <Image class="compare__img" src={before} alt="Before: searching Davis to Fresno returns no results." {...shots} />
-                <div class="compare__after"><Image class="compare__img" src={after} alt="After: the same search returns rides along the route, sorted into tiers." {...shots} /></div>
-                <i class="compare__line" aria-hidden="true"></i>
-              </div>
-            </div>
-            <div class="compare__caps">
-              <p class="compare__cap compare__cap--before"><span class="label label--accent">Before</span> No rides found.</p>
-              <p class="compare__cap compare__cap--after"><span class="label label--accent">After</span> Rides along the route, sorted into tiers.</p>
-            </div>
-          </div>
-        </div>
 
-        <div class="note">
-          <p class="note__label">Three honest tiers</p>
-          <h2>Best match first, and every card says what kind of match it is.</h2>
-        </div>
-        <ol class="tierlist">
-          {tiers.map((t, i) => (
-            <li class="tierrow">
-              <div class="tierrow__text">
-                <p class="label label--accent">Tier 0{i + 1}</p>
-                <h4>{t.title}</h4>
-                <p>{t.text}</p>
-              </div>
-              <Image class="tierrow__shot" src={t.shot} alt={t.alt} widths={[600, 1000, 1400]} sizes="(min-width: 900px) 560px, 100vw" />
-            </li>
-          ))}
-        </ol>
-      </section>
 
       <section class="sec" id="problem">
         <p class="sec__label">Problem</p>
@@ -189,6 +144,47 @@ const tiers = [
         </figure>
       </section>
 
+      <section class="sec sec--plates" id="solution">
+        <div class="note">
+          <p class="sec__label">The idea</p>
+          <h2>Match on the whole route, not just the city.</h2>
+          <p>The same Davis to Fresno search, before and after. Scroll to see it change.</p>
+        </div>
+        <!-- before and after: pinned, the result wipes across the empty search as you scroll -->
+        <div class="compare" data-compare>
+          <div class="compare__pin">
+            <div class="plate compare__panel">
+              <div class="compare__frame">
+                <Image class="compare__img" src={before} alt="Before: searching Davis to Fresno returns no results." {...shots} />
+                <div class="compare__after"><Image class="compare__img" src={after} alt="After: the same search returns rides along the route, sorted into tiers." {...shots} /></div>
+                <i class="compare__line" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="compare__caps">
+              <p class="compare__cap compare__cap--before"><span class="label label--accent">Before</span> No rides found.</p>
+              <p class="compare__cap compare__cap--after"><span class="label label--accent">After</span> Rides along the route, sorted into tiers.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="note">
+          <p class="sec__label">Three honest tiers</p>
+          <h2>Best match first, and every card says what kind of match it is.</h2>
+        </div>
+        <ol class="tierlist">
+          {tiers.map((t, i) => (
+            <li class="tierrow">
+              <div class="tierrow__text">
+                <p class="label label--accent">Tier 0{i + 1}</p>
+                <h4>{t.title}</h4>
+                <p>{t.text}</p>
+              </div>
+              <Image class="tierrow__shot" src={t.shot} alt={t.alt} widths={[600, 1000, 1400]} sizes="(min-width: 900px) 560px, 100vw" />
+            </li>
+          ))}
+        </ol>
+      </section>
+
       <section class="sec" id="how">
         <p class="sec__label">How it works</p>
         <h2>Two sides had to change: what riders see, and what drivers allow.</h2>
@@ -208,12 +204,12 @@ const tiers = [
           ))}
         </figure>
 
-        <!-- the one place the phone sits beside the desktop: the rider's stop, on both screens -->
-        <figure class="panel duo">
-          <div class="duo__main"><Image src={trip} alt="Trip details for a Davis to Los Angeles ride via Fresno: pickup, the rider's stop, and drop-off." {...shots} /></div>
-          <div class="duo__phone"><Image src={mobileTrip} alt="The same trip on a phone, with the stops along the way opened." widths={[300, 520, 780]} sizes="(min-width: 1024px) 220px, 30vw" /></div>
-          <figcaption class="caption">Riders confirm their stop, and it's checked against the driver's detour limit.</figcaption>
-        </figure>
+        <!-- the rider's stop on both screens: a wide plate and a narrow one -->
+        <div class="plates">
+          <figure class="plate"><Image src={trip} alt="Trip details for a Davis to Los Angeles ride via Fresno: pickup, the rider's stop, and drop-off." {...shots} /></figure>
+          <figure class="plate plate--phone"><Image src={mobileTrip} alt="The same trip on a phone, with the stops along the way opened." widths={[300, 520, 780]} sizes="(min-width: 1024px) 220px, 40vw" /></figure>
+        </div>
+        <p class="caption">Riders confirm their stop, and it's checked against the driver's detour limit.</p>
 
         <h3 class="sub">Drivers: how far they'll go</h3>
         <figure class="panel shot-panel">

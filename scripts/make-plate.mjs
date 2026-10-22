@@ -1,27 +1,13 @@
-// The case study plate: the backdrop every product screen sits on, like a print laid in the site's dappled light.
-// Paper, soft blue canopy shadow broken by patches and spots of sun (procedural, fixed seed), and the paper grain.
-// usage: node scripts/make-plate.mjs   (writes public/assets/plate-light.jpg)
+// The case study plate: the backdrop every product screen sits on. Ian's Crissy Field photo in his About slate,
+// blurred until only the horizon's light and shade are left, with the paper grain.
+// usage: node scripts/make-plate.mjs   (writes public/assets/plate-slate.jpg)
 import sharp from 'sharp';
-const W = 1600, H = 1000;
-let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
-const G = 64, grid = Array.from({ length: G * G }, rnd);
-const vn = (x, y) => { const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi, s = (t) => t * t * (3 - 2 * t);
-  const g = (i, j) => grid[((j % G + G) % G) * G + ((i % G + G) % G)];
-  const a = g(xi, yi), b = g(xi + 1, yi), c = g(xi, yi + 1), d = g(xi + 1, yi + 1), u = s(xf), v = s(yf);
-  return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v; };
-const fbm = (x, y) => { let t = 0, a = 0.5; for (let o = 0; o < 4; o++) { t += a * vn(x, y); x *= 2.03; y *= 2.03; a *= 0.5; } return t; };
-// bokeh discs: round spots of sun, flat with a soft rim, like light through gaps in the leaves
-const spots = Array.from({ length: 70 }, () => ({ x: rnd() * W, y: rnd() * H, r: 14 + rnd() * 36, a: 0.35 + rnd() * 0.55 }));
-const sun = [0.95, 0.94, 0.915], shade = [0.80, 0.83, 0.885];
-const out = Buffer.alloc(W * H * 3);
-for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
-  const n = fbm(x / 180 + 3, y / 180 + 5);
-  let lit = 0.35 * Math.min(1, Math.max(0, (n - 0.45) / 0.15));                 // canopy: broad patches of sun and shade
-  for (const s of spots) { const d = Math.hypot(x - s.x, y - s.y) / s.r; if (d < 1.2) lit = Math.max(lit, s.a * (1 - Math.min(1, Math.max(0, (d - 0.8) / 0.25)))); }
-  const i = (y * W + x) * 3;
-  for (let c = 0; c < 3; c++) out[i + c] = 255 * (shade[c] + (sun[c] - shade[c]) * lit);
-}
+const hex = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+const stops = [[0, hex('#5A6180')], [0.5, hex('#9CA3BC')], [1, hex('#E4E5EC')]];
+const at = (t) => { for (let i = 1; i < stops.length; i++) { const [p1, c1] = stops[i]; if (t <= p1) { const [p0, c0] = stops[i - 1]; const k = (t - p0) / (p1 - p0); return c0.map((v, j) => v + (c1[j] - v) * k); } } return stops[2][1]; };
+const { data, info } = await sharp('src/assets/about/src/ian-beach.webp').resize(1600, 1000, { fit: 'cover' }).greyscale().blur(38).raw().toBuffer({ resolveWithObject: true });
+const out = Buffer.alloc(info.width * info.height * 3);
+for (let i = 0; i < info.width * info.height; i++) { const c = at(0.25 + 0.75 * data[i] / 255); out[i * 3] = c[0]; out[i * 3 + 1] = c[1]; out[i * 3 + 2] = c[2]; }
 const grain = await sharp('public/assets/grain-tile.png').greyscale().linear(0.14, 255 * 0.86).toBuffer();
-const base = await sharp(out, { raw: { width: W, height: H, channels: 3 } }).blur(4).png().toBuffer();
-await sharp(base).composite([{ input: grain, tile: true, blend: 'multiply' }]).jpeg({ quality: 84, mozjpeg: true }).toFile('public/assets/plate-light.jpg');
-console.log('wrote public/assets/plate-light.jpg');
+await sharp(out, { raw: { width: info.width, height: info.height, channels: 3 } }).composite([{ input: grain, tile: true, blend: 'multiply' }]).jpeg({ quality: 82, mozjpeg: true }).toFile('public/assets/plate-slate.jpg');
+console.log('wrote public/assets/plate-slate.jpg');
