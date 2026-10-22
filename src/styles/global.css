@@ -476,7 +476,7 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 @media (min-width: 768px) { .cards--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .cards--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .card { display: grid; gap: var(--s-2); align-content: start; padding: clamp(var(--s-5), 2vw, var(--s-6)); border-radius: var(--r-l); background: var(--tint); }
 .card h3 { font-weight: var(--w-strong); font-size: var(--fs-body); line-height: var(--lh-snug); color: var(--ink); }
-.card p:not(.card__num) { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); }
+.card p { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); }
 /* the larger boxes: overview, research, ideas and takeaways. A serif title, then plain reading text */
 .cards--lg { gap: var(--s-5); }
 .cards--lg .card { gap: var(--s-4); padding: clamp(var(--s-6), 3.4vw, var(--s-8)); }
