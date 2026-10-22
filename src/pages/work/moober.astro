@@ -12,7 +12,6 @@ import mobileTrip from '../../assets/moober/mobile-trip.png';
 import tierDirect from '../../assets/moober/tier-direct.png';
 import tierRoute from '../../assets/moober/tier-route.png';
 import tierNearby from '../../assets/moober/tier-nearby.png';
-import heroCover from '../../assets/moober/moober-hero-cover.jpg';
 import team from '../../assets/moober/team.jpeg';
 import sf from '../../assets/moober/sf.jpeg';
 
@@ -51,7 +50,7 @@ const tiers = [
         <h1 class="words" style="--wd: 250ms">Finding rides that were already there</h1>
       </div>
       <figure class="cs-cover" data-slug={p.slug} style="view-transition-name: cover">
-        <Image src={heroCover} alt="Moober's tiered search results for Davis to Fresno, on desktop." widths={[800, 1200, 1600, heroCover.width]} sizes="(min-width: 1024px) 58vw, 100vw" quality={86} loading="eager" fetchpriority="high" />
+        <Image src={p.cover} alt={p.alt} widths={[800, 1200, 1600, p.cover.width]} sizes="(min-width: 1024px) 58vw, 100vw" quality={86} loading="eager" fetchpriority="high" />
       </figure>
       <div class="cs-hero__meta">
         <p class="cs-lede reveal" style="--i: 3">Nearly half of Moober's rides drove empty while riders who wanted those seats searched, saw nothing, and left. I redesigned how the platform matches riders to drivers.</p>
@@ -76,63 +75,78 @@ const tiers = [
     </nav>
 
     <main class="cs-col">
-      <!-- one format for every section: a note (label, heading, one line), then one visual. Visuals are either
-           screens on a slate plate, or a row of facts between rules. Nothing else. -->
-      <section class="sec" id="overview">
+      <!-- Bill Guo's case study as the model: a quiet offset note, then the work on a plate of the site's dappled light -->
+      <section class="sec sec--plates" id="overview">
         <div class="note">
           <p class="sec__label">Overview</p>
           <h2>A rideshare app that couldn't connect its own users</h2>
-          <p>Moober is UC Davis's student-only rideshare. I redesigned its search so it follows each driver's whole route, not just where they end up.</p>
+          <p>Moober is UC Davis's student-only rideshare, used by 2,000+ students. 44% of its rides drove empty while riders searched and saw nothing. I redesigned the search so it follows each driver's whole route. It's designed, handed off and in build.</p>
         </div>
-        <ul class="facts">
-          <li><p class="fact__big">2,000+</p><p>students on Moober</p></li>
-          <li><p class="fact__big">3 tiers</p><p>of results, best match first</p></li>
-          <li><p class="fact__big">In build</p><p>designed and handed off</p></li>
-        </ul>
+        <figure class="plate"><Image src={after} alt="The tiered search results for Davis to Fresno on desktop." {...shots} /></figure>
       </section>
 
+
+
       <section class="sec" id="problem">
-        <div class="note">
-          <p class="sec__label">Problem</p>
-          <h2>It wasn't a supply problem. It was a search problem.</h2>
+        <p class="sec__label">Problem</p>
+        <h2>It wasn't a supply problem. It was a search problem.</h2>
+        <!-- the number that started the project, beside what riders told us -->
+        <div class="evidence">
+          <figure class="panel stat">
+            <p class="label label--accent">PostHog, April 2026</p>
+            <p class="stat__big">44%</p>
+            <p class="stat__text">of listed rides drove empty, even with plenty of riders on the app.</p>
+          </figure>
+          <div class="evidence__stories">
+            <p class="label">From rider interviews</p>
+            <p class="story">One student drove to LA to catch a ride that passed his hometown.</p>
+            <p class="story">Another saw one empty screen and assumed the app was dead.</p>
+            <p class="story">For many, one dead end meant an Amtrak ticket instead.</p>
+          </div>
+        </div>
+        <div class="prose">
           <p>Search only matched the exact destination city, so a ride to LA through Fresno never showed up for Fresno.</p>
         </div>
-        <ul class="facts">
-          <li><p class="fact__big">44%</p><p>of listed rides drove empty (PostHog, April 2026)</p></li>
-          <li><p class="fact__big">To LA</p><p>One rider drove there to catch a ride that passed his hometown</p></li>
-          <li><p class="fact__big">Amtrak</p><p>For many, one empty screen meant a train ticket instead</p></li>
-        </ul>
+        <div class="hmw">
+          <p class="label">The question</p>
+          <p class="hmw__q">How might we give students more ride options and fill their search results?</p>
+        </div>
       </section>
 
       <section class="sec" id="ideas">
-        <div class="note">
-          <p class="sec__label">Explorations</p>
-          <h2>How might we give students more ride options?</h2>
-          <p>We weighed three ideas before settling on the route.</p>
+        <p class="sec__label">Explorations</p>
+        <h2>Other ideas we weighed</h2>
+        <div class="cards cards--3">
+          <article class="card"><p class="card__num mono">Dropped</p><h3>Fixed zones</h3><p>Close on a map isn't close in traffic.</p></article>
+          <article class="card"><p class="card__num mono">Dropped</p><h3>Drivers list every city</h3><p>More work for drivers, and drivers are the supply.</p></article>
+          <article class="card"><p class="card__num mono">Shipped alongside</p><h3>Request board</h3><p>Too slow alone, so it sits next to search.</p></article>
         </div>
-        <ul class="facts">
-          <li><p class="label">Dropped</p><p class="fact__title">Fixed zones</p><p>Close on a map isn't close in traffic.</p></li>
-          <li><p class="label">Dropped</p><p class="fact__title">Drivers list every city</p><p>More work for drivers, and drivers are the supply.</p></li>
-          <li><p class="label">Shipped alongside</p><p class="fact__title">Request board</p><p>Too slow alone, so it sits next to search.</p></li>
-        </ul>
       </section>
 
       <section class="sec" id="constraint">
-        <div class="note">
-          <p class="sec__label">Constraint</p>
-          <h2>Only 3,000 free API calls a day</h2>
+        <p class="sec__label">Constraint</p>
+        <h2>Only 3,000 free API calls a day</h2>
+        <div class="prose">
           <p>A student startup can't absorb a surprise bill, so search had to make as few routing calls as possible.</p>
         </div>
-        <ul class="facts">
-          <li><p class="fact__big">5 &rarr;&#65038; 2</p><p>calls per match check, once rides are stored and riders cached</p></li>
-          <li><p class="fact__big">~1,500</p><p>match checks a day within the free tier</p></li>
-          <li><p class="fact__big">Tier 2 only</p><p>On your route is the one tier that spends them</p></li>
-        </ul>
+        <!-- what the app saves, and what it still has to ask the map service for each match -->
+        <figure class="panel calls">
+          <div class="calls__groups">
+            <div class="calls__group"><p class="label">Stored once per ride</p><p class="calls__chips"><span class="chip">Driver start</span><span class="chip">Driver end</span></p></div>
+            <div class="calls__group"><p class="label">Cached per rider</p><p class="calls__chips"><span class="chip">Rider start</span></p></div>
+            <div class="calls__group"><p class="label label--accent">Called per match check</p><p class="calls__chips"><span class="chip chip--spent">Start &rarr;&#65038; Pickup</span><span class="chip chip--spent">Pickup &rarr;&#65038; End</span></p><p class="caption">Timed in minutes, against the driver's 5, 15 or 30 minute limit.</p></div>
+          </div>
+          <div class="calls__sum">
+            <p class="calls__big">5 &rarr;&#65038; 2</p>
+            <p class="calls__line">calls per match check, once rides are stored and riders cached</p>
+            <p class="calls__line">That's about <strong>1,500 checks a day</strong>, and only Tier 2, On your route, spends them.</p>
+          </div>
+        </figure>
       </section>
 
-      <section class="sec" id="solution">
+      <section class="sec sec--plates" id="solution">
         <div class="note">
-          <p class="sec__label">Solution</p>
+          <p class="sec__label">The idea</p>
           <h2>Match on the whole route, not just the city.</h2>
           <p>The same Davis to Fresno search, before and after. Scroll to see it change.</p>
         </div>
@@ -152,11 +166,9 @@ const tiers = [
             </div>
           </div>
         </div>
-      </section>
 
-      <section class="sec" id="tiers">
         <div class="note">
-          <p class="sec__label">Three tiers</p>
+          <p class="sec__label">Three honest tiers</p>
           <h2>Best match first, and every card says what kind of match it is.</h2>
         </div>
         <ol class="tierlist">
@@ -174,11 +186,10 @@ const tiers = [
       </section>
 
       <section class="sec" id="how">
-        <div class="note">
-          <p class="sec__label">How it works</p>
-          <h2>Four new parts on the results screen</h2>
-          <p>What riders see when they search.</p>
-        </div>
+        <p class="sec__label">How it works</p>
+        <h2>Two sides had to change: what riders see, and what drivers allow.</h2>
+
+        <h3 class="sub">Riders: what the search shows</h3>
         <!-- the results screen with its four new parts pointed out in the margins -->
         <figure class="annotated" data-annotated>
           <div class="annotated__shot">
@@ -192,48 +203,39 @@ const tiers = [
             </div>
           ))}
         </figure>
-      </section>
 
-      <section class="sec" id="stop">
-        <div class="note">
-          <p class="sec__label">Riders</p>
-          <h2>Riders confirm their stop on the way.</h2>
-          <p>It's checked against the driver's detour limit, on desktop and on the phone.</p>
-        </div>
         <!-- the rider's stop on both screens: a wide plate and a narrow one -->
         <div class="plates">
           <figure class="plate"><Image src={trip} alt="Trip details for a Davis to Los Angeles ride via Fresno: pickup, the rider's stop, and drop-off." {...shots} /></figure>
           <figure class="plate plate--phone"><Image src={mobileTrip} alt="The same trip on a phone, with the stops along the way opened." widths={[300, 520, 780]} sizes="(min-width: 1024px) 220px, 40vw" /></figure>
         </div>
-      </section>
+        <p class="caption">Riders confirm their stop, and it's checked against the driver's detour limit.</p>
 
-      <section class="sec" id="drivers">
-        <div class="note">
-          <p class="sec__label">Drivers</p>
-          <h2>Drivers choose how far they'll go.</h2>
-          <p>They opt into pickups along the way and set a maximum detour: 5, 15 or 30 minutes. They carry the cost, so they decide.</p>
+        <h3 class="sub">Drivers: how far they'll go</h3>
+        <figure class="panel shot-panel">
+          <div class="shot"><img src="/media/moober-toggle.gif" width="1438" height="820" alt="Posting a new carpool: trunk space, seats, pricing, and the toggle for pickups along the way." loading="lazy" /></div>
+          <figcaption class="caption">Drivers opt into pickups along the way and choose a maximum detour.</figcaption>
+        </figure>
+        <div class="cards cards--2">
+          <article class="card"><p class="card__num mono">The call</p><h3>Driver sets the limit</h3><p>5, 15 or 30 minutes. They carry the cost, so they decide.</p></article>
+          <article class="card"><p class="card__num mono">Ruled out</p><h3>Riders asking for detours</h3><p>Every booking would turn into a negotiation.</p></article>
         </div>
-        <figure class="plate"><img src="/media/moober-toggle.gif" width="1438" height="820" alt="Posting a new carpool: trunk space, seats, pricing, and the toggle for pickups along the way." loading="lazy" /></figure>
       </section>
 
       <section class="sec" id="takeaways">
-        <div class="note">
-          <p class="sec__label">Takeaways</p>
-          <h2>What I took away</h2>
+        <p class="sec__label">Takeaways</p>
+        <h2>What I took away</h2>
+        <div class="prose">
+          <p><strong>Constraints are design material.</strong> The call limit, found early with engineering, is why the tiers exist.</p>
+          <p><strong>Honesty is a feature.</strong> Showing the mileage gap up front earns more trust than polish.</p>
+          <p><strong>What's next.</strong> After launch, I'll watch whether riders who find rides actually book them.</p>
         </div>
-        <ul class="facts">
-          <li><p class="fact__title">Constraints are design material.</p><p>The call limit, found early with engineering, is why the tiers exist.</p></li>
-          <li><p class="fact__title">Honesty is a feature.</p><p>Showing the mileage gap up front earns more trust than polish.</p></li>
-          <li><p class="fact__title">What's next.</p><p>After launch, I'll watch whether riders who find rides actually book them.</p></li>
-        </ul>
       </section>
 
       <section class="sec" id="team">
-        <div class="note">
-          <p class="sec__label">Team</p>
-          <h2>The team behind it</h2>
-        </div>
-        <div class="gallery">
+        <p class="sec__label">Team</p>
+        <h2>The team behind it</h2>
+                <div class="gallery">
           <figure style="--a: 1.5"><Image src={team} alt="The Moober team, ten students standing arm in arm on a tree-lined path." widths={[600, 1000, 1400]} sizes="(min-width: 1024px) 420px, 100vw" /><figcaption class="caption">The Moober team</figcaption></figure>
           <figure style="--a: 0.75"><Image src={sf} alt="A team trip to San Francisco: Moober written in the sand on a beach." widths={[400, 700, 1000]} sizes="(min-width: 1024px) 210px, 50vw" /><figcaption class="caption">A trip to San Francisco</figcaption></figure>
           <figure style="--a: 0.5625"><div class="clip"><video src="/media/moober-reel.mp4#t=0.5" width="720" height="1280" muted loop playsinline preload="auto" data-autoplay aria-label="The team's promo reel"></video></div><figcaption class="caption">Our promo reel</figcaption></figure>
