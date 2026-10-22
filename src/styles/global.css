@@ -141,7 +141,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 
 /* printed type: every serif line carries the ink filter and sits into the paper */
 .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note,
-.cs-hero h1, .sec h2, .pull p, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
+.cs-hero h1, .sec h2, .hmw__q, .stat__big, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
 
 /* words arrive the way ink takes on wet paper: each word bleeds in from a soft blur, a little bluer while it is
    wet, written left to right along a feathered edge, and dries to ink. Staggered word by word, like a pen. Every
@@ -158,7 +158,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* phones and tablets render SVG filters at a low resolution, so the ink looked blurry and cost frames there.
    On touch screens and small screens the type stays crisp, still multiplied into the paper. */
 @media (max-width: 767px), (hover: none) {
-  .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note, .cs-hero h1, .sec h2, .pull p, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
+  .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note, .cs-hero h1, .sec h2, .hmw__q, .stat__big, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
   .words.is-split .w { filter: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -471,20 +471,24 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 /* the three tier cards, stacked as they appear in the results */
 .tierstack { display: grid; gap: var(--s-3); width: 70%; }
 .tierstack img { width: 100%; height: auto; }
-/* the results screen with its new parts numbered on it */
-.marked { position: relative; width: 60%; }
-.marked img { width: 100%; height: auto; }
-.marked__dot { position: absolute; width: 20px; height: 20px; margin: -10px 0 0 -10px; border-radius: 50%; display: grid; place-items: center; font: 600 11px/1 var(--mono); color: var(--surface); background: var(--blue); box-shadow: 0 0 0 3px var(--surface); }
-/* text that follows a plate: short columns, no boxes, set like the About page */
-.cols { list-style: none; display: grid; gap: var(--s-5) var(--gutter); }
-@media (min-width: 768px) { .cols { grid-template-columns: repeat(3, minmax(0, 1fr)); } .cols--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 1024px) { .cols--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-.cols li { display: grid; gap: var(--s-2); align-content: start; }
-.cols h3 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); }
-.cols p:not(.label) { font-family: var(--serif); font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-slate); }
-.cols .label { color: var(--blue); }
-/* one rider's words, centred between blocks */
-.pull { justify-self: center; display: grid; justify-items: center; gap: var(--s-4); margin-block: var(--s-7) 0; text-align: center; max-width: 30ch; }
-.pull p { font-family: var(--serif); font-style: italic; font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); text-wrap: balance; }
-.pull cite { font-style: normal; }
+/* a screen shown in the solution: the plate, then one short caption under it */
+.shown { display: grid; gap: var(--s-3); margin: 0; }
+.shown .caption { text-align: center; }
+/* words go in boxes: a soft tint of the paper, a mono number, a short title and a line */
+.cards { display: grid; gap: var(--s-4); }
+@media (min-width: 768px) { .cards--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .cards--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.card { display: grid; gap: var(--s-2); align-content: start; padding: clamp(var(--s-5), 2vw, var(--s-6)); border-radius: var(--r-l); background: var(--tint); }
+.card .card__num { margin-bottom: var(--s-2); font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--blue); }
+.card h3 { font-weight: var(--w-strong); font-size: var(--fs-body); line-height: var(--lh-snug); color: var(--ink); }
+.card p:not(.card__num) { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); }
+/* research: the number in a box beside what riders said */
+.evidence { display: grid; gap: var(--s-4); }
+@media (min-width: 900px) { .evidence { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); } }
+.stat { margin: 0; align-content: center; }
+.card .stat__big { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); color: var(--blue); }
+.evidence__stories { display: grid; gap: var(--s-3); align-content: center; }
+.story { padding: var(--s-4) var(--s-5); border-radius: var(--r-m); background: var(--surface); box-shadow: var(--shadow-card); font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink); }
+/* define: the question, centred, on its own */
+.hmw { justify-self: center; display: grid; justify-items: center; gap: var(--s-4); text-align: center; max-width: var(--measure); padding-block: var(--s-6); }
+.hmw__q { font-family: var(--serif); font-style: italic; font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); text-wrap: balance; }
 @media (max-width: 639px) { .plate { --pad: var(--s-4); } .plate--pair { gap: var(--s-3); } .tierstack { gap: var(--s-2); width: 62%; } }
