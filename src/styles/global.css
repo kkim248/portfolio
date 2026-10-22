@@ -293,21 +293,21 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @media (max-width: 1023px) { .spill--quiet-r, .spill--quiet-l { display: none; } .spill--foot { width: 56vw; left: auto; right: -14vw; top: 30px; opacity: 0.8; } }
 
 /* ---------- case study: the same sheet of paper, continued ---------- */
-/* first screen: a step wider than the body. The title and one line on the left, the facts on the right,
-   then the cover on its own */
-.cs-hero__body { row-gap: var(--s-6); padding-top: var(--s-8); align-items: end; }
-.cs-hero__head { grid-column: 1 / -1; display: grid; gap: var(--s-3); }
-.cs-hero h1 { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-heading-l); line-height: var(--lh-tight); letter-spacing: var(--track-display); text-wrap: balance; }
-.cs-lede { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); }
-.cs-info { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-3) var(--s-5); }
+/* first screen: a step wider than the body. A big title over one line on the left, the facts in one quiet column
+   on the right, plenty of air, then the cover on its own */
+.cs-hero__body { row-gap: var(--s-7); padding-top: var(--s-8); }
+.cs-hero__head { grid-column: 1 / -1; display: grid; gap: var(--s-4); align-content: start; }
+.cs-hero h1 { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); max-width: 13ch; text-wrap: balance; }
+.cs-lede { font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink-2); max-width: 40ch; }
+.cs-info { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4) var(--s-5); align-content: start; }
 .cs-info div { display: grid; gap: var(--s-1); align-content: start; }
 .cs-info dd { font-size: var(--fs-small); line-height: var(--lh-text); }
 .cs-cover { grid-column: 1 / -1; position: relative; overflow: hidden; margin: 0; aspect-ratio: var(--cover-ratio); border-radius: var(--r-l); background: var(--paper); }
 .cs-cover img { display: block; width: 100%; height: 100%; object-fit: cover; }
 @media (min-width: 1024px) {
-  .cs-hero__body { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--s-7); width: min(var(--measure-hero), 100% - 2 * var(--margin)); margin-inline: auto; padding-inline: 0; }
+  .cs-hero__body { display: grid; grid-template-columns: minmax(0, 1fr) 240px; column-gap: var(--s-8); row-gap: var(--s-8); width: min(var(--measure-hero), 100% - 2 * var(--margin)); margin-inline: auto; padding-inline: 0; padding-top: var(--s-9); }
   .cs-hero__head { grid-column: 1; }
-  .cs-info { grid-column: 2; width: 320px; }
+  .cs-info { grid-column: 2; grid-template-columns: 1fr; gap: var(--s-4); padding-top: var(--s-2); }
 }
 
 /* the body: a quiet index at the margin, one centred reading column, a blue label above each serif heading */
@@ -478,7 +478,6 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 /* drawings: one line language on the slate plate. Fine white strokes, white dots for places, the rider in blue
    with a white ring, white pills for notes */
 .plate--art { --pad: 0; }
-.plate--strip { aspect-ratio: 19 / 6; }
 .art { width: 100%; height: 100%; display: block; }
 .art path, .art circle, .art rect { fill: none; stroke: var(--surface); stroke-width: 1.5; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
 .art .art__route { stroke-width: 2; }
@@ -488,18 +487,11 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 .art .art__ring { opacity: 0.7; }
 .art text { fill: var(--surface); font-family: var(--mono); font-size: var(--fs-label); letter-spacing: var(--track-label); text-transform: uppercase; }
 .art__note rect { fill: var(--surface); stroke: none; }
+.art .art__note--quiet rect { fill: var(--surface); opacity: 0.7; }
+.art .art__car { fill: var(--surface); stroke: none; }
+.art .art__axis { opacity: 0.6; }
 .art .art__note text { fill: var(--ink-2); font-family: var(--sans); font-size: var(--fs-label-l); letter-spacing: 0; text-transform: none; }
-.art .art__big { font-family: var(--serif); font-style: italic; font-size: var(--fs-title); letter-spacing: var(--track-display); text-transform: none; }
-/* the ideas, named under their drawings: four columns, no boxes */
-.ideas { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-5) var(--s-4); }
-@media (min-width: 768px) { .ideas { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: calc(var(--s-2) * -1); } }
-.ideas li { display: grid; gap: var(--s-1); align-content: start; text-align: center; }
-.ideas h3 { font-weight: var(--w-strong); font-size: var(--fs-body-s); line-height: var(--lh-snug); color: var(--ink); }
-.ideas p:not(.tag) { font-size: var(--fs-small); line-height: var(--lh-text); color: var(--ink-2); }
-.ideas .tag { justify-self: center; margin-bottom: var(--s-1); }
-.ideas .is-chosen .tag { color: var(--blue); }
 /* boxes: a tag or a number, a title, a line. Wide boxes span the row */
-.tag { justify-self: start; margin-bottom: var(--s-2); font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); }
 /* the question: a centred italic line over a soft watercolor bloom */
 .hmw { position: relative; display: grid; justify-items: center; gap: var(--s-3); padding-block: var(--s-8); text-align: center; }
 .hmw > :not(.spill) { position: relative; z-index: 1; }

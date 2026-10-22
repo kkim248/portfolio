@@ -76,15 +76,17 @@ const tiers = [
         </div>
         <!-- a drawn map, like a cyanotype print: the driver's route to LA runs straight through the rider's town -->
         <figure class="plate plate--art">
-          <svg class="art" viewBox="0 0 760 507" role="img" aria-label="A drawn map: a driver's route from Davis to Los Angeles runs through Fresno, where a rider searching for a ride sees nothing.">
-            <path class="art__route" d="M140 130 C 250 150, 300 226, 380 254 S 520 356, 620 378" />
-            <circle class="art__dot" cx="140" cy="130" r="5" /><text class="art__city" x="140" y="108" text-anchor="middle">Davis</text>
-            <circle class="art__ring" cx="380" cy="254" r="14" /><circle class="art__dot art__dot--rider" cx="380" cy="254" r="5" /><text class="art__city" x="364" y="290" text-anchor="end">Fresno</text>
-            <circle class="art__dot" cx="620" cy="378" r="5" /><text class="art__city" x="620" y="406" text-anchor="middle">Los Angeles</text>
-            <g class="art__note" transform="translate(236 118)"><rect width="200" height="32" rx="16" /><text x="100" y="21" text-anchor="middle">Driver to LA, 3 seats open</text></g>
-            <g class="art__note" transform="translate(410 238)"><rect width="200" height="32" rx="16" /><text x="100" y="21" text-anchor="middle">Rider in Fresno: no rides</text></g>
-            <text class="art__big" x="48" y="440">44%</text>
-            <text class="art__city" x="50" y="468">of listed rides drove empty</text>
+          <svg class="art" viewBox="0 0 760 507" role="img" aria-label="A drawn map: a driver with empty seats drives from Davis to Los Angeles straight through Fresno, where a rider searching for a ride sees nothing.">
+            <g transform="translate(0 24)">
+            <path class="art__route" d="M130 120 C 240 140, 300 220, 380 254 S 540 360, 640 390" />
+            <circle class="art__dash" cx="380" cy="254" r="64" />
+            <circle class="art__dot" cx="130" cy="120" r="5" /><text class="art__city" x="130" y="98" text-anchor="middle">Davis</text>
+            <circle class="art__dot" cx="640" cy="390" r="5" /><text class="art__city" x="640" y="420" text-anchor="middle">Los Angeles</text>
+            <circle class="art__dot art__dot--rider" cx="380" cy="254" r="6" /><text class="art__city" x="380" y="344" text-anchor="middle">Fresno</text>
+            <g transform="translate(236 154) rotate(24)"><rect class="art__car" x="-14" y="-8" width="28" height="16" rx="5" /></g>
+            <g class="art__note" transform="translate(222 98)"><rect width="176" height="32" rx="16" /><text x="88" y="21" text-anchor="middle">Driver to LA, 3 seats free</text></g>
+            <g class="art__note" transform="translate(462 214)"><rect width="196" height="32" rx="16" /><text x="98" y="21" text-anchor="middle">Rider in Fresno: 0 rides found</text></g>
+            </g>
           </svg>
         </figure>
       </section>
@@ -116,47 +118,29 @@ const tiers = [
         </div>
         <div class="hmw">
           <canvas class="spill spill--hmw" data-aspect="1.6" data-origin="0.5 0.5" data-seed="11" data-strength="0.5" aria-hidden="true"></canvas>
-          <p class="label">How might we</p>
           <p class="hmw__q">How might we help riders find the rides already passing through their town?</p>
         </div>
       </section>
 
-      <!-- ideate: four directions, in a word or two each -->
+      <!-- ideate: the four ideas in one paragraph, and one chart that shows why the route won -->
       <section class="sec" id="ideate">
         <div class="note">
           <p class="sec__label">Ideate</p>
           <h2>Four ways to fill an empty search</h2>
+          <p>We judged every idea on two things: how many good rides it would surface, and how much extra work it asked of drivers, who are our supply. Fixed zones were easy, but close on a map isn't close in traffic. Having drivers list every city found rides, but asked too much of them. A request board helped, but was too slow on its own, so it shipped beside search. Matching the whole route was the one idea that found more rides with no extra work.</p>
         </div>
-        <!-- the four ideas drawn side by side on one plate, each named beneath its drawing -->
-        <figure class="plate plate--art plate--strip">
-          <svg class="art" viewBox="0 0 760 240" aria-hidden="true">
-            <g transform="translate(95 120) scale(1.3)">
-              <circle class="art__dash" cx="-24" cy="0" r="30" /><circle class="art__dash" cx="26" cy="0" r="30" />
-              <circle class="art__dot" cx="-34" cy="-8" r="4" /><circle class="art__dot" cx="-16" cy="12" r="4" /><circle class="art__dot" cx="34" cy="-10" r="4" />
-              <circle class="art__dot art__dot--rider" cx="1" cy="44" r="5" />
-            </g>
-            <g transform="translate(285 120) scale(1.3)">
-              <path d="M-64 18 H64" />
-              <circle class="art__dot" cx="-56" cy="18" r="4" /><circle class="art__dot" cx="-28" cy="18" r="4" /><circle class="art__dot" cx="0" cy="18" r="4" /><circle class="art__dot" cx="28" cy="18" r="4" /><circle class="art__dot" cx="56" cy="18" r="4" />
-              <path class="art__dash" d="M-56 6 V-18 M-28 6 V-18 M0 6 V-18 M28 6 V-18 M56 6 V-18" />
-            </g>
-            <g transform="translate(475 120) scale(1.3)">
-              <rect x="-66" y="-24" width="38" height="48" rx="6" /><rect x="-19" y="-24" width="38" height="48" rx="6" /><rect x="28" y="-24" width="38" height="48" rx="6" />
-              <path class="art__dash" d="M-58 -10 H-36 M-58 0 H-42 M-11 -10 H11 M-11 0 H5 M36 -10 H58 M36 0 H52" />
-            </g>
-            <g transform="translate(665 120) scale(1.3)">
-              <path d="M-64 30 C -24 30, -10 0, 10 -8 S 44 -30, 64 -32" />
-              <circle class="art__dot" cx="-64" cy="30" r="4" /><circle class="art__dot" cx="64" cy="-32" r="4" />
-              <circle class="art__ring" cx="10" cy="-8" r="12" /><circle class="art__dot art__dot--rider" cx="10" cy="-8" r="5" />
-            </g>
+        <figure class="plate plate--art">
+          <svg class="art" viewBox="0 0 760 507" role="img" aria-label="A chart of the four ideas by rides found and work for drivers. Matching the whole route finds the most rides with the least work.">
+            <path class="art__axis" d="M120 70 V420 H690" />
+            <text class="art__city" x="120" y="52" text-anchor="middle">More rides found</text>
+            <text class="art__city" x="690" y="448" text-anchor="end">More work for drivers</text>
+            <circle class="art__dot" cx="250" cy="330" r="6" /><g class="art__note art__note--quiet" transform="translate(268 314)"><rect width="128" height="32" rx="16" /><text x="64" y="21" text-anchor="middle">Fixed zones</text></g>
+            <circle class="art__dot" cx="590" cy="160" r="6" /><g class="art__note art__note--quiet" transform="translate(436 176)"><rect width="176" height="32" rx="16" /><text x="88" y="21" text-anchor="middle">Drivers list every city</text></g>
+            <circle class="art__dot" cx="200" cy="380" r="6" /><g class="art__note art__note--quiet" transform="translate(218 364)"><rect width="140" height="32" rx="16" /><text x="70" y="21" text-anchor="middle">Request board</text></g>
+            <circle class="art__ring" cx="210" cy="130" r="16" /><circle class="art__dot art__dot--rider" cx="210" cy="130" r="6" />
+            <g class="art__note" transform="translate(238 114)"><rect width="200" height="32" rx="16" /><text x="100" y="21" text-anchor="middle">Match the whole route</text></g>
           </svg>
         </figure>
-        <ol class="ideas">
-          <li><p class="tag">Dropped</p><h3>Fixed zones</h3><p>Close on a map isn't close in traffic.</p></li>
-          <li><p class="tag">Dropped</p><h3>Drivers list every city</h3><p>Extra work for drivers, who are our supply.</p></li>
-          <li><p class="tag">Kept</p><h3>Request board</h3><p>Too slow alone, so it sits beside search.</p></li>
-          <li class="is-chosen"><p class="tag">Chosen</p><h3>Match the whole route</h3><p>No extra work, and it finds rides already there.</p></li>
-        </ol>
       </section>
 
       <!-- design decisions: the budget that shaped the build, and the two calls it led to -->
