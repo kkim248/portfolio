@@ -9,6 +9,7 @@ import after from '../../assets/moober/moober-search-results.png';
 import resultsCrop from '../../assets/moober/moober-search-results-crop.png';
 import trip from '../../assets/moober/moober-trip-details.png';
 import mobileTrip from '../../assets/moober/mobile-trip.png';
+import mobileResults from '../../assets/moober/mobile-results.png';
 import tierDirect from '../../assets/moober/tier-direct.png';
 import tierRoute from '../../assets/moober/tier-route.png';
 import tierNearby from '../../assets/moober/tier-nearby.png';
@@ -75,27 +76,31 @@ const tiers = [
     </nav>
 
     <main class="cs-col">
-      <!-- the first read: what Moober is, what I owned, then the ten-second version -->
-      <section class="sec" id="overview">
-        <p class="sec__label">Overview</p>
-        <h2>A rideshare app that couldn't connect its own users</h2>
-        <div class="prose">
-          <p>Moober is UC Davis's student-only rideshare, used by 2,000+ students. I redesigned the search that matches riders with drivers.</p>
+      <!-- Bill Guo's case study as the model: a quiet offset note, then the work on a plate of the site's dappled light -->
+      <section class="sec sec--plates" id="overview">
+        <div class="note">
+          <p class="note__label">Overview</p>
+          <h2>A rideshare app that couldn't connect its own users</h2>
+          <p>Moober is UC Davis's student-only rideshare, used by 2,000+ students. I redesigned the search that matches riders with drivers, now designed, handed off and in build.</p>
         </div>
-        <div class="cards cards--3">
-          <article class="card"><p class="card__num mono">01</p><h3>The problem</h3><p>44% of rides drove empty while riders saw nothing.</p></article>
-          <article class="card"><p class="card__num mono">02</p><h3>What I did</h3><p>Search follows the whole route and sorts rides into three tiers.</p></article>
-          <article class="card"><p class="card__num mono">03</p><h3>Where it stands</h3><p>Designed, handed off, and in build.</p></article>
+        <figure class="plate"><Image src={after} alt="The tiered search results for Davis to Fresno on desktop." {...shots} /></figure>
+        <div class="plates">
+          <figure class="plate"><Image src={trip} alt="Trip details for a Davis to Los Angeles ride via Fresno: pickup, the rider's stop, and drop-off." {...shots} /></figure>
+          <figure class="plate plate--phone"><Image src={mobileResults} alt="The tiered results on a phone." widths={[300, 520, 780]} sizes="(min-width: 1024px) 220px, 40vw" /></figure>
         </div>
       </section>
 
-      <section class="sec" id="solution">
-        <p class="sec__label">Solution</p>
-        <h2>Match on the whole route, not just the city.</h2>
+      <section class="sec sec--plates" id="solution">
+        <p class="chapter"><span>Solution</span></p>
+        <div class="note">
+          <p class="note__label">The idea</p>
+          <h2>Match on the whole route, not just the city.</h2>
+          <p>The same Davis to Fresno search, before and after. Scroll to see it change.</p>
+        </div>
         <!-- before and after: pinned, the result wipes across the empty search as you scroll -->
         <div class="compare" data-compare>
           <div class="compare__pin">
-            <div class="panel compare__panel">
+            <div class="plate compare__panel">
               <div class="compare__frame">
                 <Image class="compare__img" src={before} alt="Before: searching Davis to Fresno returns no results." {...shots} />
                 <div class="compare__after"><Image class="compare__img" src={after} alt="After: the same search returns rides along the route, sorted into tiers." {...shots} /></div>
@@ -103,14 +108,16 @@ const tiers = [
               </div>
             </div>
             <div class="compare__caps">
-              <p class="compare__cap compare__cap--before"><span class="label label--accent">Before</span> Davis to Fresno. No rides found.</p>
-              <p class="compare__cap compare__cap--after"><span class="label label--accent">After</span> The same search, with rides along the route, sorted into tiers.</p>
+              <p class="compare__cap compare__cap--before"><span class="label label--accent">Before</span> No rides found.</p>
+              <p class="compare__cap compare__cap--after"><span class="label label--accent">After</span> Rides along the route, sorted into tiers.</p>
             </div>
           </div>
         </div>
 
-        <h3 class="sub">Three honest tiers</h3>
-        <p class="sub__lead">Best match first, and every card says what kind of match it is.</p>
+        <div class="note">
+          <p class="note__label">Three honest tiers</p>
+          <h2>Best match first, and every card says what kind of match it is.</h2>
+        </div>
         <ol class="tierlist">
           {tiers.map((t, i) => (
             <li class="tierrow">

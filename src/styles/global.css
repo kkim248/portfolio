@@ -334,8 +334,6 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .sub + * { margin-top: calc(var(--s-3) * -1); }
 .sub__lead, .prose p { font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-2); max-width: var(--measure); }
 /* in a case study, text runs the full width of the column, the same as the screens */
-.cs-col .sub__lead, .cs-col .prose p { max-width: none; }
-.sub__lead + .tierlist { margin-top: calc(var(--s-2) * -1); }
 .prose { display: grid; gap: var(--s-4); }
 .prose strong { font-weight: var(--w-strong); color: var(--ink); }
 
@@ -546,3 +544,24 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 @keyframes intro-open { to { --open: 1; } }
 @keyframes intro-flare { 0% { opacity: 0; } 40% { opacity: 0.42; } 100% { opacity: 0; } }
 @keyframes intro-fallback { to { opacity: 0; visibility: hidden; } }
+
+/* ---------- case study, after Bill Guo's: a quiet offset note, then the work on a plate ---------- */
+/* the plate: every product screen sits on the same dappled light, like a print laid in the site's sun
+   (public/assets/plate-light.jpg, made by scripts/make-plate.mjs) */
+.plate { position: relative; margin: 0; display: grid; place-items: center; padding: clamp(var(--s-5), 7%, var(--s-9)); border-radius: var(--r-l); background: var(--paper) url('/assets/plate-light.jpg') center / cover; overflow: hidden; }
+.plate > img { display: block; width: 100%; height: auto; border-radius: var(--r-s); box-shadow: var(--shadow-screen); }
+.plates { display: grid; gap: var(--s-3); }
+@media (min-width: 768px) { .plates { grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr); } }
+.plate--phone > img { width: min(100%, 220px); border-radius: var(--r-l); }
+.sec--plates { gap: var(--s-5); }
+.sec--plates > .plate, .sec--plates > .plates, .sec--plates > .compare { margin-top: var(--s-4); }
+/* the note: a small blue label with a dot, a serif title, a line or two, set off to the right like Bill's column */
+.note { display: grid; gap: var(--s-3); max-width: 520px; }
+@media (min-width: 1024px) { .note { margin-left: 38%; } }
+.note__label { display: flex; align-items: center; gap: var(--s-2); font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--blue); }
+.note__label::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--blue); }
+.note p:not(.note__label) { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); }
+.sec .note h2 { font-size: var(--fs-subheading); }
+/* a chapter break: a hairline with its name in the middle */
+.chapter { display: flex; align-items: center; gap: var(--s-4); margin-bottom: var(--s-6); font-family: var(--mono); font-size: var(--fs-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); }
+.chapter::before, .chapter::after { content: ""; flex: 1; border-top: 1px solid var(--rule); }
