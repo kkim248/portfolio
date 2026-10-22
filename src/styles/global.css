@@ -141,7 +141,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 
 /* printed type: every serif line carries the ink filter and sits into the paper */
 .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note,
-.cs-hero h1, .sec h2, .hmw__q, .stat__big, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
+.cs-hero h1, .sec h2, .hmw__q, .stat__big, .note h3, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
 
 /* words arrive the way ink takes on wet paper: each word bleeds in from a soft blur, a little bluer while it is
    wet, written left to right along a feathered edge, and dries to ink. Staggered word by word, like a pen. Every
@@ -158,7 +158,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* phones and tablets render SVG filters at a low resolution, so the ink looked blurry and cost frames there.
    On touch screens and small screens the type stays crisp, still multiplied into the paper. */
 @media (max-width: 767px), (hover: none) {
-  .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note, .cs-hero h1, .sec h2, .hmw__q, .stat__big, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
+  .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note, .cs-hero h1, .sec h2, .hmw__q, .stat__big, .note h3, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
   .words.is-split .w { filter: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -471,9 +471,6 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 /* the three tier cards, stacked as they appear in the results */
 .tierstack { display: grid; gap: var(--s-3); width: 70%; }
 .tierstack img { width: 100%; height: auto; }
-/* a screen shown in the solution: the plate, then one short caption under it */
-.shown { display: grid; gap: var(--s-3); margin: 0; }
-.shown .caption { text-align: center; }
 /* words go in boxes: a soft tint of the paper, a mono number, a short title and a line */
 .cards { display: grid; gap: var(--s-4); }
 @media (min-width: 768px) { .cards--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .cards--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -481,14 +478,16 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 .card .card__num { margin-bottom: var(--s-2); font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--blue); }
 .card h3 { font-weight: var(--w-strong); font-size: var(--fs-body); line-height: var(--lh-snug); color: var(--ink); }
 .card p:not(.card__num) { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); }
-/* research: the number in a box beside what riders said */
-.evidence { display: grid; gap: var(--s-4); }
-@media (min-width: 900px) { .evidence { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); } }
-.stat { margin: 0; align-content: center; }
+/* research: two findings in boxes, each led by its number */
 .card p.stat__big { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); color: var(--blue); }
-.evidence__stories { display: grid; gap: var(--s-3); align-content: center; }
-.story { padding: var(--s-4) var(--s-5); border-radius: var(--r-m); background: var(--surface); box-shadow: var(--shadow-card); font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink); }
-/* define: the question, centred, on its own */
-.hmw { justify-self: center; display: grid; justify-items: center; gap: var(--s-4); text-align: center; max-width: var(--measure); padding-block: var(--s-6); }
-.hmw__q { font-family: var(--serif); font-style: italic; font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); text-wrap: balance; }
+.card .stat__big + h3 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); }
+/* the insight and the question it leaves, together in one wider box */
+.card--insight { gap: var(--s-3); padding: clamp(var(--s-6), 4vw, var(--s-8)); }
+.card p.insight { font-family: var(--serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); color: var(--ink); max-width: 40ch; margin-bottom: var(--s-5); }
+.card p.hmw__q { font-family: var(--serif); font-style: italic; font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); text-wrap: balance; max-width: 30ch; }
+/* a design decision: its number, the claim, why, then the screen that shows it */
+.decision { display: grid; gap: var(--s-6); margin-top: var(--s-8); }
+.note h3 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); text-wrap: balance; }
+.note .card__num { font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); color: var(--blue); }
+.note p + p:not(.sec__label):not(.card__num) { margin-top: calc(var(--s-1) * -1); }
 @media (max-width: 639px) { .plate { --pad: var(--s-4); } .plate--pair { gap: var(--s-3); } .tierstack { gap: var(--s-2); width: 62%; } }
