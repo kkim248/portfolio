@@ -25,7 +25,7 @@ export function caseStudy() {
   }
 
   // product screens are held out of the leaf shadows while they cross the middle of the screen, so they stay legible
-  const screens = [...document.querySelectorAll('.compare__frame, .shot, .tierlist, .annotated')];
+  const screens = [...document.querySelectorAll('.compare__frame, .plate')];
   if (screens.length) {
     let raf = 0, lastY = -1;
     const loop = () => {
@@ -115,26 +115,6 @@ export function caseStudy() {
     };
     raf = requestAnimationFrame(loop);
     stops.push(() => cancelAnimationFrame(raf));
-  });
-
-  // annotated screens: draw a fine leader line from each note in the margin to the spot it names
-  document.querySelectorAll('[data-annotated]').forEach((fig) => {
-    const svg = fig.querySelector('.annotated__lines');
-    const draw = () => {
-      if (getComputedStyle(svg).display === 'none') return;
-      const box = fig.getBoundingClientRect(), shot = fig.querySelector('.annotated__shot').getBoundingClientRect();
-      svg.setAttribute('viewBox', `0 0 ${box.width} ${box.height}`);
-      svg.innerHTML = [...fig.querySelectorAll('[data-note]')].map((note) => {
-        const dot = fig.querySelector(`[data-dot="${note.dataset.note}"]`).getBoundingClientRect(), r = note.getBoundingClientRect();
-        const left = note.classList.contains('annotated__note--l');
-        const y0 = r.top - box.top + 12, x0 = left ? r.right - box.left + 10 : r.left - box.left - 10;
-        const xe = left ? shot.left - box.left - 14 : shot.right - box.left + 14;
-        const x1 = dot.left + dot.width / 2 - box.left, y1 = dot.top + dot.height / 2 - box.top;
-        return `<path d="M${x0} ${y0} H ${xe} L ${x1} ${y1}" />`;
-      }).join('');
-    };
-    const ro = new ResizeObserver(draw); ro.observe(fig);
-    draw(); stops.push(() => ro.disconnect());
   });
 
   // the reel plays only while it is on screen

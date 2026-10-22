@@ -180,7 +180,7 @@ export function startLight() {
   const LEVELS = { home: [1, 0.2], quiet: [1, 0.18], soft: [0.26, 0.2] };
   let first = null, foot = null, level = LEVELS.home;
   let pics = [];
-  const PICS = '.scene__cover, .stack__cover, .cs-cover, .ab__photo, .gallery figure > img, .gallery .clip, .shot, .annotated__shot, .compare__frame, .tierrow__shot, .story, .phones img, .abx__ph';
+  const PICS = '.scene__cover, .stack__cover, .cs-cover, .ab__photo, .gallery figure > img, .gallery .clip, .shot, .plate, .compare__frame, .phones img, .abx__ph';
   const find = () => { first = document.querySelector('.first'); foot = document.querySelector('.foot'); level = LEVELS[document.querySelector('[data-light]')?.dataset.light] || LEVELS.home; light.hover = null; pics = [...document.querySelectorAll(PICS)]; };
   find(); document.addEventListener('astro:page-load', find); document.addEventListener('astro:after-swap', find);
   let px = 0, py = 0, tx = 0, ty = 0, fade = 1, clearAmt = 0, rect = [0, 0, 0, 0];

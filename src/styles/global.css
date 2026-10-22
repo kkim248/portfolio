@@ -141,7 +141,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 
 /* printed type: every serif line carries the ink filter and sits into the paper */
 .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note,
-.cs-hero h1, .sec h2, .sub, .tierrow__text h4, .hmw__q, .stat__big, .calls__big, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
+.cs-hero h1, .sec h2, .pull p, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
 
 /* words arrive the way ink takes on wet paper: each word bleeds in from a soft blur, a little bluer while it is
    wet, written left to right along a feathered edge, and dries to ink. Staggered word by word, like a pen. Every
@@ -158,7 +158,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* phones and tablets render SVG filters at a low resolution, so the ink looked blurry and cost frames there.
    On touch screens and small screens the type stays crisp, still multiplied into the paper. */
 @media (max-width: 767px), (hover: none) {
-  .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note, .cs-hero h1, .sec h2, .sub, .tierrow__text h4, .hmw__q, .stat__big, .calls__big, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
+  .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note, .cs-hero h1, .sec h2, .pull p, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
   .words.is-split .w { filter: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -292,22 +292,25 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @media (max-width: 1023px) { .spill--quiet-r, .spill--quiet-l { display: none; } .spill--foot { width: 56vw; left: auto; right: -14vw; top: 30px; opacity: 0.8; } }
 
 /* ---------- case study: the same sheet of paper, continued ---------- */
-/* first screen: one stack, read top to bottom. The title and one line, the facts in a single row, then the cover at full width */
-.cs-hero { display: flex; flex-direction: column; }
-.cs-hero__body { row-gap: var(--s-6); padding-top: var(--s-8); }
-.cs-hero__head { grid-column: 1 / -1; display: grid; gap: var(--s-4); justify-items: start; }
+/* first screen: the facts on the left, the cover where it sat on the homepage, all within one view */
+.cs-hero { min-height: 100svh; display: flex; flex-direction: column; padding-bottom: var(--s-7); }
+.cs-hero__body { flex: 1; align-content: start; row-gap: var(--s-5); padding-top: var(--s-6); }
+.cs-hero__head, .cs-hero__meta { grid-column: 1 / -1; display: grid; gap: var(--s-5); justify-items: start; }
 .cs-hero h1 { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); text-wrap: balance; }
-.cs-lede { grid-column: 1 / -1; font-family: var(--serif); font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink-slate); max-width: 46ch; }
-.cs-info { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4) var(--gutter); padding-top: var(--s-4); border-top: 1px solid var(--rule); }
-.cs-info div { display: grid; gap: var(--s-1); align-content: start; }
+.cs-lede { font-family: var(--serif); font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink-slate); max-width: 440px; }
+.cs-info { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4) var(--s-5); padding-top: var(--s-4); border-top: 1px solid var(--rule); width: 100%; max-width: 440px; }
+.cs-info div { display: grid; gap: var(--s-1); } .cs-info__wide { grid-column: 1 / -1; }
 .cs-info dd { font-size: var(--fs-small); line-height: var(--lh-text); }
-.cs-cover { grid-column: 1 / -1; position: relative; overflow: hidden; background: var(--paper); aspect-ratio: var(--cover-ratio); border-radius: var(--r-l); }
+.cs-cover { grid-column: 1 / -1; position: relative; overflow: hidden; background: var(--paper); aspect-ratio: var(--cover-ratio); }
 .cs-cover img { width: 100%; height: 100%; object-fit: cover; }
 @media (min-width: 1024px) {
-  .cs-hero__head { grid-column: 1 / span 7; grid-row: 1; align-self: end; }
-  .cs-lede { grid-column: 9 / span 4; grid-row: 1; align-self: end; }
-  .cs-info { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .cs-hero__body { padding-top: 0; align-content: center; grid-template-rows: auto auto; }
+  .cs-hero__head { grid-column: 1 / span 5; grid-row: 1; align-self: end; }
+  .cs-hero__meta { grid-column: 1 / span 5; grid-row: 2; align-self: start; }
+  /* the same box as the homepage stage, so the cover barely moves between the two pages */
+  .cs-cover { grid-column: 6 / span 7; grid-row: 1 / span 2; justify-self: end; align-self: center; width: min(100%, var(--cover-max-h) * var(--cover-ratio-n)); }
 }
+@media (max-width: 1023px) and (orientation: landscape) { .cs-cover { justify-self: center; width: min(100%, 70svh * var(--cover-ratio-n)); } }
 
 /* the body: a quiet index at the margin, one centred reading column, a blue label above each serif heading */
 .cs { padding-block: var(--section) var(--s-6); align-items: start; overflow-x: clip; }
@@ -326,74 +329,17 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .sec { display: grid; gap: var(--s-6); scroll-margin-top: var(--s-8); min-width: 0; }
 .sec__label { font-family: var(--mono); font-size: var(--fs-label-l); line-height: var(--lh-label); letter-spacing: var(--track-label-l); text-transform: uppercase; color: var(--blue); }
 .sec h2 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); max-width: 34ch; text-wrap: balance; margin-top: calc(var(--s-2) * -1); }
-/* a subheading inside a section: it opens a new part, so it has room above, and leads straight into its content */
-.sub { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); margin-top: var(--s-8); }
-.sub + * { margin-top: calc(var(--s-3) * -1); }
-.sub__lead, .prose p { font-family: var(--serif); font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink-slate); max-width: var(--measure); }   /* reading text set like the About page */
-/* in a case study, text runs the full width of the column, the same as the screens */
-.prose { display: grid; gap: var(--s-4); }
-.prose strong { font-weight: var(--w-strong); color: var(--ink); }
-
-/* cards: short pieces read at a glance (summary, findings, driver decisions, takeaways) */
-.cards { display: grid; gap: var(--s-5); }
-@media (min-width: 768px) { .cards--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .cards--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.card { display: grid; gap: var(--s-2); align-content: start; padding: clamp(var(--s-5), 2vw, var(--s-6)); border-radius: var(--r-l); background: var(--tint); }
-.card .card__num { margin-bottom: var(--s-2); font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--blue); }
-.card h3 { font-weight: var(--w-strong); font-size: var(--fs-body); line-height: var(--lh-snug); color: var(--ink); }
-.card p:not(.card__num) { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); }
-/* a stat card: the number is the headline */
-/* a single figure: the number, its source, one line */
-.stat { display: grid; gap: var(--s-3); }
-.stat__big { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); color: var(--blue); }
-.stat__text { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); max-width: 48ch; }
-
-/* the number beside what riders said: the stat on the left, three short stories on the right */
-.evidence { display: grid; gap: var(--s-5); }
-.evidence .stat { align-content: center; }
-.evidence__stories { display: grid; gap: var(--s-3); align-content: center; }
-.story { padding: var(--s-4) var(--s-5); border-radius: var(--r-m); background: var(--surface); box-shadow: var(--shadow-card); font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink); }
-@media (min-width: 900px) { .evidence { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); } }
-
-/* the constraint: where each map call goes, then what a check costs */
-.calls { display: grid; gap: var(--s-6); }
-.calls__groups { display: grid; gap: var(--s-5); }
-.calls__group { display: grid; gap: var(--s-2); }
-.calls__chips { display: flex; flex-wrap: wrap; gap: var(--s-2); }
-.chip { padding: var(--s-2) var(--s-3); border-radius: var(--r-s); border: 1px solid var(--rule); background: var(--surface); font-size: var(--fs-body-s); line-height: var(--lh-snug); color: var(--ink); white-space: nowrap; }
-.chip--spent { border-color: var(--blue-line); color: var(--blue); }
-.calls__sum { display: grid; gap: var(--s-2); align-content: center; }
-.calls__big { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); color: var(--blue); }
-.calls__line { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); max-width: 36ch; }
-.calls__line strong { font-weight: var(--w-strong); color: var(--ink); }
-@media (min-width: 900px) { .calls { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); } .calls__sum { padding-left: var(--s-6); border-left: 1px solid var(--rule); } }
-
-
-/* the question: a centred, quiet moment closing the problem. No box, no rule. */
-.hmw { justify-self: center; display: grid; justify-items: center; gap: var(--s-3); text-align: center; margin-top: var(--s-8); max-width: var(--measure); }
-.hmw__q { font-family: var(--serif); font-style: italic; font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); text-wrap: balance; }
-
-/* three honest tiers as a ranked list: each tier's words on the left, the result as the app shows it on the right */
-.tierlist { display: grid; }
-.tierrow { display: grid; gap: var(--s-4) var(--s-8); padding-block: var(--s-6); border-top: 1px solid var(--rule); align-items: center; }
-.tierrow:last-child { border-bottom: 1px solid var(--rule); }
-.tierrow__text { display: grid; gap: var(--s-2); }
-.tierrow__text h4 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); }
-.tierrow__text p:not(.label) { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); max-width: 44ch; }
-.tierrow__shot { display: block; width: 100%; height: auto; }
-@media (min-width: 900px) { .tierrow { grid-template-columns: minmax(0, 300px) minmax(0, 1fr); } }
-
 /* panels and screens: a deeper patch of the paper, with product screens lying on it */
 .shot { position: relative; width: 100%; }
 .shot img { display: block; width: 100%; height: auto; border-radius: var(--r-s); box-shadow: var(--shadow-screen); }
 /* captions: one style everywhere, centred when they sit under a screen in a panel */
 .caption { font-size: var(--fs-small); line-height: var(--lh-text); color: var(--ink-3); }
-@media (max-width: 639px) { .compare__panel { padding: var(--s-2); } }
 
 /* before and after: pinned in the column, the result wipes across the empty search as you scroll */
 .compare { position: relative; height: 220svh; }
 .compare__pin { position: sticky; top: 0; height: 100svh; display: grid; align-content: center; gap: var(--s-4); }
-.compare__panel { display: grid; place-items: center; }
-.compare__frame { position: relative; overflow: hidden; width: min(100%, calc(68svh * 3000 / 2134)); aspect-ratio: 3000 / 2134; background: var(--surface); border-radius: var(--r-s); box-shadow: var(--shadow-screen); }
+.compare__panel { display: grid; place-items: center; width: min(100%, calc(72svh * 1.5)); justify-self: center; }
+.compare__frame { position: relative; overflow: hidden; width: 100%; aspect-ratio: 3000 / 2134; background: var(--surface); border-radius: var(--r-s); box-shadow: var(--shadow-screen); }
 .compare__img, .compare__frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .compare__after { position: absolute; inset: 0; clip-path: inset(0 calc((1 - var(--p, 0)) * 100%) 0 0); }
 .compare__line { position: absolute; top: 0; bottom: 0; left: calc(var(--p, 0) * 100%); width: 2px; margin-left: -1px; background: var(--blue); opacity: calc(min(var(--p, 0) * 20, 1) * min((1 - var(--p, 0)) * 20, 1)); }
@@ -403,30 +349,6 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .compare__cap--after { opacity: 0; transform: translateY(8px); }
 .compare.is-after .compare__cap--before { opacity: 0; transform: translateY(-8px); }
 .compare.is-after .compare__cap--after { opacity: 1; transform: none; }
-
-
-/* the rider's side: the results screen in the middle, its four new parts named in the margins, with fine leader
-   lines to the exact spot. On narrower screens: numbered dots on the screen and a numbered list beneath. */
-.annotated { --note-w: 156px; position: relative; display: grid; gap: var(--s-5); }
-.annotated__shot { position: relative; border-radius: var(--r-s); background: var(--surface); box-shadow: var(--shadow-screen); }
-.annotated__shot img { display: block; width: 100%; height: auto; border-radius: var(--r-s); }
-.annotated__dot { position: absolute; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; display: grid; place-items: center; font: 600 9px/1 var(--mono); color: var(--surface); background: var(--blue); box-shadow: 0 0 0 2px var(--blue-tint); }
-.annotated__lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; display: none; }
-.annotated__lines path { fill: none; stroke: var(--blue); stroke-width: 1; opacity: 0.55; }
-.annotated__note { display: grid; grid-template-columns: var(--s-6) minmax(0, 1fr); gap: 2px var(--s-2); }
-.annotated__note .mono { grid-row: span 2; color: var(--blue); padding-top: 3px; }
-.annotated__note strong { font-weight: var(--w-strong); font-size: var(--fs-body-s); line-height: var(--lh-snug); color: var(--ink); }
-.annotated__note span:last-child { font-size: var(--fs-small); line-height: var(--lh-text); color: var(--ink-2); }
-@media (min-width: 1024px) {
-  /* the lowest note can hang past the screen, so the figure keeps room under it */
-  .annotated { display: block; padding-inline: calc(var(--note-w) + var(--s-4)); margin-bottom: var(--s-7); }
-  .annotated__note { position: absolute; top: calc(var(--y) * 100%); width: var(--note-w); transform: translateY(-12px); grid-template-columns: 1fr; }
-  .annotated__note .mono { grid-row: auto; padding: 0; }
-  .annotated__note--l { left: 0; text-align: right; }
-  .annotated__note--r { right: 0; }
-  .annotated__dot { width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; font-size: 0; color: transparent; box-shadow: 0 0 0 2.5px var(--surface), 0 0 0 3.5px var(--blue-line); }
-  .annotated__lines { display: block; }
-}
 
 
 /* team: an even row of photos, all the same height */
@@ -533,25 +455,36 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 @keyframes intro-fallback { to { opacity: 0; visibility: hidden; } }
 
 /* ---------- case study: a short note, then the work on a plate ---------- */
-/* the plate: every product screen sits on the same backdrop, Ian's own horizon in the About slate
-   (public/assets/plate-slate.jpg, made by scripts/make-plate.mjs) */
-.plate { position: relative; margin: 0; display: grid; place-items: center; padding: clamp(var(--s-5), 7%, var(--s-9)); border-radius: var(--r-l); background: var(--paper) url('/assets/plate-slate.jpg') center / cover; overflow: hidden; }
-.plate > img { display: block; width: 100%; height: auto; border-radius: var(--r-s); box-shadow: var(--shadow-screen); }
-.plates { display: grid; gap: var(--s-3); }
-@media (min-width: 768px) { .plates { grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr); } }
-.plate--phone > img { width: min(100%, 220px); border-radius: var(--r-l); }
-.sec--plates { gap: var(--s-5); }
-.sec--plates > .plate, .sec--plates > .plates, .sec--plates > .compare { margin-top: var(--s-4); }
-.sec > .plates + .caption { text-align: center; margin-top: calc(var(--s-3) * -1); }
-/* the note: the section label, a serif title and a line or two, on the column's own left edge */
+/* every block is the same: a note (label, serif title, a line or two), then one plate. Every plate is the same size
+   (3 : 2, the column's width) on the same backdrop, Ian's own horizon in the About slate (public/assets/plate-slate.jpg,
+   made by scripts/make-plate.mjs), and holds real screens from the product, never text in boxes */
+.sec { gap: var(--s-6); }
 .note { display: grid; gap: var(--s-3); max-width: var(--measure); }
-.note p:not(.sec__label) { font-family: var(--serif); font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink-slate); }
-/* a plate of UI: the same slate plate as the screens, holding white cards instead of one screen */
-.plate--ui { place-items: stretch; align-items: start; gap: var(--s-4); padding: clamp(var(--s-4), 5%, var(--s-8)); }
-.plate .ui, .plate .card { background: var(--surface); border-radius: var(--r-m); box-shadow: var(--shadow-screen); padding: clamp(var(--s-5), 2.4vw, var(--s-6)); }
-.plate .story { box-shadow: var(--shadow-screen); }
-.plate--ui .calls__sum { padding-left: clamp(var(--s-5), 2.4vw, var(--s-6)); border-left: 0; align-self: stretch; }
-.plate .evidence__stories, .plate--ui .stat { align-self: stretch; }
-.plate__label { color: var(--surface); }
-.drivers { gap: var(--s-5); }
-.plate--ui.cards, .plate--ui .cards { align-items: stretch; }
+.note p:not(.sec__label) { font-family: var(--serif); font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink-slate); max-width: 52ch; }
+.plate { --pad: 7%; position: relative; margin: 0; aspect-ratio: 3 / 2; display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center; padding: var(--pad); border-radius: var(--r-l); background: var(--paper) url('/assets/plate-slate.jpg') center / cover; overflow: hidden; }
+.plate img { display: block; border-radius: var(--r-s); box-shadow: var(--shadow-screen); }
+.plate > img { width: auto; height: auto; max-width: 100%; max-height: 100%; }
+/* a desktop screen and its phone, side by side at one height */
+.plate--pair { display: flex; align-items: center; justify-content: center; gap: var(--s-5); }
+.plate--pair > img { height: 82%; max-height: none; min-width: 0; }
+.plate--pair > .phone { border-radius: var(--r-l); }
+/* the three tier cards, stacked as they appear in the results */
+.stack { display: grid; gap: var(--s-3); width: 70%; }
+.stack img { width: 100%; height: auto; }
+/* the results screen with its new parts numbered on it */
+.marked { position: relative; width: 60%; }
+.marked img { width: 100%; height: auto; }
+.marked__dot { position: absolute; width: 20px; height: 20px; margin: -10px 0 0 -10px; border-radius: 50%; display: grid; place-items: center; font: 600 11px/1 var(--mono); color: var(--surface); background: var(--blue); box-shadow: 0 0 0 3px var(--surface); }
+/* text that follows a plate: short columns, no boxes, set like the About page */
+.cols { list-style: none; display: grid; gap: var(--s-5) var(--gutter); }
+@media (min-width: 768px) { .cols { grid-template-columns: repeat(3, minmax(0, 1fr)); } .cols--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .cols--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.cols li { display: grid; gap: var(--s-2); align-content: start; }
+.cols h3 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); }
+.cols p:not(.label) { font-family: var(--serif); font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-slate); }
+.cols .label { color: var(--blue); }
+/* one rider's words, centred between blocks */
+.pull { justify-self: center; display: grid; justify-items: center; gap: var(--s-4); margin-block: var(--s-7) 0; text-align: center; max-width: 30ch; }
+.pull p { font-family: var(--serif); font-style: italic; font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); text-wrap: balance; }
+.pull cite { font-style: normal; }
+@media (max-width: 639px) { .plate { --pad: var(--s-4); } .plate--pair { gap: var(--s-3); } .stack { gap: var(--s-2); width: 62%; } }
