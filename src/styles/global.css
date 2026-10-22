@@ -469,8 +469,8 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 .plate--pair > img { height: 82%; max-height: none; min-width: 0; }
 .plate--pair > .phone { border-radius: var(--r-l); }
 /* the three tier cards, stacked as they appear in the results */
-.stack { display: grid; gap: var(--s-3); width: 70%; }
-.stack img { width: 100%; height: auto; }
+.tierstack { display: grid; gap: var(--s-3); width: 70%; }
+.tierstack img { width: 100%; height: auto; }
 /* the results screen with its new parts numbered on it */
 .marked { position: relative; width: 60%; }
 .marked img { width: 100%; height: auto; }
@@ -487,4 +487,4 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 .pull { justify-self: center; display: grid; justify-items: center; gap: var(--s-4); margin-block: var(--s-7) 0; text-align: center; max-width: 30ch; }
 .pull p { font-family: var(--serif); font-style: italic; font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); text-wrap: balance; }
 .pull cite { font-style: normal; }
-@media (max-width: 639px) { .plate { --pad: var(--s-4); } .plate--pair { gap: var(--s-3); } .stack { gap: var(--s-2); width: 62%; } }
+@media (max-width: 639px) { .plate { --pad: var(--s-4); } .plate--pair { gap: var(--s-3); } .tierstack { gap: var(--s-2); width: 62%; } }
