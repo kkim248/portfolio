@@ -485,7 +485,7 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 .evidence { display: grid; gap: var(--s-4); }
 @media (min-width: 900px) { .evidence { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); } }
 .stat { margin: 0; align-content: center; }
-.card .stat__big { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); color: var(--blue); }
+.card p.stat__big { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); color: var(--blue); }
 .evidence__stories { display: grid; gap: var(--s-3); align-content: center; }
 .story { padding: var(--s-4) var(--s-5); border-radius: var(--r-m); background: var(--surface); box-shadow: var(--shadow-card); font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink); }
 /* define: the question, centred, on its own */
