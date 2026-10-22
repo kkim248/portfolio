@@ -364,6 +364,12 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* About: Ian's frame as one composition. The stage is the frame's 1440 x 700 area below the bar; every piece is
    placed on it in percent, so it scales as a whole. Below 900 it settles into a plain stack. */
 .abx { position: relative; overflow: clip; padding-top: var(--s-5); --u: calc(clamp(520px, 100svh - var(--s-9), 1000px) / 672); }   /* one unit of height: the photos (672 units) fit the first screen */
+/* on wide screens the bar and the composition fill exactly the first screen, so the footer starts at the fold.
+   The composition is a size container, and its unit comes from the height it is given (700 units, less the padding) */
+@media (min-width: 1024px) {
+  .abx-screen { height: 100svh; display: flex; flex-direction: column; }
+  .abx { flex: 1; min-height: 0; container-type: size; --u: calc(clamp(520px, 100cqh - var(--s-5), 1400px) / 700); }
+}
 .abx__stage { position: relative; height: calc(var(--u) * 700); }
 .abx__photos { grid-column: 1 / span 6; grid-row: 1; position: relative; margin-right: var(--gutter); }   /* a gutter short of column 6, so two gutters separate photos and words */
 .abx__ph { position: absolute; margin: 0; overflow: hidden; }
