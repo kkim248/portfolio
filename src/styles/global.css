@@ -73,6 +73,7 @@
 
   /* measure */
   --measure: 680px;        /* one reading column */
+  --measure-hero: 1040px;  /* the case study hero: a step wider than the column it opens */
   --measure-wide: 760px;   /* the case study column, about the width the reference studies use */
 
   /* motion */
@@ -141,7 +142,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 
 /* printed type: every serif line carries the ink filter and sits into the paper */
 .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note,
-.cs-hero h1, .sec h2, .note h3, .hmw__q, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
+.cs-hero h1, .sec h2, .hmw__q, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
 
 /* words arrive the way ink takes on wet paper: each word bleeds in from a soft blur, a little bluer while it is
    wet, written left to right along a feathered edge, and dries to ink. Staggered word by word, like a pen. Every
@@ -158,7 +159,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* phones and tablets render SVG filters at a low resolution, so the ink looked blurry and cost frames there.
    On touch screens and small screens the type stays crisp, still multiplied into the paper. */
 @media (max-width: 767px), (hover: none) {
-  .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note, .cs-hero h1, .sec h2, .note h3, .hmw__q, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
+  .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note, .cs-hero h1, .sec h2, .hmw__q, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
   .words.is-split .w { filter: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -292,9 +293,8 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @media (max-width: 1023px) { .spill--quiet-r, .spill--quiet-l { display: none; } .spill--foot { width: 56vw; left: auto; right: -14vw; top: 30px; opacity: 0.8; } }
 
 /* ---------- case study: the same sheet of paper, continued ---------- */
-/* first screen: the same column as the body. The title and one line on the left, the facts on the right,
-   then the cover on a slate plate below */
-.cs-hero { padding-bottom: 0; }
+/* first screen: a step wider than the body. The title and one line on the left, the facts on the right,
+   then the cover on its own */
 .cs-hero__body { row-gap: var(--s-6); padding-top: var(--s-8); align-items: end; }
 .cs-hero__head { grid-column: 1 / -1; display: grid; gap: var(--s-3); }
 .cs-hero h1 { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-heading-l); line-height: var(--lh-tight); letter-spacing: var(--track-display); text-wrap: balance; }
@@ -302,16 +302,12 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .cs-info { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-3) var(--s-5); }
 .cs-info div { display: grid; gap: var(--s-1); align-content: start; }
 .cs-info dd { font-size: var(--fs-small); line-height: var(--lh-text); }
-.cs-hero__plate { grid-column: 1 / -1; aspect-ratio: 4 / 3; }
-.cs-cover { position: relative; overflow: hidden; margin: 0; height: 100%; max-width: 100%; aspect-ratio: var(--cover-ratio); border-radius: var(--r-s); box-shadow: var(--shadow-screen); background: var(--paper); }
+.cs-cover { grid-column: 1 / -1; position: relative; overflow: hidden; margin: 0; aspect-ratio: var(--cover-ratio); border-radius: var(--r-l); background: var(--paper); }
 .cs-cover img { display: block; width: 100%; height: 100%; object-fit: cover; }
-@media (min-width: 768px) { .cs-hero__plate { aspect-ratio: 2 / 1; --pad: 5%; } }
 @media (min-width: 1024px) {
-  /* the hero shares the body's column: index width on the left, the column centred */
-  .cs-hero__body { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--s-7); width: min(var(--measure-wide), 100% - 2 * 200px); margin-inline: auto; padding-inline: 0; }
+  .cs-hero__body { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--s-7); width: min(var(--measure-hero), 100% - 2 * var(--margin)); margin-inline: auto; padding-inline: 0; }
   .cs-hero__head { grid-column: 1; }
-  .cs-info { grid-column: 2; width: 280px; }
-  .cs-hero__plate { grid-column: 1 / -1; }
+  .cs-info { grid-column: 2; width: 320px; }
 }
 
 /* the body: a quiet index at the margin, one centred reading column, a blue label above each serif heading */
@@ -330,7 +326,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* a section: label, then heading 16px below it, then everything else 24px apart */
 .sec { display: grid; gap: var(--s-6); scroll-margin-top: var(--s-8); min-width: 0; }
 .sec__label { font-family: var(--mono); font-size: var(--fs-label-l); line-height: var(--lh-label); letter-spacing: var(--track-label-l); text-transform: uppercase; color: var(--blue); }
-.sec h2 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); max-width: 34ch; text-wrap: balance; margin-top: calc(var(--s-2) * -1); }
+.sec h2 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); max-width: 34ch; text-wrap: balance; margin-top: calc(var(--s-1) * -1); }
 /* panels and screens: a deeper patch of the paper, with product screens lying on it */
 .shot { position: relative; width: 100%; }
 .shot img { display: block; width: 100%; height: auto; border-radius: var(--r-s); box-shadow: var(--shadow-screen); }
@@ -460,7 +456,6 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 /* every block is the same: a note (label, serif title, a line or two), then one plate. Every plate is the same size
    (3 : 2, the column's width) on the same backdrop, Ian's own horizon in the About slate (public/assets/plate-slate.jpg,
    made by scripts/make-plate.mjs), and holds real screens from the product, never text in boxes */
-.sec { gap: var(--s-6); }
 .note { display: grid; gap: var(--s-3); }
 .note p:not(.sec__label) { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); max-width: 72ch; }
 .note strong { font-weight: var(--w-strong); color: var(--ink); }
@@ -476,42 +471,42 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 .tierstack img { width: 100%; height: auto; }
 /* words go in boxes: a soft tint of the paper, a mono number, a short title and a line */
 .cards { display: grid; gap: var(--s-4); }
-@media (min-width: 768px) { .cards--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .cards--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 768px) { .cards--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .card { display: grid; gap: var(--s-2); align-content: start; padding: clamp(var(--s-5), 2vw, var(--s-6)); border-radius: var(--r-l); background: var(--tint); }
 .card h3 { font-weight: var(--w-strong); font-size: var(--fs-body); line-height: var(--lh-snug); color: var(--ink); }
 .card p { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); }
-/* drawings: fine white line work on the slate plate, like a cyanotype print */
+/* drawings: one line language on the slate plate. Fine white strokes, white dots for places, the rider in blue
+   with a white ring, white pills for notes */
 .plate--art { --pad: 0; }
+.plate--strip { aspect-ratio: 19 / 6; }
 .art { width: 100%; height: 100%; display: block; }
-.art path, .art circle, .art rect { fill: none; stroke: var(--surface); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-.art__faint path { stroke-width: 1; opacity: 0.28; }
-.art__route { stroke-width: 2.5; }
+.art path, .art circle, .art rect { fill: none; stroke: var(--surface); stroke-width: 1.5; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+.art .art__route { stroke-width: 2; }
+.art .art__dash { stroke-dasharray: 3 5; opacity: 0.75; }
 .art .art__dot { fill: var(--surface); stroke: none; }
-.art__ring { opacity: 0.8; }
+.art .art__dot--rider { fill: var(--blue); stroke: var(--surface); stroke-width: 2; }
+.art .art__ring { opacity: 0.7; }
 .art text { fill: var(--surface); font-family: var(--mono); font-size: var(--fs-label); letter-spacing: var(--track-label); text-transform: uppercase; }
 .art__note rect { fill: var(--surface); stroke: none; }
-.art__note text { fill: var(--ink-2); text-transform: none; letter-spacing: 0; font-family: var(--sans); font-size: var(--fs-label-l); }
+.art .art__note text { fill: var(--ink-2); font-family: var(--sans); font-size: var(--fs-label-l); letter-spacing: 0; text-transform: none; }
 .art .art__big { font-family: var(--serif); font-style: italic; font-size: var(--fs-title); letter-spacing: var(--track-display); text-transform: none; }
-/* ideas: each box opens with a small drawing of how the idea works */
-.ideas .card { gap: var(--s-2); }
-.idea__art { margin-bottom: var(--s-3); aspect-ratio: 16 / 9; border-radius: var(--r-m); background: var(--paper) url('/assets/plate-slate.jpg') center / cover; display: grid; place-items: center; }
-.idea__art svg { width: 70%; height: auto; overflow: visible; }
-.idea__art path, .idea__art circle, .idea__art rect { fill: none; stroke: var(--surface); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-.idea__art .d { stroke-dasharray: 3 4; opacity: 0.7; }
-.idea__art .f { fill: var(--surface); stroke: none; }
-.idea__art .a { fill: var(--blue); stroke: var(--surface); stroke-width: 1.5; }
-.idea__art .r { opacity: 0.8; }
+/* the ideas, named under their drawings: four columns, no boxes */
+.ideas { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-5) var(--s-4); }
+@media (min-width: 768px) { .ideas { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: calc(var(--s-2) * -1); } }
+.ideas li { display: grid; gap: var(--s-1); align-content: start; text-align: center; }
+.ideas h3 { font-weight: var(--w-strong); font-size: var(--fs-body-s); line-height: var(--lh-snug); color: var(--ink); }
+.ideas p:not(.tag) { font-size: var(--fs-small); line-height: var(--lh-text); color: var(--ink-2); }
+.ideas .tag { justify-self: center; margin-bottom: var(--s-1); }
+.ideas .is-chosen .tag { color: var(--blue); }
 /* boxes: a tag or a number, a title, a line. Wide boxes span the row */
 .tag { justify-self: start; margin-bottom: var(--s-2); font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); }
-.card--chosen { box-shadow: inset 0 0 0 1px var(--blue-line); }
-.card--chosen .tag { color: var(--blue); }
 /* the question: a centred italic line over a soft watercolor bloom */
-.hmw { position: relative; display: grid; justify-items: center; gap: var(--s-4); padding-block: var(--s-9); text-align: center; }
+.hmw { position: relative; display: grid; justify-items: center; gap: var(--s-3); padding-block: var(--s-8); text-align: center; }
 .hmw > :not(.spill) { position: relative; z-index: 1; }
 .spill--hmw { left: 50%; top: 50%; width: clamp(280px, 40vw, 520px); transform: translate(-50%, -50%); opacity: 0.55; }
 .hmw .label { color: var(--blue); }
 .hmw__q { font-family: var(--serif); font-style: italic; font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); text-wrap: balance; max-width: 26ch; }
 /* a design decision: the claim, why, then the screen that shows it */
-.decision { display: grid; gap: var(--s-5); margin-top: var(--s-6); }
-.note h3 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-body); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); text-wrap: balance; }
+.decision { display: grid; gap: var(--s-6); margin-top: var(--s-6); }   /* a part of a section: the same note-to-visual gap as the section, a clear break above */
+.note h3 { font-weight: var(--w-strong); font-size: var(--fs-body); line-height: var(--lh-snug); color: var(--ink); }   /* a part's title: the same level as a box title */
 @media (max-width: 639px) { .plate { --pad: var(--s-4); } .plate--pair { gap: var(--s-3); } .tierstack { gap: var(--s-2); width: 62%; } }
