@@ -1,7 +1,7 @@
 // Case study covers, all made the same way so every project matches: one canvas size, one backdrop recipe, one
 // screen treatment (radius, shadow), one scale. Usage:
 //   node scripts/make-cover.mjs <config.json>
-// config: { "out": "src/assets/covers/x.jpg", "backdrop": "light" | "blue",
+// config: { "out": "src/assets/covers/x.jpg", "backdrop": "slate" | "light" | "blue",
 //           "screens": [ { "src": "path", "x": 0.09, "y": 0.13, "w": 0.65 } ] }   (x, y, w as fractions of the canvas)
 // The canvas matches the homepage stage and the case study hero (about 1.4 : 1), so covers drop in without layout change.
 import sharp from 'sharp';
@@ -14,6 +14,8 @@ const hex = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
 
 // the backdrop: paper or cyanotype blue, with the same leaf shadows the site's light casts, and the paper's grain
 async function backdrop(mode) {
+  // slate: the case study plate (Ian's horizon in the About slate), so the cover matches every screen inside
+  if (mode === 'slate') return sharp('public/assets/plate-slate.jpg').resize(W, H, { fit: 'cover' }).png().toBuffer();
   const base = mode === 'blue' ? hex('#1F3A93') : hex('#ECE9E1');
   const shadeTo = mode === 'blue' ? [0.62, 0.66, 0.8] : [0.8, 0.86, 0.97];   // how deep the leaf shadows go
   const strength = mode === 'blue' ? 0.5 : 0.38;

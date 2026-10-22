@@ -141,7 +141,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 
 /* printed type: every serif line carries the ink filter and sits into the paper */
 .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note,
-.cs-hero h1, .sec h2, .sub, .tierrow__text h4, .hmw__q, .stat__big, .calls__big, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
+.cs-hero h1, .sec h2, .tierrow__text h4, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
 
 /* words arrive the way ink takes on wet paper: each word bleeds in from a soft blur, a little bluer while it is
    wet, written left to right along a feathered edge, and dries to ink. Staggered word by word, like a pen. Every
@@ -158,7 +158,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* phones and tablets render SVG filters at a low resolution, so the ink looked blurry and cost frames there.
    On touch screens and small screens the type stays crisp, still multiplied into the paper. */
 @media (max-width: 767px), (hover: none) {
-  .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note, .cs-hero h1, .sec h2, .sub, .tierrow__text h4, .hmw__q, .stat__big, .calls__big, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
+  .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note, .cs-hero h1, .sec h2, .tierrow__text h4, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
   .words.is-split .w { filter: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -329,51 +329,6 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .sec { display: grid; gap: var(--s-6); scroll-margin-top: var(--s-8); min-width: 0; }
 .sec__label { font-family: var(--mono); font-size: var(--fs-label-l); line-height: var(--lh-label); letter-spacing: var(--track-label-l); text-transform: uppercase; color: var(--blue); }
 .sec h2 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); max-width: 34ch; text-wrap: balance; margin-top: calc(var(--s-2) * -1); }
-/* a subheading inside a section: it opens a new part, so it has room above, and leads straight into its content */
-.sub { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); margin-top: var(--s-8); }
-.sub + * { margin-top: calc(var(--s-3) * -1); }
-.sub__lead, .prose p { font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-2); max-width: var(--measure); }
-/* in a case study, text runs the full width of the column, the same as the screens */
-.prose { display: grid; gap: var(--s-4); }
-.prose strong { font-weight: var(--w-strong); color: var(--ink); }
-
-/* cards: short pieces read at a glance (summary, findings, driver decisions, takeaways) */
-.cards { display: grid; gap: var(--s-5); }
-@media (min-width: 768px) { .cards--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .cards--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.card { display: grid; gap: var(--s-2); align-content: start; padding: clamp(var(--s-5), 2vw, var(--s-6)); border-radius: var(--r-l); background: var(--tint); }
-.card .card__num { margin-bottom: var(--s-2); font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--blue); }
-.card h3 { font-weight: var(--w-strong); font-size: var(--fs-body); line-height: var(--lh-snug); color: var(--ink); }
-.card p:not(.card__num) { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); }
-/* a stat card: the number is the headline */
-/* a single figure: the number, its source, one line */
-.stat { display: grid; gap: var(--s-3); }
-.stat__big { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); color: var(--blue); }
-.stat__text { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); max-width: 48ch; }
-
-/* the number beside what riders said: the stat on the left, three short stories on the right */
-.evidence { display: grid; gap: var(--s-5); }
-.evidence .stat { align-content: center; }
-.evidence__stories { display: grid; gap: var(--s-3); align-content: center; }
-.story { padding: var(--s-4) var(--s-5); border-radius: var(--r-m); background: var(--surface); box-shadow: var(--shadow-card); font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink); }
-@media (min-width: 900px) { .evidence { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); } }
-
-/* the constraint: where each map call goes, then what a check costs */
-.calls { display: grid; gap: var(--s-6); }
-.calls__groups { display: grid; gap: var(--s-5); }
-.calls__group { display: grid; gap: var(--s-2); }
-.calls__chips { display: flex; flex-wrap: wrap; gap: var(--s-2); }
-.chip { padding: var(--s-2) var(--s-3); border-radius: var(--r-s); border: 1px solid var(--rule); background: var(--surface); font-size: var(--fs-body-s); line-height: var(--lh-snug); color: var(--ink); white-space: nowrap; }
-.chip--spent { border-color: var(--blue-line); color: var(--blue); }
-.calls__sum { display: grid; gap: var(--s-2); align-content: center; }
-.calls__big { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); color: var(--blue); }
-.calls__line { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); max-width: 36ch; }
-.calls__line strong { font-weight: var(--w-strong); color: var(--ink); }
-@media (min-width: 900px) { .calls { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); } .calls__sum { padding-left: var(--s-6); border-left: 1px solid var(--rule); } }
-
-
-/* the question: a centred, quiet moment closing the problem. No box, no rule. */
-.hmw { justify-self: center; display: grid; justify-items: center; gap: var(--s-3); text-align: center; margin-top: var(--s-8); max-width: var(--measure); }
-.hmw__q { font-family: var(--serif); font-style: italic; font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); text-wrap: balance; }
 
 /* three honest tiers as a ranked list: each tier's words on the left, the result as the app shows it on the right */
 .tierlist { display: grid; }
@@ -386,14 +341,11 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @media (min-width: 900px) { .tierrow { grid-template-columns: minmax(0, 300px) minmax(0, 1fr); } }
 
 /* panels and screens: a deeper patch of the paper, with product screens lying on it */
-.panel { background: var(--tint); border-radius: var(--r-l); padding: clamp(var(--s-5), 4.5%, var(--s-7)); }
-.shot-panel { display: grid; place-items: center; gap: var(--s-3); padding: clamp(var(--s-3), 3%, var(--s-6)); }
 .shot { position: relative; width: 100%; }
 .shot img { display: block; width: 100%; height: auto; border-radius: var(--r-s); box-shadow: var(--shadow-screen); }
 /* captions: one style everywhere, centred when they sit under a screen in a panel */
 .caption { font-size: var(--fs-small); line-height: var(--lh-text); color: var(--ink-3); }
-.shot-panel .caption { justify-self: center; text-align: center; max-width: 60ch; }
-@media (max-width: 639px) { .compare__panel, .shot-panel { padding: var(--s-2); } }
+@media (max-width: 639px) { .compare__panel { padding: var(--s-2); } }
 
 /* before and after: pinned in the column, the result wipes across the empty search as you scroll */
 .compare { position: relative; height: 220svh; }
@@ -409,7 +361,6 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .compare__cap--after { opacity: 0; transform: translateY(8px); }
 .compare.is-after .compare__cap--before { opacity: 0; transform: translateY(-8px); }
 .compare.is-after .compare__cap--after { opacity: 1; transform: none; }
-
 
 /* the rider's side: the results screen in the middle, its four new parts named in the margins, with fine leader
    lines to the exact spot. On narrower screens: numbered dots on the screen and a numbered list beneath. */
@@ -433,7 +384,6 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
   .annotated__dot { width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; font-size: 0; color: transparent; box-shadow: 0 0 0 2.5px var(--surface), 0 0 0 3.5px var(--blue-line); }
   .annotated__lines { display: block; }
 }
-
 
 /* team: an even row of photos, all the same height */
 .gallery { display: flex; gap: var(--s-4); align-items: flex-start; }
@@ -546,9 +496,14 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 .plates { display: grid; gap: var(--s-3); }
 @media (min-width: 768px) { .plates { grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr); } }
 .plate--phone > img { width: min(100%, 220px); border-radius: var(--r-l); }
-.sec--plates { gap: var(--s-5); }
-.sec--plates > .plate, .sec--plates > .plates, .sec--plates > .compare { margin-top: var(--s-4); }
-.sec > .plates + .caption { text-align: center; margin-top: calc(var(--s-3) * -1); }
+.cs-col > .sec { gap: var(--s-6); }
+/* facts: the one text visual. Three short items between rules, a serif figure or title over one line */
+.facts { list-style: none; display: grid; gap: var(--s-5) var(--s-6); padding-block: var(--s-5); border-block: 1px solid var(--rule); }
+@media (min-width: 768px) { .facts { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.facts li { display: grid; gap: var(--s-2); align-content: start; }
+.fact__big { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-heading); line-height: var(--lh-tight); letter-spacing: var(--track-heading); color: var(--blue); }
+.fact__title { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); }
+.facts p:not(.fact__big):not(.fact__title):not(.label) { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); max-width: 36ch; }
 /* the note: the section label, a serif title and a line or two, on the column's own left edge */
 .note { display: grid; gap: var(--s-3); max-width: var(--measure); }
 .note p:not(.sec__label) { font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-2); }
