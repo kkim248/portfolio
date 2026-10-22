@@ -292,25 +292,22 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @media (max-width: 1023px) { .spill--quiet-r, .spill--quiet-l { display: none; } .spill--foot { width: 56vw; left: auto; right: -14vw; top: 30px; opacity: 0.8; } }
 
 /* ---------- case study: the same sheet of paper, continued ---------- */
-/* first screen: the facts on the left, the cover where it sat on the homepage, all within one view */
-.cs-hero { min-height: 100svh; display: flex; flex-direction: column; padding-bottom: var(--s-7); }
-.cs-hero__body { flex: 1; align-content: start; row-gap: var(--s-5); padding-top: var(--s-6); }
-.cs-hero__head, .cs-hero__meta { grid-column: 1 / -1; display: grid; gap: var(--s-5); justify-items: start; }
+/* first screen: one stack, read top to bottom. The title and one line, the facts in a single row, then the cover at full width */
+.cs-hero { display: flex; flex-direction: column; }
+.cs-hero__body { row-gap: var(--s-6); padding-top: var(--s-8); }
+.cs-hero__head { grid-column: 1 / -1; display: grid; gap: var(--s-4); justify-items: start; }
 .cs-hero h1 { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); text-wrap: balance; }
-.cs-lede { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); max-width: 520px; }
-.cs-info { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4) var(--s-5); padding-top: var(--s-4); border-top: 1px solid var(--ink); width: 100%; max-width: 520px; }
-.cs-info div { display: grid; gap: var(--s-1); } .cs-info__wide { grid-column: 1 / -1; }
+.cs-lede { grid-column: 1 / -1; font-family: var(--serif); font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink-slate); max-width: 46ch; }
+.cs-info { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4) var(--gutter); padding-top: var(--s-4); border-top: 1px solid var(--rule); }
+.cs-info div { display: grid; gap: var(--s-1); align-content: start; }
 .cs-info dd { font-size: var(--fs-small); line-height: var(--lh-text); }
-.cs-cover { grid-column: 1 / -1; position: relative; overflow: hidden; background: var(--paper); aspect-ratio: var(--cover-ratio); }
+.cs-cover { grid-column: 1 / -1; position: relative; overflow: hidden; background: var(--paper); aspect-ratio: var(--cover-ratio); border-radius: var(--r-l); }
 .cs-cover img { width: 100%; height: 100%; object-fit: cover; }
 @media (min-width: 1024px) {
-  .cs-hero__body { padding-top: 0; align-content: center; grid-template-rows: auto auto; }
-  .cs-hero__head { grid-column: 1 / span 5; grid-row: 1; align-self: end; }
-  .cs-hero__meta { grid-column: 1 / span 5; grid-row: 2; align-self: start; }
-  /* the same box as the homepage stage, so the cover barely moves between the two pages */
-  .cs-cover { grid-column: 6 / span 7; grid-row: 1 / span 2; justify-self: end; align-self: center; width: min(100%, var(--cover-max-h) * var(--cover-ratio-n)); }
+  .cs-hero__head { grid-column: 1 / span 7; grid-row: 1; align-self: end; }
+  .cs-lede { grid-column: 9 / span 4; grid-row: 1; align-self: end; }
+  .cs-info { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
-@media (max-width: 1023px) and (orientation: landscape) { .cs-cover { justify-self: center; width: min(100%, 70svh * var(--cover-ratio-n)); } }
 
 /* the body: a quiet index at the margin, one centred reading column, a blue label above each serif heading */
 .cs { padding-block: var(--section) var(--s-6); align-items: start; overflow-x: clip; }
@@ -332,7 +329,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* a subheading inside a section: it opens a new part, so it has room above, and leads straight into its content */
 .sub { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); margin-top: var(--s-8); }
 .sub + * { margin-top: calc(var(--s-3) * -1); }
-.sub__lead, .prose p { font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-2); max-width: var(--measure); }
+.sub__lead, .prose p { font-family: var(--serif); font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink-slate); max-width: var(--measure); }   /* reading text set like the About page */
 /* in a case study, text runs the full width of the column, the same as the screens */
 .prose { display: grid; gap: var(--s-4); }
 .prose strong { font-weight: var(--w-strong); color: var(--ink); }
@@ -386,14 +383,11 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @media (min-width: 900px) { .tierrow { grid-template-columns: minmax(0, 300px) minmax(0, 1fr); } }
 
 /* panels and screens: a deeper patch of the paper, with product screens lying on it */
-.panel { background: var(--tint); border-radius: var(--r-l); padding: clamp(var(--s-5), 4.5%, var(--s-7)); }
-.shot-panel { display: grid; place-items: center; gap: var(--s-3); padding: clamp(var(--s-3), 3%, var(--s-6)); }
 .shot { position: relative; width: 100%; }
 .shot img { display: block; width: 100%; height: auto; border-radius: var(--r-s); box-shadow: var(--shadow-screen); }
 /* captions: one style everywhere, centred when they sit under a screen in a panel */
 .caption { font-size: var(--fs-small); line-height: var(--lh-text); color: var(--ink-3); }
-.shot-panel .caption { justify-self: center; text-align: center; max-width: 60ch; }
-@media (max-width: 639px) { .compare__panel, .shot-panel { padding: var(--s-2); } }
+@media (max-width: 639px) { .compare__panel { padding: var(--s-2); } }
 
 /* before and after: pinned in the column, the result wipes across the empty search as you scroll */
 .compare { position: relative; height: 220svh; }
@@ -551,4 +545,13 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 .sec > .plates + .caption { text-align: center; margin-top: calc(var(--s-3) * -1); }
 /* the note: the section label, a serif title and a line or two, on the column's own left edge */
 .note { display: grid; gap: var(--s-3); max-width: var(--measure); }
-.note p:not(.sec__label) { font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-2); }
+.note p:not(.sec__label) { font-family: var(--serif); font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink-slate); }
+/* a plate of UI: the same slate plate as the screens, holding white cards instead of one screen */
+.plate--ui { place-items: stretch; align-items: start; gap: var(--s-4); padding: clamp(var(--s-4), 5%, var(--s-8)); }
+.plate .ui, .plate .card { background: var(--surface); border-radius: var(--r-m); box-shadow: var(--shadow-screen); padding: clamp(var(--s-5), 2.4vw, var(--s-6)); }
+.plate .story { box-shadow: var(--shadow-screen); }
+.plate--ui .calls__sum { padding-left: clamp(var(--s-5), 2.4vw, var(--s-6)); border-left: 0; align-self: stretch; }
+.plate .evidence__stories, .plate--ui .stat { align-self: stretch; }
+.plate__label { color: var(--surface); }
+.drivers { gap: var(--s-5); }
+.plate--ui.cards, .plate--ui .cards { align-items: stretch; }
