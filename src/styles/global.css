@@ -141,7 +141,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 
 /* printed type: every serif line carries the ink filter and sits into the paper */
 .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note,
-.cs-hero h1, .sec h2, .stat__big, .note h3, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
+.cs-hero h1, .sec h2, .stat__big, .note h3, .hmw__q, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
 
 /* words arrive the way ink takes on wet paper: each word bleeds in from a soft blur, a little bluer while it is
    wet, written left to right along a feathered edge, and dries to ink. Staggered word by word, like a pen. Every
@@ -158,7 +158,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* phones and tablets render SVG filters at a low resolution, so the ink looked blurry and cost frames there.
    On touch screens and small screens the type stays crisp, still multiplied into the paper. */
 @media (max-width: 767px), (hover: none) {
-  .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note, .cs-hero h1, .sec h2, .stat__big, .note h3, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
+  .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note, .cs-hero h1, .sec h2, .stat__big, .note h3, .hmw__q, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
   .words.is-split .w { filter: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -338,7 +338,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* before and after: pinned in the column, the result wipes across the empty search as you scroll */
 .compare { position: relative; height: 220svh; }
 .compare__pin { position: sticky; top: 0; height: 100svh; display: grid; align-content: center; gap: var(--s-4); }
-.compare__panel { display: grid; place-items: center; width: min(100%, calc(72svh * 1.5)); justify-self: center; }
+.compare__panel { display: grid; place-items: center; width: min(100%, (100svh - var(--s-10)) * 1.5); justify-self: center; }
 .compare__frame { position: relative; overflow: hidden; width: 100%; aspect-ratio: 3000 / 2134; background: var(--surface); border-radius: var(--r-s); box-shadow: var(--shadow-screen); }
 .compare__img, .compare__frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .compare__after { position: absolute; inset: 0; clip-path: inset(0 calc((1 - var(--p, 0)) * 100%) 0 0); }
@@ -459,8 +459,8 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
    (3 : 2, the column's width) on the same backdrop, Ian's own horizon in the About slate (public/assets/plate-slate.jpg,
    made by scripts/make-plate.mjs), and holds real screens from the product, never text in boxes */
 .sec { gap: var(--s-6); }
-.note { display: grid; gap: var(--s-3); max-width: var(--measure); }
-.note p:not(.sec__label) { font-family: var(--serif); font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink-slate); max-width: 52ch; }
+.note { display: grid; gap: var(--s-3); }
+.note p:not(.sec__label) { font-family: var(--serif); font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink-slate); max-width: 72ch; }
 .plate { --pad: 7%; position: relative; margin: 0; aspect-ratio: 3 / 2; display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center; padding: var(--pad); border-radius: var(--r-l); background: var(--paper) url('/assets/plate-slate.jpg') center / cover; overflow: hidden; }
 .plate img { display: block; border-radius: var(--r-s); box-shadow: var(--shadow-screen); }
 .plate > img { width: auto; height: auto; max-width: 100%; max-height: 100%; }
@@ -477,25 +477,15 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 .card { display: grid; gap: var(--s-2); align-content: start; padding: clamp(var(--s-5), 2vw, var(--s-6)); border-radius: var(--r-l); background: var(--tint); }
 .card h3 { font-weight: var(--w-strong); font-size: var(--fs-body); line-height: var(--lh-snug); color: var(--ink); }
 .card p { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); }
-/* the larger boxes: overview, research, ideas and takeaways. A serif title, then plain reading text */
-.cards--lg { gap: var(--s-5); }
-.cards--lg .card { gap: var(--s-4); padding: clamp(var(--s-6), 3.4vw, var(--s-8)); }
-.cards--lg .card h3 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); }
-.cards--lg .card p:not(.tag) { font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-2); }
-.cards--lg .card strong { font-weight: var(--w-strong); color: var(--ink); }
+/* boxes: a tag or a number, a title, a line. Wide boxes span the row */
 @media (min-width: 768px) { .card--wide { grid-column: 1 / -1; } }
-.cards--3.cards--lg .card h3 { font-size: var(--fs-subheading); }
-.cards--lg .card p.stat__big { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); color: var(--blue); }
+.card p.stat__big { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); color: var(--blue); }
 .tag { font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); }
 .card--chosen { box-shadow: inset 0 0 0 1px var(--blue-line); }
 .card--chosen .tag { color: var(--blue); }
-/* the question: one sentence on a band of cyanotype blue */
-.hmw { display: grid; justify-items: center; gap: var(--s-4); text-align: center; padding: clamp(var(--s-7), 6vw, var(--s-9)) clamp(var(--s-5), 6vw, var(--s-9)); border-radius: var(--r-l); background: var(--blue); }
-.hmw .label { color: var(--paper); opacity: 0.75; }
-.hmw__q { font-family: var(--serif); font-style: italic; font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--paper); text-wrap: balance; max-width: 26ch; }
-/* the first look at the result, with one line under it */
-.peek { display: grid; gap: var(--s-3); margin: var(--s-5) 0 0; }
-.peek .caption { text-align: center; max-width: 60ch; justify-self: center; }
+/* the question: one centred italic line between fine rules, nothing else */
+.hmw { justify-self: center; padding-block: var(--s-6); border-block: 1px solid var(--rule); width: 100%; text-align: center; }
+.hmw__q { margin-inline: auto; font-family: var(--serif); font-style: italic; font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); text-wrap: balance; max-width: 30ch; }
 /* a design decision: the claim, why, then the screen that shows it */
 .decision { display: grid; gap: var(--s-6); margin-top: var(--s-8); }
 .note h3 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); text-wrap: balance; }
