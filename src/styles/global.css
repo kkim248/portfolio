@@ -476,6 +476,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .abx__marks { position: absolute; top: 0; bottom: 0; left: var(--margin); right: var(--margin); width: calc(100% - 2 * var(--margin)); height: 100%; overflow: visible; pointer-events: none; mix-blend-mode: multiply; fill: var(--pop); }
 .abx__marks .abx__line { fill: none; stroke: url(#abx-fade); stroke-width: 1; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 .abx__marks .s, .abx__marks ellipse { fill: none; stroke: var(--pop); stroke-width: 1.2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.spill--about { left: 58%; top: calc(var(--u) * 420); width: calc(var(--u) * 250); opacity: 0.75; z-index: 0; }
 .abx__plant { position: absolute; right: calc(var(--u) * -95); top: calc(var(--s-5) + var(--u) * 200); width: calc(var(--u) * 300); height: auto; transform: rotate(-28deg); opacity: 0.55; mix-blend-mode: multiply; pointer-events: none; }   /* upright, leaning in, its stem off the page's right edge */
 @media (max-width: 1023px) {
   .abx { overflow: visible; }
@@ -488,7 +489,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
   .abx__words { grid-column: 1 / -1; grid-row: auto; margin-top: 0; row-gap: var(--s-4); }
   .abx__p--1, .abx__p--2 { width: auto; }
   .abx__p--2 { margin-left: var(--s-6); }
-  .abx__marks, .abx__plant { display: none; }
+  .abx__marks, .abx__plant, .spill--about { display: none; }
 }
 .ab { padding-top: var(--s-9); }
 .ab__col { grid-column: 1 / -1; justify-self: center; width: min(var(--measure), 100%); display: grid; gap: var(--s-5); }
