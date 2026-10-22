@@ -9,6 +9,7 @@ import after from '../../assets/moober/moober-search-results.png';
 import trip from '../../assets/moober/moober-trip-details.png';
 import mobileTrip from '../../assets/moober/mobile-trip.png';
 import mobileResults from '../../assets/moober/mobile-results.png';
+import beforeEmpty from '../../assets/moober/before-empty.png';
 import tierDirect from '../../assets/moober/tier-direct.png';
 import tierRoute from '../../assets/moober/tier-route.png';
 import tierNearby from '../../assets/moober/tier-nearby.png';
@@ -29,23 +30,22 @@ const tiers = [
   <!-- first screen: everything you need to know, cover included -->
   <section class="cs-hero rel">
     <Bar current="work" crumb="Moober" />
+    <!-- the title and one line on the left, the facts on the right, then the cover laid on a slate plate below -->
     <div class="cs-hero__body grid">
       <div class="cs-hero__head">
         <h1 class="words" style="--wd: 150ms">Finding rides that were already there</h1>
+        <p class="cs-lede reveal" style="--i: 3">Redesigning Moober's search so riders see every ride headed their way.</p>
       </div>
-      <figure class="cs-cover" data-slug={p.slug} style="view-transition-name: cover">
-        <Image src={p.cover} alt={p.alt} widths={[800, 1200, 1600, p.cover.width]} sizes="(min-width: 1024px) 58vw, 100vw" quality={86} loading="eager" fetchpriority="high" />
-      </figure>
-      <div class="cs-hero__meta">
-        <p class="cs-lede reveal" style="--i: 3">Redesigning search so riders see every ride headed their way.</p>
-        <dl class="cs-info reveal" style="--i: 4">
-          <div><dt class="label">Role</dt><dd>Product Designer</dd></div>
-          <div><dt class="label">Timeline</dt><dd>Spring 2026</dd></div>
-          <div class="cs-info__wide"><dt class="label">Team</dt><dd>2 PMs, 1 PD (me), 1 GD, 1 PMM, 4 SWEs</dd></div>
-        </dl>
-        <a class="cta reveal" style="--i: 5" href="https://mooberdavis.com/" target="_blank" rel="noopener">
-          <span>Visit Moober</span><span class="arrow">&nearr;&#65038;</span>
-        </a>
+      <dl class="cs-info reveal" style="--i: 4">
+        <div><dt class="label">Role</dt><dd>Product Designer</dd></div>
+        <div><dt class="label">Timeline</dt><dd>Spring 2026</dd></div>
+        <div><dt class="label">Team</dt><dd>2 PMs, 1 PD (me), 1 GD, 1 PMM, 4 SWEs</dd></div>
+        <div><dt class="label">Live</dt><dd><a class="cta" href="https://mooberdavis.com/" target="_blank" rel="noopener"><span>Visit Moober</span><span class="arrow">&nearr;&#65038;</span></a></dd></div>
+      </dl>
+      <div class="plate cs-hero__plate reveal" style="--i: 2">
+        <figure class="cs-cover" data-slug={p.slug} style="view-transition-name: cover">
+          <Image src={p.cover} alt={p.alt} widths={[800, 1200, 1600, p.cover.width]} sizes="(min-width: 1024px) 900px, 90vw" quality={86} loading="eager" fetchpriority="high" />
+        </figure>
       </div>
     </div>
   </section>
@@ -70,14 +70,19 @@ const tiers = [
         </div>
       </section>
 
-      <!-- problem: the problem stated outright, then what it looked like -->
+      <!-- problem: what a rider saw, beside the ride that was there all along -->
       <section class="sec" id="problem">
         <div class="note">
           <p class="sec__label">Problem</p>
           <h2>Riders searched, saw nothing, and left.</h2>
-          <p>Search only matched a driver's final city. A rider going to Fresno never saw the driver heading to LA straight through Fresno, even with seats open.</p>
+          <p>Search only matched a driver's final city, so a rider going to Fresno never saw the driver heading to LA straight through it.</p>
         </div>
-        <figure class="plate"><Image src={before} alt="Searching Davis to Fresno before the redesign: no rides found." {...shots} /></figure>
+        <figure class="plate">
+          <div class="duo">
+            <div class="duo__item duo__item--wide"><span class="pill">What a rider going to Fresno saw</span><Image src={beforeEmpty} alt="A Davis to Fresno search with no results found." widths={[600, 1000, 1400]} sizes="(min-width: 1024px) 480px, 60vw" /></div>
+            <div class="duo__item"><span class="pill">A ride passing through Fresno</span><Image src={tierRoute} alt="A Davis to Los Angeles ride with a stop partway along, in Fresno." widths={[600, 1000]} sizes="(min-width: 1024px) 340px, 40vw" /></div>
+          </div>
+        </figure>
       </section>
 
       <!-- a first look at the result: its own section, left out of the index -->
@@ -93,60 +98,57 @@ const tiers = [
         </figure>
       </section>
 
-      <!-- research: what the numbers said, what riders said, the insight, then the question -->
+      <!-- research: what we did, then the insights, then the question they leave -->
       <section class="sec" id="research">
         <div class="note">
           <p class="sec__label">Research</p>
-          <h2>Riders weren't missing rides. Search was hiding them.</h2>
-          <p>We started with our PostHog analytics, then interviewed riders we recruited through a gift card giveaway.</p>
+          <h2>To see why searches came up empty, we looked at our data and talked to riders</h2>
+          <p>We studied our <strong>PostHog analytics</strong> and ran <strong>rider interviews</strong>, recruited through a gift card giveaway. Here's what we found:</p>
         </div>
-        <div class="cards cards--2">
-          <article class="card"><h3>Analytics</h3><p class="stat__big">44%</p><p>of listed rides drove empty in April 2026, while riders were on the app searching.</p></article>
-          <article class="card"><h3>Interviews</h3><p>One student drove to LA to catch a ride that passed his hometown. Another saw one empty screen and assumed the app was dead. For many, a dead end meant an Amtrak ticket.</p></article>
-          <article class="card card--wide"><h3>Insight</h3><p>Search only matched a driver's final city, so the rides passing through a rider's town never showed up.</p></article>
+        <div class="cards cards--3">
+          <article class="card ins"><h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l6 6 4-4 8 8M15 17h6v-6"/></svg>Seats go empty</h3><p>44% of listed rides drove empty in April 2026.</p></article>
+          <article class="card ins"><h3><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>Search hides rides</h3><p>Rides passing through a town never showed up for it.</p></article>
+          <article class="card ins"><h3><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8.5 16c2-2 5-2 7 0M9 9.5h.01M15 9.5h.01"/></svg>One dead end is enough</h3><p>After one empty search, riders assumed the app was dead.</p></article>
         </div>
         <div class="hmw">
+          <canvas class="spill spill--hmw" data-aspect="1.6" data-origin="0.5 0.5" data-seed="11" data-strength="0.5" aria-hidden="true"></canvas>
+          <p class="label">How might we</p>
           <p class="hmw__q">How might we help riders find the rides already passing through their town?</p>
         </div>
       </section>
 
-      <!-- ideate: the ideas we weighed before the route won -->
+      <!-- ideate: four directions, in a word or two each -->
       <section class="sec" id="ideate">
         <div class="note">
           <p class="sec__label">Ideate</p>
           <h2>Four ways to fill an empty search</h2>
-          <p>Before settling on the route, we weighed what each idea asked of drivers, and whether it would actually match riders.</p>
         </div>
         <div class="cards cards--2">
-          <article class="card"><p class="tag">Dropped</p><h3>Fixed zones</h3><p>Group cities into zones and match within them. But close on a map isn't close in traffic.</p></article>
-          <article class="card"><p class="tag">Dropped</p><h3>Drivers list every city</h3><p>Let drivers add each town they pass. More work for drivers, and drivers are the supply.</p></article>
-          <article class="card"><p class="tag">Kept, alongside</p><h3>Request board</h3><p>Riders post where they need to go. Useful, but too slow on its own, so it sits next to search.</p></article>
-          <article class="card card--chosen"><p class="tag">Chosen</p><h3>Match the whole route</h3><p>Check whether a driver's route passes near the rider. No extra work for drivers, and it finds the rides that were already there.</p></article>
+          <article class="card"><p class="tag">Dropped</p><h3>Fixed zones</h3><p>Close on a map isn't close in traffic.</p></article>
+          <article class="card"><p class="tag">Dropped</p><h3>Drivers list every city</h3><p>Extra work for drivers, who are our supply.</p></article>
+          <article class="card"><p class="tag">Kept</p><h3>Request board</h3><p>Too slow alone, so it sits beside search.</p></article>
+          <article class="card card--chosen"><p class="tag">Chosen</p><h3>Match the whole route</h3><p>No extra work for anyone, and it finds rides already there.</p></article>
         </div>
       </section>
 
-      <!-- design decisions: the two calls that shaped the build, each with why and the screen that shows it -->
+      <!-- design decisions: the budget that shaped the build, and the two calls it led to -->
       <section class="sec" id="decisions">
         <div class="note">
           <p class="sec__label">Design decisions</p>
           <h2>Designing around 3,000 map calls a day</h2>
-          <p>Matching on the route meant asking a map service whether each driver passes near the rider. Our free tier allowed 3,000 calls a day, and a student startup can't absorb a surprise bill.</p>
+          <p>Checking a driver's route costs map calls, and our free tier allowed 3,000 a day.</p>
         </div>
-
         <div class="decision">
           <div class="note">
-            <h3>Tiers built around the call budget</h3>
-            <p>A full check cost 5 calls. Our TPM stored each ride's start and end and cached the rider's, which brought it to 2, about 1,500 checks a day. I designed the tiers so only one of them spends those calls.</p>
-            <p>Direct rides match on the city, with no check. On your route rides are the only ones checked against the map. Nearby rides end close by, and the card says exactly how far, so the rider decides before booking.</p>
+            <h3>Tiers built around the budget</h3>
+            <p>Caching cut each check from 5 calls to 2. I designed the tiers so only On your route spends them: Direct matches on the city, and Nearby shows the distance up front.</p>
           </div>
           <figure class="plate"><div class="tierstack">{tiers.map((t) => <Image src={t.shot} alt={t.alt} widths={[600, 1000, 1400]} sizes="(min-width: 1024px) 560px, 80vw" />)}</div></figure>
         </div>
-
         <div class="decision">
           <div class="note">
             <h3>Drivers set the detour</h3>
-            <p>A route match only works if the driver is willing to stop. So drivers opt into pickups along the way and choose a maximum detour of 5, 15 or 30 minutes. They carry the cost, so they decide.</p>
-            <p>We ruled out letting riders ask for detours, since every booking would turn into a negotiation.</p>
+            <p>Drivers opt into pickups along the way and choose a 5, 15 or 30 minute limit. They carry the cost, so they decide, and riders never have to negotiate.</p>
           </div>
           <figure class="plate"><img src="/media/moober-toggle.gif" width="1438" height="820" alt="Posting a new carpool: the toggle for pickups along the way and the maximum detour." loading="lazy" /></figure>
         </div>
@@ -157,7 +159,7 @@ const tiers = [
         <div class="note">
           <p class="sec__label">Solution</p>
           <h2>The same search, now full of rides</h2>
-          <p>Davis to Fresno used to return nothing. Now it shows every ride that goes there, passes through, or ends close by.</p>
+          <p>Davis to Fresno used to return nothing. Now it shows rides going there, passing through, or ending close by.</p>
         </div>
         <!-- before and after: pinned, the result wipes across the empty search as you scroll -->
         <div class="compare" data-compare>
@@ -177,8 +179,8 @@ const tiers = [
         </div>
         <div class="decision">
           <div class="note">
-            <h3>Riders see exactly where they'll be picked up and dropped off</h3>
-            <p>The trip page lays out the pickup, the rider's own stop along the way and the drop-off, on desktop and on the phone.</p>
+            <h3>Every stop, before booking</h3>
+            <p>The trip page shows the pickup, the rider's own stop and the drop-off.</p>
           </div>
           <figure class="plate plate--pair">
             <Image src={trip} alt="Trip details for a Davis to Los Angeles ride via Fresno: pickup, the rider's stop, and drop-off." {...shots} />
@@ -191,11 +193,7 @@ const tiers = [
         <div class="note">
           <p class="sec__label">Takeaways</p>
           <h2>What I took away</h2>
-        </div>
-        <div class="cards cards--3">
-          <article class="card"><h3>Constraints are design material.</h3><p>The call limit, found early with engineering, is why the tiers exist.</p></article>
-          <article class="card"><h3>Honesty is a feature.</h3><p>Showing the mileage gap up front earns more trust than polish.</p></article>
-          <article class="card"><h3>What's next.</h3><p>After launch, I'll watch whether riders who find rides actually book them.</p></article>
+          <p>Constraints are design material: the call limit, found early with engineering, is why the tiers exist. Honesty is a feature, and showing the distance up front earns more trust than polish. After launch, I'll watch whether riders who find rides actually book them.</p>
         </div>
         <div class="gallery">
           <figure style="--a: 1.5"><Image src={team} alt="The Moober team, ten students standing arm in arm on a tree-lined path." widths={[600, 1000, 1400]} sizes="(min-width: 1024px) 420px, 100vw" /><figcaption class="caption">The Moober team</figcaption></figure>

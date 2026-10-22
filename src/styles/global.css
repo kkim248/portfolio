@@ -141,7 +141,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 
 /* printed type: every serif line carries the ink filter and sits into the paper */
 .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note,
-.cs-hero h1, .sec h2, .stat__big, .note h3, .hmw__q, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
+.cs-hero h1, .sec h2, .note h3, .hmw__q, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
 
 /* words arrive the way ink takes on wet paper: each word bleeds in from a soft blur, a little bluer while it is
    wet, written left to right along a feathered edge, and dries to ink. Staggered word by word, like a pen. Every
@@ -158,7 +158,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* phones and tablets render SVG filters at a low resolution, so the ink looked blurry and cost frames there.
    On touch screens and small screens the type stays crisp, still multiplied into the paper. */
 @media (max-width: 767px), (hover: none) {
-  .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note, .cs-hero h1, .sec h2, .stat__big, .note h3, .hmw__q, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
+  .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note, .cs-hero h1, .sec h2, .note h3, .hmw__q, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
   .words.is-split .w { filter: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -292,25 +292,23 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @media (max-width: 1023px) { .spill--quiet-r, .spill--quiet-l { display: none; } .spill--foot { width: 56vw; left: auto; right: -14vw; top: 30px; opacity: 0.8; } }
 
 /* ---------- case study: the same sheet of paper, continued ---------- */
-/* first screen: the facts on the left, the cover where it sat on the homepage, all within one view */
-.cs-hero { min-height: 100svh; display: flex; flex-direction: column; padding-bottom: var(--s-7); }
-.cs-hero__body { flex: 1; align-content: start; row-gap: var(--s-5); padding-top: var(--s-6); }
-.cs-hero__head, .cs-hero__meta { grid-column: 1 / -1; display: grid; gap: var(--s-5); justify-items: start; }
+/* first screen: the title and one line on the left, the facts on the right, then the cover on a slate plate */
+.cs-hero { padding-bottom: var(--s-6); }
+.cs-hero__body { row-gap: var(--s-7); padding-top: var(--s-8); align-items: end; }
+.cs-hero__head { grid-column: 1 / -1; display: grid; gap: var(--s-4); }
 .cs-hero h1 { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); text-wrap: balance; }
-.cs-lede { font-family: var(--serif); font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink-slate); max-width: 440px; }
-.cs-info { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4) var(--s-5); padding-top: var(--s-4); border-top: 1px solid var(--rule); width: 100%; max-width: 440px; }
-.cs-info div { display: grid; gap: var(--s-1); } .cs-info__wide { grid-column: 1 / -1; }
+.cs-lede { font-family: var(--serif); font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink-slate); }
+.cs-info { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4) var(--gutter); }
+.cs-info div { display: grid; gap: var(--s-1); align-content: start; }
 .cs-info dd { font-size: var(--fs-small); line-height: var(--lh-text); }
-.cs-cover { grid-column: 1 / -1; position: relative; overflow: hidden; background: var(--paper); aspect-ratio: var(--cover-ratio); }
-.cs-cover img { width: 100%; height: 100%; object-fit: cover; }
+.cs-hero__plate { grid-column: 1 / -1; aspect-ratio: 4 / 3; }
+.cs-cover { position: relative; overflow: hidden; margin: 0; height: 100%; max-width: 100%; aspect-ratio: var(--cover-ratio); border-radius: var(--r-m); box-shadow: var(--shadow-screen); background: var(--paper); }
+.cs-cover img { display: block; width: 100%; height: 100%; object-fit: cover; }
+@media (min-width: 768px) { .cs-hero__plate { aspect-ratio: 2 / 1; --pad: 5%; } }
 @media (min-width: 1024px) {
-  .cs-hero__body { padding-top: 0; align-content: center; grid-template-rows: auto auto; }
-  .cs-hero__head { grid-column: 1 / span 5; grid-row: 1; align-self: end; }
-  .cs-hero__meta { grid-column: 1 / span 5; grid-row: 2; align-self: start; }
-  /* the same box as the homepage stage, so the cover barely moves between the two pages */
-  .cs-cover { grid-column: 6 / span 7; grid-row: 1 / span 2; justify-self: end; align-self: center; width: min(100%, var(--cover-max-h) * var(--cover-ratio-n)); }
+  .cs-hero__head { grid-column: 1 / span 7; }
+  .cs-info { grid-column: 9 / span 4; }
 }
-@media (max-width: 1023px) and (orientation: landscape) { .cs-cover { justify-self: center; width: min(100%, 70svh * var(--cover-ratio-n)); } }
 
 /* the body: a quiet index at the margin, one centred reading column, a blue label above each serif heading */
 .cs { padding-block: var(--section) var(--s-6); align-items: start; overflow-x: clip; }
@@ -462,7 +460,7 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 .note { display: grid; gap: var(--s-3); }
 .note p:not(.sec__label) { font-family: var(--serif); font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink-slate); max-width: 72ch; }
 .plate { --pad: 7%; position: relative; margin: 0; aspect-ratio: 3 / 2; display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center; padding: var(--pad); border-radius: var(--r-l); background: var(--paper) url('/assets/plate-slate.jpg') center / cover; overflow: hidden; }
-.plate img { display: block; border-radius: var(--r-s); box-shadow: var(--shadow-screen); }
+.plate img:not(.cs-cover img) { display: block; border-radius: var(--r-s); box-shadow: var(--shadow-screen); }
 .plate > img { width: auto; height: auto; max-width: 100%; max-height: 100%; }
 /* a desktop screen and its phone, side by side at one height */
 .plate--pair { display: flex; align-items: center; justify-content: center; gap: var(--s-5); }
@@ -477,16 +475,27 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 .card { display: grid; gap: var(--s-2); align-content: start; padding: clamp(var(--s-5), 2vw, var(--s-6)); border-radius: var(--r-l); background: var(--tint); }
 .card h3 { font-weight: var(--w-strong); font-size: var(--fs-body); line-height: var(--lh-snug); color: var(--ink); }
 .card p { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); }
+/* the problem plate: what the rider saw beside the ride that was there, each with a white label */
+.duo { display: flex; align-items: center; justify-content: center; gap: var(--s-6); width: 100%; height: 100%; }
+.duo__item { display: grid; gap: var(--s-3); justify-items: start; flex: 1 1 0; min-width: 0; }
+.duo__item--wide { flex-grow: 1.4; }
+.duo__item img { width: 100%; height: auto; }
+.pill { padding: var(--s-1) var(--s-3); border-radius: var(--r-pill); background: var(--surface); box-shadow: var(--shadow-card); font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-2); }
+@media (max-width: 767px) { .plate:has(.duo) { aspect-ratio: auto; } .duo { flex-direction: column; gap: var(--s-4); } .duo__item { width: 100%; } }
+/* research insights: an icon beside a short title, then one line */
+.ins h3 { display: flex; align-items: center; gap: var(--s-3); }
+.ins svg { width: 20px; height: 20px; flex: none; fill: none; stroke: var(--blue); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 /* boxes: a tag or a number, a title, a line. Wide boxes span the row */
-@media (min-width: 768px) { .card--wide { grid-column: 1 / -1; } }
-.card p.stat__big { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); color: var(--blue); }
-.tag { font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); }
+.tag { justify-self: start; margin-bottom: var(--s-2); font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); }
 .card--chosen { box-shadow: inset 0 0 0 1px var(--blue-line); }
 .card--chosen .tag { color: var(--blue); }
-/* the question: one centred italic line between fine rules, nothing else */
-.hmw { justify-self: center; padding-block: var(--s-6); border-block: 1px solid var(--rule); width: 100%; text-align: center; }
-.hmw__q { margin-inline: auto; font-family: var(--serif); font-style: italic; font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); text-wrap: balance; max-width: 30ch; }
+/* the question: a centred italic line over a soft watercolor bloom */
+.hmw { position: relative; display: grid; justify-items: center; gap: var(--s-4); padding-block: var(--s-9); text-align: center; }
+.hmw > :not(.spill) { position: relative; z-index: 1; }
+.spill--hmw { left: 50%; top: 50%; width: clamp(280px, 40vw, 520px); transform: translate(-50%, -50%); opacity: 0.55; }
+.hmw .label { color: var(--blue); }
+.hmw__q { font-family: var(--serif); font-style: italic; font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); text-wrap: balance; max-width: 26ch; }
 /* a design decision: the claim, why, then the screen that shows it */
-.decision { display: grid; gap: var(--s-6); margin-top: var(--s-8); }
+.decision { display: grid; gap: var(--s-5); margin-top: var(--s-6); }
 .note h3 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); text-wrap: balance; }
 @media (max-width: 639px) { .plate { --pad: var(--s-4); } .plate--pair { gap: var(--s-3); } .tierstack { gap: var(--s-2); width: 62%; } }
