@@ -73,7 +73,7 @@
 
   /* measure */
   --measure: 680px;        /* one reading column */
-  --measure-wide: 940px;   /* the case study column */
+  --measure-wide: 760px;   /* the case study column, about the width the reference studies use */
 
   /* motion */
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -292,28 +292,32 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @media (max-width: 1023px) { .spill--quiet-r, .spill--quiet-l { display: none; } .spill--foot { width: 56vw; left: auto; right: -14vw; top: 30px; opacity: 0.8; } }
 
 /* ---------- case study: the same sheet of paper, continued ---------- */
-/* first screen: the title and one line on the left, the facts on the right, then the cover on a slate plate */
-.cs-hero { padding-bottom: var(--s-6); }
-.cs-hero__body { row-gap: var(--s-7); padding-top: var(--s-8); align-items: end; }
-.cs-hero__head { grid-column: 1 / -1; display: grid; gap: var(--s-4); }
-.cs-hero h1 { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); text-wrap: balance; }
-.cs-lede { font-family: var(--serif); font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink-slate); }
-.cs-info { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4) var(--gutter); }
+/* first screen: the same column as the body. The title and one line on the left, the facts on the right,
+   then the cover on a slate plate below */
+.cs-hero { padding-bottom: 0; }
+.cs-hero__body { row-gap: var(--s-6); padding-top: var(--s-8); align-items: end; }
+.cs-hero__head { grid-column: 1 / -1; display: grid; gap: var(--s-3); }
+.cs-hero h1 { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-heading-l); line-height: var(--lh-tight); letter-spacing: var(--track-display); text-wrap: balance; }
+.cs-lede { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); }
+.cs-info { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-3) var(--s-5); }
 .cs-info div { display: grid; gap: var(--s-1); align-content: start; }
 .cs-info dd { font-size: var(--fs-small); line-height: var(--lh-text); }
 .cs-hero__plate { grid-column: 1 / -1; aspect-ratio: 4 / 3; }
-.cs-cover { position: relative; overflow: hidden; margin: 0; height: 100%; max-width: 100%; aspect-ratio: var(--cover-ratio); border-radius: var(--r-m); box-shadow: var(--shadow-screen); background: var(--paper); }
+.cs-cover { position: relative; overflow: hidden; margin: 0; height: 100%; max-width: 100%; aspect-ratio: var(--cover-ratio); border-radius: var(--r-s); box-shadow: var(--shadow-screen); background: var(--paper); }
 .cs-cover img { display: block; width: 100%; height: 100%; object-fit: cover; }
 @media (min-width: 768px) { .cs-hero__plate { aspect-ratio: 2 / 1; --pad: 5%; } }
 @media (min-width: 1024px) {
-  .cs-hero__head { grid-column: 1 / span 7; }
-  .cs-info { grid-column: 9 / span 4; }
+  /* the hero shares the body's column: index width on the left, the column centred */
+  .cs-hero__body { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--s-7); width: min(var(--measure-wide), 100% - 2 * 200px); margin-inline: auto; padding-inline: 0; }
+  .cs-hero__head { grid-column: 1; }
+  .cs-info { grid-column: 2; width: 280px; }
+  .cs-hero__plate { grid-column: 1 / -1; }
 }
 
 /* the body: a quiet index at the margin, one centred reading column, a blue label above each serif heading */
-.cs { padding-block: var(--section) var(--s-6); align-items: start; overflow-x: clip; }
+.cs { padding-block: var(--s-8) var(--s-6); align-items: start; overflow-x: clip; }
 .cs-index { display: none; }
-.cs-col { grid-column: 1 / -1; min-width: 0; display: grid; gap: var(--section); }
+.cs-col { grid-column: 1 / -1; min-width: 0; display: grid; gap: var(--s-9); }
 @media (min-width: 1200px) {
   /* the index sits at the margin; the reading column is centred on the page, clear of it */
   .cs-index { display: grid; gap: var(--s-6); grid-column: 1 / span 2; grid-row: 1; position: sticky; top: var(--s-9); align-self: start; z-index: 2; }
@@ -326,7 +330,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* a section: label, then heading 16px below it, then everything else 24px apart */
 .sec { display: grid; gap: var(--s-6); scroll-margin-top: var(--s-8); min-width: 0; }
 .sec__label { font-family: var(--mono); font-size: var(--fs-label-l); line-height: var(--lh-label); letter-spacing: var(--track-label-l); text-transform: uppercase; color: var(--blue); }
-.sec h2 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); max-width: 34ch; text-wrap: balance; margin-top: calc(var(--s-2) * -1); }
+.sec h2 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); max-width: 34ch; text-wrap: balance; margin-top: calc(var(--s-2) * -1); }
 /* panels and screens: a deeper patch of the paper, with product screens lying on it */
 .shot { position: relative; width: 100%; }
 .shot img { display: block; width: 100%; height: auto; border-radius: var(--r-s); box-shadow: var(--shadow-screen); }
@@ -458,7 +462,8 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
    made by scripts/make-plate.mjs), and holds real screens from the product, never text in boxes */
 .sec { gap: var(--s-6); }
 .note { display: grid; gap: var(--s-3); }
-.note p:not(.sec__label) { font-family: var(--serif); font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink-slate); max-width: 72ch; }
+.note p:not(.sec__label) { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); max-width: 72ch; }
+.note strong { font-weight: var(--w-strong); color: var(--ink); }
 .plate { --pad: 7%; position: relative; margin: 0; aspect-ratio: 3 / 2; display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center; padding: var(--pad); border-radius: var(--r-l); background: var(--paper) url('/assets/plate-slate.jpg') center / cover; overflow: hidden; }
 .plate img:not(.cs-cover img) { display: block; border-radius: var(--r-s); box-shadow: var(--shadow-screen); }
 .plate > img { width: auto; height: auto; max-width: 100%; max-height: 100%; }
@@ -475,16 +480,27 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 .card { display: grid; gap: var(--s-2); align-content: start; padding: clamp(var(--s-5), 2vw, var(--s-6)); border-radius: var(--r-l); background: var(--tint); }
 .card h3 { font-weight: var(--w-strong); font-size: var(--fs-body); line-height: var(--lh-snug); color: var(--ink); }
 .card p { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); }
-/* the problem plate: what the rider saw beside the ride that was there, each with a white label */
-.duo { display: flex; align-items: center; justify-content: center; gap: var(--s-6); width: 100%; height: 100%; }
-.duo__item { display: grid; gap: var(--s-3); justify-items: start; flex: 1 1 0; min-width: 0; }
-.duo__item--wide { flex-grow: 1.4; }
-.duo__item img { width: 100%; height: auto; }
-.pill { padding: var(--s-1) var(--s-3); border-radius: var(--r-pill); background: var(--surface); box-shadow: var(--shadow-card); font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-2); }
-@media (max-width: 767px) { .plate:has(.duo) { aspect-ratio: auto; } .duo { flex-direction: column; gap: var(--s-4); } .duo__item { width: 100%; } }
-/* research insights: an icon beside a short title, then one line */
-.ins h3 { display: flex; align-items: center; gap: var(--s-3); }
-.ins svg { width: 20px; height: 20px; flex: none; fill: none; stroke: var(--blue); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+/* drawings: fine white line work on the slate plate, like a cyanotype print */
+.plate--art { --pad: 0; }
+.art { width: 100%; height: 100%; display: block; }
+.art path, .art circle, .art rect { fill: none; stroke: var(--surface); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.art__faint path { stroke-width: 1; opacity: 0.28; }
+.art__route { stroke-width: 2.5; }
+.art .art__dot { fill: var(--surface); stroke: none; }
+.art__ring { opacity: 0.8; }
+.art text { fill: var(--surface); font-family: var(--mono); font-size: var(--fs-label); letter-spacing: var(--track-label); text-transform: uppercase; }
+.art__note rect { fill: var(--surface); stroke: none; }
+.art__note text { fill: var(--ink-2); text-transform: none; letter-spacing: 0; font-family: var(--sans); font-size: var(--fs-label-l); }
+.art .art__big { font-family: var(--serif); font-style: italic; font-size: var(--fs-title); letter-spacing: var(--track-display); text-transform: none; }
+/* ideas: each box opens with a small drawing of how the idea works */
+.ideas .card { gap: var(--s-2); }
+.idea__art { margin-bottom: var(--s-3); aspect-ratio: 16 / 9; border-radius: var(--r-m); background: var(--paper) url('/assets/plate-slate.jpg') center / cover; display: grid; place-items: center; }
+.idea__art svg { width: 70%; height: auto; overflow: visible; }
+.idea__art path, .idea__art circle, .idea__art rect { fill: none; stroke: var(--surface); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.idea__art .d { stroke-dasharray: 3 4; opacity: 0.7; }
+.idea__art .f { fill: var(--surface); stroke: none; }
+.idea__art .a { fill: var(--blue); stroke: var(--surface); stroke-width: 1.5; }
+.idea__art .r { opacity: 0.8; }
 /* boxes: a tag or a number, a title, a line. Wide boxes span the row */
 .tag { justify-self: start; margin-bottom: var(--s-2); font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); }
 .card--chosen { box-shadow: inset 0 0 0 1px var(--blue-line); }
@@ -497,5 +513,5 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 .hmw__q { font-family: var(--serif); font-style: italic; font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); text-wrap: balance; max-width: 26ch; }
 /* a design decision: the claim, why, then the screen that shows it */
 .decision { display: grid; gap: var(--s-5); margin-top: var(--s-6); }
-.note h3 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); text-wrap: balance; }
+.note h3 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-body); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); text-wrap: balance; }
 @media (max-width: 639px) { .plate { --pad: var(--s-4); } .plate--pair { gap: var(--s-3); } .tierstack { gap: var(--s-2); width: 62%; } }
