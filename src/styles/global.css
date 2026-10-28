@@ -499,7 +499,7 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 .art .art__note text { fill: var(--ink-2); font-family: var(--sans); font-size: var(--fs-label-l); letter-spacing: 0; text-transform: none; }
 /* boxes: a tag or a number, a title, a line. Wide boxes span the row */
 /* the question: a centred italic line over a soft watercolor bloom */
-.hmw { position: relative; display: grid; justify-items: center; gap: var(--s-3); padding-block: var(--s-8); text-align: center; }
+.hmw { position: relative; display: grid; justify-items: center; gap: var(--s-3); padding-block: var(--s-9) var(--s-6);   /* the section gap above is 32 and below is 96, so this sets it 128 from both */  text-align: center; }
 .hmw > :not(.spill) { position: relative; z-index: 1; }
 .spill--hmw { left: 50%; top: 50%; width: clamp(280px, 40vw, 520px); transform: translate(-50%, -50%); opacity: 0.55; }
 .hmw .label { color: var(--blue); }
