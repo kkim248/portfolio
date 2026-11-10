@@ -1,6 +1,6 @@
 import moober from '../assets/covers/moober-cover.jpg';
 import buzzit from '../assets/covers/buzzit-cover.jpg';
-import crate from '../assets/covers/crate-cover.jpg';   // a capture of the live app
+import crate from '../assets/covers/crate-cover.jpg';   // made by scripts/make-crate-cover.mjs
 
 export const projects = [
   {
@@ -32,6 +32,6 @@ export const projects = [
     meta: ['Side project', 'Web'],
     summary: 'A home for my unfinished beats, each one sorted by how far along it is.',
     cover: crate,
-    alt: 'Crate, a music project library: beats listed by month with their sessions and stage, and Post Monterey Trip open with its stats.',
+    alt: 'Crate on its deep indigo: the library of beats with their stages, Post Monterey Trip open with its sessions and active time, and a recap tile reading 4 hours never heard.',
   },
 ];
