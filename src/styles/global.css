@@ -230,7 +230,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .statement { margin-top: var(--s-9); }
 .statement h1 { grid-column: 1 / -1; font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-display); line-height: var(--lh-tight); letter-spacing: var(--track-display); text-wrap: balance; }
 @media (min-width: 1024px) { .statement h1 { grid-column: 1 / span 9; } }
-.statement h1 em { font-style: italic; color: var(--blue); }
+.statement h1 em { font-style: italic; }
 
 .work { padding-top: var(--section); padding-bottom: var(--s-9); }
 .work__head h2 { grid-column: 1 / -1; font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-heading-l); line-height: 1; letter-spacing: var(--track-display); }
@@ -240,22 +240,19 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .work__cards { list-style: none; row-gap: var(--s-8); margin-top: var(--s-7); }
 .wcard { grid-column: 1 / -1; }
 @media (min-width: 768px) { .wcard:nth-child(odd) { grid-column: 1 / span 6; } .wcard:nth-child(even) { grid-column: 7 / span 6; } }
-.wcard__link { display: grid; gap: var(--s-5); color: inherit; text-decoration: none; }
+.wcard__link { display: grid; gap: var(--s-3); color: inherit; text-decoration: none; }
 .wcard__link:hover { text-decoration: none; }
-.wcard__cover { position: relative; display: block; overflow: hidden; aspect-ratio: var(--cover-ratio); border-radius: var(--r-l); background: var(--paper); box-shadow: var(--shadow-card); transition: transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease); }
-.wcard__cover img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-slow) var(--ease); }
-.wcard__info { display: flex; justify-content: space-between; align-items: start; gap: var(--s-5); }
-.wcard__text { display: grid; gap: var(--s-2); }
-.wcard__title { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); }
-.wcard__line { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); max-width: 42ch; }
-.wcard__meta { margin-top: var(--s-2); }
-.wcard__go { flex: none; display: inline-flex; gap: var(--s-2); margin-top: var(--s-2); font-size: var(--fs-small); color: var(--ink); }
-.wcard__go .arrow { transition: transform var(--dur-base) var(--ease); }
-/* on hover the cover lifts a little and the screens on it come closer; the way in nudges forward */
+/* the cover sits inset on a soft panel of the paper, like a print in a mat, so a bold cover still belongs to the page */
+.wcard__cover { position: relative; display: block; padding: var(--s-5); border-radius: var(--r-l); background: var(--tint); box-shadow: inset 0 0 0 1px var(--rule); transition: background var(--dur-base) var(--ease); }
+.wcard__cover img { display: block; width: 100%; height: auto; aspect-ratio: var(--cover-ratio); object-fit: cover; border-radius: var(--r-m); box-shadow: var(--shadow-card); transition: transform var(--dur-slow) var(--ease), box-shadow var(--dur-slow) var(--ease); }
+.wcard__row { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s-4); padding: var(--s-2) var(--s-1) 0; }
+.wcard__title { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); }
+.wcard__tags { display: flex; gap: var(--s-2); flex-wrap: wrap; justify-content: end; }
+.wcard__tag { padding: var(--s-1) var(--s-3); border-radius: var(--r-pill); background: var(--tint); font-size: var(--fs-label-l); line-height: var(--lh-label); color: var(--ink-3); }
+.wcard__line { padding-inline: var(--s-1); font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); max-width: 46ch; }
+/* on hover the cover lifts a touch off its mat */
 @media (hover: hover) {
-  .wcard__link:hover .wcard__cover { transform: translateY(calc(var(--s-1) * -1)); box-shadow: var(--shadow-screen); }
-  .wcard__link:hover .wcard__cover img { transform: scale(1.025); }
-  .wcard__link:hover .wcard__go .arrow { transform: translateX(var(--s-1)); }
+  .wcard__link:hover .wcard__cover img { transform: translateY(calc(var(--s-1) * -1)); box-shadow: var(--shadow-screen); }
 }
 .wcard__link[aria-disabled] { cursor: default; }
 
