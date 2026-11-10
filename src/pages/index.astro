@@ -5,16 +5,10 @@ import Work from '../components/Work.astro';
 import Foot from '../components/Foot.astro';
 ---
 <Base>
-  <!-- a short opening, then the work straight away: the projects are on screen the moment the site opens -->
   <section class="first rel">
-    <Top current="work" compact />
-    <div class="opening grid">
+    <Top current="work" />
+    <div class="statement grid">
       <h1 class="words" style="--wd: 450ms">Designer with an artist's eye for <em>detail</em></h1>
-      <dl class="opening__facts enter" style="--i: 3">
-        <div><dt class="label">Now</dt><dd>Designing Moober and Buzzit, two live apps for Davis students</dd></div>
-        <div><dt class="label">Studying</dt><dd>Design at UC Davis</dd></div>
-        <div><dt class="label">From</dt><dd>San Francisco</dd></div>
-      </dl>
     </div>
   </section>
   <main>
