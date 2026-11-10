@@ -32,6 +32,6 @@ export const projects = [
     meta: ['Side project', 'Web'],
     summary: 'A home for my unfinished beats, each one sorted by how far along it is.',
     cover: crate,
-    alt: 'Crate on its deep indigo: the library of beats with their stages, Post Monterey Trip open with its sessions and active time, and a recap tile reading 4 hours never heard.',
+    alt: 'Crate on its soft sage and lavender: the library of beats with their stages, Post Monterey Trip open with its sessions and active time, and a recap tile reading 4 hours never heard.',
   },
 ];
