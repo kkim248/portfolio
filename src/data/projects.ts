@@ -1,5 +1,6 @@
 import moober from '../assets/covers/moober-cover.jpg';
 import buzzit from '../assets/covers/buzzit-cover.jpg';
+import crate from '../assets/covers/crate-cover.jpg';   // a capture of the live app
 
 export const projects = [
   {
@@ -21,5 +22,16 @@ export const projects = [
     summary: 'A student marketplace where completed bookings went from 22% to 92%.',
     cover: buzzit,
     alt: 'Buzzit screens: the home feed with a featured maker and listings, a gel manicure listing with Message and Request to book, an ask for a desk lamp, and a reserved order.',
+  },
+  {
+    slug: 'crate',
+    href: 'https://kkim248.github.io/Crate/',
+    external: true, // a short side project: the card opens the live app instead of a case study
+    title: 'Crate',
+    year: '2026',
+    meta: ['Side project', 'Web'],
+    summary: 'A home for my unfinished beats, each one sorted by how far along it is.',
+    cover: crate,
+    alt: 'Crate, a music project library: beats listed by month with their sessions and stage, and Post Monterey Trip open with its stats.',
   },
 ];
