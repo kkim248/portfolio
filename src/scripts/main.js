@@ -5,7 +5,6 @@ import { intro, flash } from './intro.js';
 import { startSmooth } from './smooth.js';
 import { startLight } from './light.js';
 import { words } from './words.js';
-import { scene } from './scene.js';
 import { page } from './page.js';
 import { spills } from './spill.js';
 import { caseStudy } from './case.js';
@@ -19,7 +18,7 @@ startTransitions();
 
 let stops = [];
 document.addEventListener('astro:page-load', () => {
-  stops = [words(), scene(), page(), spills(), caseStudy()].filter(Boolean);
+  stops = [words(), page(), spills(), caseStudy()].filter(Boolean);
 });
 document.addEventListener('astro:before-swap', () => { stops.forEach((f) => f()); stops = []; });
 // arriving on About from inside the site: a quick flash of the opening's light

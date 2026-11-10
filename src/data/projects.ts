@@ -1,5 +1,5 @@
-import moober from '../assets/covers/moober-cover.jpg';
-import buzzit from '../assets/covers/buzzit-cover.jpg';
+import moober from '../assets/covers/moober-card.jpg';   // made by scripts/make-card-cover.mjs scripts/covers/moober.json
+import buzzit from '../assets/covers/buzzit-card.jpg';   // made by scripts/make-card-cover.mjs scripts/covers/buzzit.json
 
 export const projects = [
   {
@@ -7,19 +7,19 @@ export const projects = [
     href: '/work/moober',
     title: 'Moober',
     year: '2026',
-    meta: ['Product', 'Web and mobile', '2026'],
-    summary: 'A carpool board that matches riders with drivers already heading their way.',
+    meta: ['Product', 'Web and mobile'],
+    summary: 'Search that finds the rides already passing through a rider’s town.',
     cover: moober,
-    alt: 'Moober screens: carpool search, detour setting, mobile search and trip details.',
+    alt: 'Moober search results for Davis to Fresno on desktop, beside the same search on a phone.',
   },
   {
     slug: 'buzzit',
     href: '/work/buzzit',
     title: 'Buzzit',
     year: '2026',
-    meta: ['Product', 'Mobile', '2026'],
-    summary: 'A local marketplace where UC Davis students buy, sell, book and ask each other.',
+    meta: ['Product', 'Mobile'],
+    summary: 'A student marketplace where completed bookings went from 22% to 92%.',
     cover: buzzit,
-    alt: 'Buzzit screens: the home feed with a featured maker and listings, a gel manicure listing with Message and Request to book, an ask for a desk lamp, and a reserved order.',
+    alt: 'Buzzit on two phones: Home with a featured maker and listings, and a gel manicure listing with Request to book.',
   },
 ];

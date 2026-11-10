@@ -3,17 +3,16 @@
 // of the project being opened (or returned from) just before the browser takes its snapshot.
 import { light } from './light.js';
 
-const wide = matchMedia('(min-width: 1024px)');
 const slugOf = (url) => url.pathname.match(/^\/work\/([^/]+)/)?.[1];
 const onScreen = (el) => { const r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight; };
-const homeCover = (doc, slug) => doc.querySelector(`${wide.matches ? '.scene__cover' : '.stack__cover'}[data-slug="${slug}"]`);
+const homeCover = (doc, slug) => doc.querySelector(`.wcard__cover[data-slug="${slug}"]`);
 
 let flight = null;
 
 export function startTransitions() {
   // leaving: name the old page's cover (runs before the old snapshot is taken)
   document.addEventListener('astro:before-preparation', (e) => {
-    document.querySelectorAll('.scene__cover, .stack__cover').forEach((c) => (c.style.viewTransitionName = ''));
+    document.querySelectorAll('.wcard__cover').forEach((c) => (c.style.viewTransitionName = ''));
     const slug = slugOf(e.to);
     const c = slug && homeCover(document, slug);
     if (c && onScreen(c)) c.style.viewTransitionName = 'cover';
@@ -30,7 +29,7 @@ export function startTransitions() {
   });
   // landed: the light follows the cover from where it started to its new element
   document.addEventListener('astro:after-swap', () => {
-    const to = document.querySelector('.cs-cover, .scene__cover[style*="cover"], .stack__cover[style*="cover"]');
+    const to = document.querySelector('.cs-cover, .wcard__cover[style*="cover"]');
     light.morph = flight && to ? { from: flight, el: to, t0: performance.now() } : null;
     flight = null;
   });

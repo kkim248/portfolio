@@ -122,8 +122,6 @@ img { display: block; max-width: 100%; height: auto; }
 .cta:hover .arrow { transform: translateX(4px); }
 /* a project without a case study yet: the same place as the link, quieter, not clickable */
 .cta.soon { color: var(--ink-3); }
-.scene__cover:not([href]), .stack__cover:not([href]) { cursor: default; }
-.scene__list a:not([href]) { cursor: default; }
 
 body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100lvh; pointer-events: none; z-index: 30; background: url('/assets/grain-tile.png'); opacity: 0.05; mix-blend-mode: multiply; }
 
@@ -142,7 +140,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
 /* printed type: every serif line carries the ink filter and sits into the paper */
-.name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note,
+.name, .menu, .statement h1, .work__head h2, .work h3, .wcard__title, .foot__note,
 .cs-hero h1, .sec h2, .hmw__q, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
 
 /* words arrive the way ink takes on wet paper: each word bleeds in from a soft blur, a little bluer while it is
@@ -160,7 +158,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* phones and tablets render SVG filters at a low resolution, so the ink looked blurry and cost frames there.
    On touch screens and small screens the type stays crisp, still multiplied into the paper. */
 @media (max-width: 767px), (hover: none) {
-  .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note, .cs-hero h1, .sec h2, .hmw__q, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
+  .name, .menu, .statement h1, .work__head h2, .work h3, .wcard__title, .foot__note, .cs-hero h1, .sec h2, .hmw__q, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
   .words.is-split .w { filter: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -234,44 +232,32 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @media (min-width: 1024px) { .statement h1 { grid-column: 1 / span 9; } }
 .statement h1 em { font-style: italic; color: var(--blue); }
 
-.work { padding-top: var(--section); }
-.work__head { align-items: end; padding-bottom: var(--s-5); border-bottom: 1px solid var(--ink); }
-.work__head h2 { grid-column: 1 / span 6; font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-heading-l); line-height: 1; letter-spacing: var(--track-display); }
-.work__count { grid-column: 7 / -1; text-align: right; }
-@media (max-width: 767px) { .work__head h2 { grid-column: 1 / span 3; } .work__count { grid-column: 4 / -1; } }
-.work h3 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); text-wrap: balance; }
-.work .meta { display: flex; gap: var(--s-3); flex-wrap: wrap; }
+.work { padding-top: var(--section); padding-bottom: var(--s-9); }
+.work__head h2 { grid-column: 1 / -1; font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-heading-l); line-height: 1; letter-spacing: var(--track-display); }
 
-/* Desktop: a pinned scene. Each project gets its own stretch of scroll; the change between them is one
-   scroll-linked transition. Text and cover share one row, centred on each other. */
-.scene { display: none; position: relative; height: calc(100svh + (var(--n) - 1) * 130svh + 40svh); }
-.scene__pin { position: sticky; top: 0; height: 100svh; display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); column-gap: var(--gutter); padding-inline: var(--margin); max-width: 2048px; margin-inline: auto; align-content: center; align-items: center; }
-.scene__side { grid-column: 1 / span 4; align-self: stretch; display: flex; flex-direction: column; justify-content: space-between; }
-/* the stage keeps the covers' own shape: as wide as its columns allow, unless that would be taller than 72svh,
-   then narrower. So a cover is never cropped, on any screen. The text beside it stretches to the same height. */
-.scene__stage { grid-column: 6 / span 7; justify-self: end; position: relative; width: min(100%, var(--cover-max-h) * var(--cover-ratio-n)); aspect-ratio: var(--cover-ratio); }
-.scene__cover { position: absolute; inset: 0; overflow: hidden; background: var(--paper); will-change: transform; }
-.scene__cover img { width: 100%; height: 100%; object-fit: cover; will-change: transform; }
-/* Covers show in their true colours (no blend or filter), with the paper's fibres and grain laid over them so they sit in the page. */
-.scene__cover::after, .stack__cover::after, .cs-cover::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: var(--paper-tex, none) 0 0 / 512px 512px repeat, url('/assets/grain-tile.png'); mix-blend-mode: multiply; opacity: 0.3;
+/* the work, side by side: one card per project. The cover on the case studies' paper-light plate, then the name,
+   one line and what kind of project it is, with the way in on the right. The whole card is the link. */
+.work__cards { list-style: none; row-gap: var(--s-8); margin-top: var(--s-7); }
+.wcard { grid-column: 1 / -1; }
+@media (min-width: 768px) { .wcard:nth-child(odd) { grid-column: 1 / span 6; } .wcard:nth-child(even) { grid-column: 7 / span 6; } }
+.wcard__link { display: grid; gap: var(--s-5); color: inherit; text-decoration: none; }
+.wcard__link:hover { text-decoration: none; }
+.wcard__cover { position: relative; display: block; overflow: hidden; aspect-ratio: var(--cover-ratio); border-radius: var(--r-l); background: var(--paper); box-shadow: var(--shadow-card); transition: transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease); }
+.wcard__cover img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-slow) var(--ease); }
+.wcard__info { display: flex; justify-content: space-between; align-items: start; gap: var(--s-5); }
+.wcard__text { display: grid; gap: var(--s-2); }
+.wcard__title { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); }
+.wcard__line { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); max-width: 42ch; }
+.wcard__meta { margin-top: var(--s-2); }
+.wcard__go { flex: none; display: inline-flex; gap: var(--s-2); margin-top: var(--s-2); font-size: var(--fs-small); color: var(--ink); }
+.wcard__go .arrow { transition: transform var(--dur-base) var(--ease); }
+/* on hover the cover lifts a little and the screens on it come closer; the way in nudges forward */
+@media (hover: hover) {
+  .wcard__link:hover .wcard__cover { transform: translateY(calc(var(--s-1) * -1)); box-shadow: var(--shadow-screen); }
+  .wcard__link:hover .wcard__cover img { transform: scale(1.025); }
+  .wcard__link:hover .wcard__go .arrow { transform: translateX(var(--s-1)); }
 }
-.scene__list li { display: flex; gap: var(--s-4); align-items: baseline; padding-block: var(--s-1); color: var(--ink-3); transition: color var(--dur-base) var(--ease); }
-.scene__list li.is-on { color: var(--ink); }
-.scene__list li .mono { color: inherit; } .scene__list li.is-on .mono { color: var(--blue); }
-.scene__list a { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); }
-.scene__bar { position: relative; height: 1px; background: var(--rule); margin-top: var(--s-5); }
-.scene__bar i { position: absolute; inset: 0; background: var(--blue); transform-origin: left; transform: scaleX(var(--p, 0)); }
-.scene__texts { position: relative; flex: 1; }
-.scene__text { position: absolute; inset: auto 0 0 0; display: grid; gap: var(--s-4); will-change: transform, opacity; }
-/* Phones and tablets: a simple stack, text under each cover */
-.stack { display: grid; padding-block: var(--s-7) 0; }
-.stack__grid { row-gap: var(--s-8); }
-.stack__item { display: grid; gap: var(--s-4); }
-.stack__cover { display: block; position: relative; background: var(--paper); }
-.stack__cover img { width: 100%; }
-@media (min-width: 1024px) { .scene { display: block; } .stack { display: none; } }
+.wcard__link[aria-disabled] { cursor: default; }
 
 /* ---------- the closing note, on every page. The light softens here; the page ends quietly. ---------- */
 .foot { padding-block: var(--s-8) var(--s-7); }   /* the same short footer on every page */
@@ -287,7 +273,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .spill--quiet-r { width: clamp(150px, 14vw, 260px); right: -2vw; bottom: -40px; opacity: 0.8; }
 .spill--quiet-l { width: clamp(150px, 13vw, 240px); left: -4vw; top: 10px; opacity: 0.8; }
 .spill--foot { width: clamp(220px, 22vw, 420px); left: -5vw; top: var(--s-6); }
-/* blotches may hang past the page edge; clip them there so the page never scrolls sideways (clip, not hidden, keeps the pinned scene sticky) */
+/* blotches may hang past the page edge; clip them there so the page never scrolls sideways */
 .work { position: relative; overflow-x: clip; }
 .foot { position: relative; overflow: clip; }   /* the watercolor never extends the page below the footer */
 .work > *:not(.spill), .foot > *:not(.spill) { position: relative; z-index: 1; }
