@@ -18,7 +18,7 @@ import { projects } from '../data/projects';
           </span>
           <span class="wcard__row">
             <span class="wcard__title">{p.title}</span>
-            <span class="wcard__tags">{p.meta.map((m) => <span class="wcard__tag">{m}</span>)}</span>
+            <span class="wcard__meta label">{p.meta.join(' · ')}</span>
           </span>
           <span class="wcard__line">{p.soon ? 'Case study coming soon' : p.summary}</span>
         </a>
