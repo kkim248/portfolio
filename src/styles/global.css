@@ -26,6 +26,7 @@
   /* depth: two shadows only */
   --shadow-card: 0 0 0 1px rgb(34 31 27 / 0.05), 0 6px 18px rgb(34 31 27 / 0.06);
   --shadow-screen: 0 0 0 1px rgb(34 31 27 / 0.06), 0 1px 2px rgb(34 31 27 / 0.06), 0 20px 48px rgb(34 31 27 / 0.08);
+  --shadow-phone: drop-shadow(0 1px 1px rgb(34 31 27 / 0.08)) drop-shadow(0 16px 28px rgb(34 31 27 / 0.12));   /* a phone with rounded corners: the shadow follows its shape */
 
   /* type families */
   --serif: 'Newsreader Variable', Georgia, serif;
@@ -466,7 +467,7 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 .note p:not(.sec__label) { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); max-width: 72ch; }
 .note strong { font-weight: var(--w-strong); color: var(--ink); }
 .plate { --pad: 7%; position: relative; margin: 0; aspect-ratio: 3 / 2; display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center; padding: var(--pad); border-radius: var(--r-l); background: var(--paper) url('/assets/plate-paper.jpg') center / cover; overflow: hidden; }
-.plate img:not(.cs-cover img) { display: block; border-radius: var(--r-s); box-shadow: var(--shadow-screen); }
+.plate img:not(.cs-cover img, .ph img, .tab img) { display: block; border-radius: var(--r-s); box-shadow: var(--shadow-screen); }
 .plate > img { width: auto; height: auto; max-width: 100%; max-height: 100%; }
 /* a desktop screen and its phone, side by side at one height */
 .plate--pair { display: flex; align-items: center; justify-content: center; gap: var(--s-5); }
@@ -477,7 +478,7 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 .tierstack img { width: 100%; height: auto; }
 /* words go in boxes: a soft tint of the paper, a mono number, a short title and a line */
 .cards { display: grid; gap: var(--s-4); }
-@media (min-width: 768px) { .cards--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 768px) { .cards--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .cards--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .card { display: grid; gap: var(--s-2); align-content: start; padding: clamp(var(--s-5), 2vw, var(--s-6)); border-radius: var(--r-l); background: var(--tint); }
 .card h3 { font-weight: var(--w-strong); font-size: var(--fs-body); line-height: var(--lh-snug); color: var(--ink); }
 .card p { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); }
@@ -497,6 +498,37 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 .art .art__car { fill: var(--blue); stroke: none; }
 .art .art__axis { stroke: var(--ink-3); opacity: 0.6; }
 .art .art__note text { fill: var(--ink-2); font-family: var(--sans); font-size: var(--fs-label-l); letter-spacing: 0; text-transform: none; }
+/* a screen shown with one short caption under it */
+.shown { display: grid; gap: var(--s-3); margin: 0; }
+.shown .caption { text-align: center; }
+/* phones on a plate: a row at one height, each named beneath */
+.plate--phones { display: flex; align-items: center; justify-content: center; gap: clamp(var(--s-4), 4%, var(--s-7)); --pad: 6%; }
+.ph { height: 100%; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: var(--s-2); }
+.ph img { height: calc(100% - var(--s-6)); width: auto; max-width: 100%; filter: var(--shadow-phone); }
+.tab span { order: -1; }
+.ph span, .tab span { font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); }
+/* tab bars stacked, each named on its left */
+.plate--tabs { display: grid; align-content: center; justify-items: center; gap: var(--s-4); }
+.tab { display: grid; grid-template-columns: var(--s-9) minmax(0, 1fr); align-items: center; gap: var(--s-4); width: min(100%, 520px); }
+.tab img { width: 100%; height: auto; border-radius: var(--r-l); filter: var(--shadow-phone); }
+/* a flow: two rows of steps, the old loop marked */
+.plate--flow { --pad: 6%; }
+@media (max-width: 767px) { .plate--flow { aspect-ratio: auto; } }
+.flow { display: grid; gap: var(--s-3); width: 100%; }
+.flow__row + .label { margin-top: var(--s-5); }
+.flow__row { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2); }
+.flow__row li { padding: var(--s-2) var(--s-4); border-radius: var(--r-pill); background: var(--surface); box-shadow: var(--shadow-card); font-size: var(--fs-small); line-height: var(--lh-snug); color: var(--ink); }
+.flow__row li + li { position: relative; margin-left: var(--s-5); }
+.flow__row li + li::before { content: '\2192\FE0E'; position: absolute; left: calc((var(--s-2) + var(--s-5)) / -2); top: 50%; transform: translate(-50%, -50%); color: var(--ink-3); }
+.flow__row .is-loop { background: transparent; box-shadow: inset 0 0 0 1px var(--blue-line); color: var(--blue); }
+.flow__row.is-after li { box-shadow: inset 0 0 0 1px var(--blue-line), var(--shadow-card); }
+/* boxes: a big figure, a number, a list, or a paraphrased quote */
+.card p.big { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); color: var(--blue); }
+.card p.num { font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); color: var(--blue); }
+.card ul { display: grid; gap: var(--s-1); padding-left: var(--s-4); font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); }
+.quotes .card { margin: 0; }
+.quotes .card p { font-family: var(--serif); font-style: italic; font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink); }
+blockquote.hmw { margin: 0; padding-block: var(--s-6); }
 /* boxes: a tag or a number, a title, a line. Wide boxes span the row */
 /* the question: a centred italic line over a soft watercolor bloom */
 .hmw { position: relative; display: grid; justify-items: center; gap: var(--s-3); padding-block: var(--s-9) var(--s-6);   /* the section gap above is 32 and below is 96, so this sets it 128 from both */  text-align: center; }

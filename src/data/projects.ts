@@ -14,8 +14,7 @@ export const projects = [
   },
   {
     slug: 'buzzit',
-    href: undefined, // no case study yet: the cover and links show "coming soon" instead
-    soon: true,
+    href: '/work/buzzit',
     title: 'Buzzit',
     year: '2026',
     meta: ['Product', 'Mobile', '2026'],

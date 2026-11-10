@@ -1,0 +1,271 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Bar from '../../components/Bar.astro';
+import Foot from '../../components/Foot.astro';
+import { projects } from '../../data/projects';
+// screens: the cleaned exports from Ian's review deck, and a few cut from the deck itself (old app, Home, listing, spec, team)
+import oldFeed from '../../assets/buzzit/old-feed.png';
+import oldBusiness from '../../assets/buzzit/old-business.png';
+import oldBooking from '../../assets/buzzit/old-booking.png';
+import home from '../../assets/buzzit/home.png';
+import listingRequest from '../../assets/buzzit/listing-request.png';
+import exploreSocial from '../../assets/buzzit/explore-social.png';
+import exploreMarket from '../../assets/buzzit/explore-marketplace.png';
+import exploreHybrid from '../../assets/buzzit/explore-hybrid.png';
+import cutRankings from '../../assets/buzzit/cut-rankings.png';
+import cutLearn from '../../assets/buzzit/cut-learn.png';
+import cutHives from '../../assets/buzzit/cut-private-hives.png';
+import v1Discover from '../../assets/buzzit/v1-discover.png';
+import v1Social from '../../assets/buzzit/v1-social.png';
+import req1 from '../../assets/buzzit/requests-v1.png';
+import req2 from '../../assets/buzzit/requests-v2.png';
+import req3 from '../../assets/buzzit/requests-v3.png';
+import tabSocial from '../../assets/buzzit/tabbar-social.png';
+import tabAsks from '../../assets/buzzit/tabbar-asks.png';
+import tabFinal from '../../assets/buzzit/tabbar-final.png';
+import list1 from '../../assets/buzzit/listing-v1.png';
+import list2 from '../../assets/buzzit/listing-v2.png';
+import list3 from '../../assets/buzzit/listing-v3.png';
+import spec from '../../assets/buzzit/spec-order-handoff.png';
+import team1 from '../../assets/buzzit/team-1.png';
+import team2 from '../../assets/buzzit/team-2.png';
+
+const p = projects.find((x) => x.slug === 'buzzit')!;
+const phone = { widths: [300, 500, 800], sizes: '(min-width: 1024px) 200px, 30vw', quality: 88 };
+const index = [['overview', 'Overview'], ['problem', 'Problem'], ['explore', 'Explore'], ['v1', 'Version 1'], ['decisions', 'Design decisions'], ['shipping', 'Shipping'], ['results', 'Results'], ['takeaways', 'Takeaways']];
+// a row of phones on one plate, each named beneath
+const set = (items: [any, string, string][]) => items;
+---
+<Base title="Buzzit: a student marketplace, a case study by Ian Kim" description="Students wanted Buzzit, but only 22% of bookings finished. I redesigned the app so discovery leads to bookings and bookings get finished.">
+  <section class="cs-hero rel">
+    <Bar current="work" crumb="Buzzit" />
+    <!-- the title and one line on the left, the facts on the right, then the cover on its own -->
+    <div class="cs-hero__body grid">
+      <div class="cs-hero__head">
+        <h1 class="words" style="--wd: 150ms">From &ldquo;I want this&rdquo; to &ldquo;we met up&rdquo;</h1>
+        <p class="cs-lede reveal" style="--i: 3">Redesigning Buzzit, a student marketplace, so bookings actually get finished.</p>
+      </div>
+      <dl class="cs-info reveal" style="--i: 4">
+        <div><dt class="label">Role</dt><dd>Sole product designer</dd></div>
+        <div><dt class="label">Timeline</dt><dd>Summer 2026</dd></div>
+        <div><dt class="label">Team</dt><dd>2 co-founders, 2 developers, 1 marketer</dd></div>
+        <div><dt class="label">Status</dt><dd>Relaunched October 1</dd></div>
+      </dl>
+      <figure class="cs-cover" data-slug={p.slug} style="view-transition-name: cover">
+        <Image src={p.cover} alt={p.alt} widths={[800, 1200, 1600, p.cover.width]} sizes="(min-width: 1024px) 1040px, 100vw" quality={86} loading="eager" fetchpriority="high" />
+      </figure>
+    </div>
+  </section>
+
+  <div class="cs grid" data-light="quiet">
+    <nav class="cs-index" aria-label="Sections">
+      <a class="cs-index__back mono" href="/">&larr;&#65038; Work</a>
+      <ul>{index.map(([id, t]) => <li><a href={`#${id}`}>{t}</a></li>)}</ul>
+    </nav>
+
+    <main class="cs-col">
+      <!-- overview: only what Buzzit is -->
+      <section class="sec" id="overview">
+        <div class="note">
+          <p class="sec__label">Overview</p>
+          <h2>A marketplace made for UC Davis students</h2>
+          <p>Buzzit is where UC Davis students sell services and items to each other: nails, cakes, tutoring, grad photos, dorm furniture. Fiverr and TaskRabbit feel built for professionals, and Instagram groups aren't built for booking, so Buzzit puts visual discovery, .edu-verified trust and booking in one student-only app. I was the only designer on the summer redesign, which relaunched on October 1.</p>
+        </div>
+      </section>
+
+      <!-- problem: two numbers from the spring launch, the old app, and the three objectives they led to -->
+      <section class="sec" id="problem">
+        <div class="note">
+          <p class="sec__label">Problem</p>
+          <h2>Demand wasn't the problem. The path to meeting up was.</h2>
+          <p>The spring launch showed students wanted Buzzit, but very few of the things they wanted ever turned into a finished meet-up.</p>
+        </div>
+        <div class="cards cards--2">
+          <article class="card"><h3>Bookings didn't finish</h3><p class="big">22%</p><p>Of 283 bookings from 940 users, only 63 were completed. Every time change started a back-and-forth that busy students gave up on.</p></article>
+          <article class="card"><h3>Discovery didn't convert</h3><p class="big">0</p><p>bookings from 10,000 feed impressions, at a 2.3% tap rate. The Pinterest-style feed was fun, but students didn't use it to find things.</p></article>
+        </div>
+        <figure class="shown">
+          <div class="plate plate--phones">
+            {set([[oldFeed, 'Feed', 'The spring app: a Pinterest-style feed of photos.'], [oldBusiness, 'Business page', 'A seller\'s business page with services listed.'], [oldBooking, 'Booking', 'Booking a service by picking a time slot.']]).map(([src, name, alt]) => (
+              <div class="ph"><Image src={src} alt={alt} {...phone} /><span>{name}</span></div>
+            ))}
+          </div>
+          <figcaption class="caption">The spring app.</figcaption>
+        </figure>
+        <div class="cards cards--3">
+          <article class="card"><p class="num">01</p><h3>Make discovery lead to bookings</h3></article>
+          <article class="card"><p class="num">02</p><h3>Make bookings easy to finish</h3></article>
+          <article class="card"><p class="num">03</p><h3>Build a student community</h3></article>
+        </div>
+      </section>
+
+      <!-- a first look at the result: its own section, left out of the index -->
+      <section class="sec" id="peek">
+        <div class="note">
+          <p class="sec__label">Solution</p>
+          <h2>A marketplace students already know how to use</h2>
+          <p>Price on every card, broad categories, and a request that opens a chat instead of a calendar.</p>
+        </div>
+        <div class="plate plate--phones">
+          <div class="ph"><Image src={home} alt="The new Home: search, category chips, a featured maker and listings with prices." {...phone} /><span>Home</span></div>
+          <div class="ph"><Image src={listingRequest} alt="A gel manicure listing with the seller, Message, the seller's question and Request to book." {...phone} /><span>Listing</span></div>
+        </div>
+      </section>
+
+      <!-- explore: four directions, a hybrid, what six students said, and what we cut before v1 -->
+      <section class="sec" id="explore">
+        <div class="note">
+          <p class="sec__label">Explore</p>
+          <h2>Four directions in a week, then a hybrid</h2>
+          <p>The team explored four very different directions: social communities called Hives, a camera-first app with points (Justin), streaks and rankings (Vedant), and a marketplace (Shota and me). Each had something worth keeping, so Venice and I combined them into a hybrid and each interviewed three students with it.</p>
+        </div>
+        <figure class="shown">
+          <div class="plate plate--phones">
+            <div class="ph"><Image src={exploreSocial} alt="A teammate's Hives mockup: communities like Nail Techs and Barbers Guild, with Join buttons." {...phone} /><span>Social</span></div>
+            <div class="ph"><Image src={exploreMarket} alt="The marketplace direction: moving-out deals and services with prices and ratings." {...phone} /><span>Marketplace</span></div>
+            <div class="ph"><Image src={exploreHybrid} alt="The hybrid Discover screen with a featured maker and popular listings." {...phone} /><span>Hybrid</span></div>
+          </div>
+          <figcaption class="caption">The Social mockup was a teammate's quick sketch, and still says Stanford.</figcaption>
+        </figure>
+        <div class="decision">
+          <div class="note">
+            <h3>What six students told us</h3>
+            <p>Paraphrased from the hybrid interviews. The marketplace layout tested best, so it became the core, with community ideas built around it.</p>
+          </div>
+          <div class="cards cards--2 quotes">
+            <blockquote class="card"><p>Prices and ratings up front make it easy to decide.</p></blockquote>
+            <blockquote class="card"><p>The old feed feels overwhelming.</p></blockquote>
+            <blockquote class="card"><p>Private groups belong in our group chats. Clubs could use Hives, though.</p></blockquote>
+            <blockquote class="card"><p>Streaks mean nothing without a reward, and the reward we'd want is discounts.</p></blockquote>
+          </div>
+        </div>
+        <div class="decision">
+          <div class="note">
+            <h3>Cut before building</h3>
+            <p>Every feature had to answer one question: does this help a student get from &ldquo;I want this&rdquo; to &ldquo;we met up&rdquo;? Streaks went, since discounts would be expensive and work against affordable prices. The Learn tab went, since students already learn on TikTok. Private Hives became public, club-focused ones.</p>
+          </div>
+          <div class="plate plate--phones">
+            <div class="ph"><Image src={cutRankings} alt="UC Davis rankings: a leaderboard of students by streak." {...phone} /><span>Streaks and rankings</span></div>
+            <div class="ph"><Image src={cutLearn} alt="A Learn tab inside a Nails at UC Davis hive." {...phone} /><span>Learn tab</span></div>
+            <div class="ph"><Image src={cutHives} alt="Explore hives, with private communities joined by invite link." {...phone} /><span>Private Hives</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- version 1: what I built, and 35 interviews that said it was too much -->
+      <section class="sec" id="v1">
+        <div class="note">
+          <p class="sec__label">Version 1</p>
+          <h2>The concepts weren't wrong. There were just too many of them.</h2>
+          <p>I presented v1 on July 15, then led the next round of research: I split the interviews across all seven teammates, five each, and went through all <strong>35 interviews</strong> myself to find the main problems.</p>
+        </div>
+        <div class="plate plate--phones">
+          <div class="ph"><Image src={v1Discover} alt="Version 1 Discover: search, categories, a featured maker and listings." {...phone} /><span>Discover</span></div>
+          <div class="ph"><Image src={v1Social} alt="Version 1 Social: a row of open asks above posts from hives." {...phone} /><span>Social</span></div>
+        </div>
+        <div class="cards cards--2">
+          <article class="card"><h3>What students liked</h3><ul><li>Discover made browsing easy</li><li>Profiles felt clear and personal</li><li>Onboarding was smooth</li></ul></article>
+          <article class="card"><h3>Where students got lost</h3><ul><li>Hives only made sense after reading the onboarding</li><li>Open asks looked like Hive posts</li><li>Three different places to start a post</li><li>Notifications, reviews and messages were easy to miss</li></ul></article>
+        </div>
+      </section>
+
+      <!-- design decisions: each one version by version, the reasoning between them -->
+      <section class="sec" id="decisions">
+        <div class="note">
+          <p class="sec__label">Design decisions</p>
+          <h2>Simplifying, version by version</h2>
+        </div>
+
+        <div class="decision">
+          <div class="note">
+            <h3>Requests: from a tab to a list on Home</h3>
+            <p>In v1, open asks sat in a small carousel next to Hive posts, and testers couldn't tell them apart. In v2 they got their own Asks tab, with filters and an &ldquo;I need this too&rdquo; button. Then I challenged my own design: a new feature with its own tab can easily look empty. I searched Reddit for &ldquo;looking for&rdquo; posts from Davis students and found about 20 to 30 over two to three quarters. Real demand, but not enough to fill a tab. In v3, Requests became a simple list on Home, with replies right on the card.</p>
+          </div>
+          <figure class="shown">
+            <div class="plate plate--phones">
+              <div class="ph"><Image src={req1} alt="Version 1: open asks in a carousel inside the Social tab." {...phone} /><span>V1</span></div>
+              <div class="ph"><Image src={req2} alt="Version 2: an Asks tab with filters and Wondering too buttons." {...phone} /><span>V2</span></div>
+              <div class="ph"><Image src={req3} alt="Version 3: Requests as a list on Home, with I need this too and reply counts." {...phone} /><span>V3, shipped</span></div>
+            </div>
+          </figure>
+          <div class="note">
+            <p>The second tab went from Hives to Asks to Saved. Hives was cut from launch for the same reason: social features only work when lots of people use them.</p>
+          </div>
+          <figure class="shown">
+            <div class="plate plate--tabs">
+              <div class="tab"><Image src={tabSocial} alt="The v1 tab bar with a Social tab." widths={[400, 786]} sizes="(min-width: 1024px) 420px, 70vw" /><span>V1</span></div>
+              <div class="tab"><Image src={tabAsks} alt="The v2 tab bar with an Asks tab." widths={[400, 786]} sizes="(min-width: 1024px) 420px, 70vw" /><span>V2</span></div>
+              <div class="tab"><Image src={tabFinal} alt="The shipped tab bar: Home, Saved, create, Inbox and You." widths={[400, 786]} sizes="(min-width: 1024px) 420px, 70vw" /><span>Shipped</span></div>
+            </div>
+          </figure>
+          <blockquote class="hmw"><p class="hmw__q">An empty Saved tab reads as the student's own doing. An empty Asks tab reads as a verdict on the app.</p></blockquote>
+        </div>
+
+        <div class="decision">
+          <div class="note">
+            <h3>Listing questions: the builder was deleted</h3>
+            <p>Sellers often need something up front: a nail tech needs the length, a baker needs the name for the cake. Tools like Etsy and Google Forms let sellers ask, and Buzzit couldn't. V1 had builders for options and paid extras, plus a box explaining the difference, which was a sign the screen wasn't explaining itself. V2 moved that meaning into the labels, but sellers were still lost. Every version asked a first-time seller to build a pricing system, and since Buzzit takes no payment, those totals were math nobody would be charged for. V3 deleted the builder: one optional field, &ldquo;Ask the buyer something&rdquo;, in the seller's own words.</p>
+          </div>
+          <div class="plate plate--phones">
+            <div class="ph"><Image src={list1} alt="Version 1: price and options, with builders for options and extras and a rule-of-thumb box." {...phone} /><span>V1</span></div>
+            <div class="ph"><Image src={list2} alt="Version 2: the same builders with the explanation written into the labels." {...phone} /><span>V2</span></div>
+            <div class="ph"><Image src={list3} alt="Version 3: the review step with one optional field, Ask the buyer something." {...phone} /><span>V3, shipped</span></div>
+          </div>
+        </div>
+
+        <div class="decision">
+          <div class="note">
+            <h3>Booking by chat</h3>
+            <p>Texting is how students already coordinate everything. Now a request opens a chat, the two agree on a time and place, and one tap confirms it. Some students asked for a calendar, but a calendar only works if sellers keep it current, and in spring they often didn't. The time and place are still recorded on the order.</p>
+          </div>
+          <div class="plate plate--flow">
+            <div class="flow">
+              <p class="label">Before</p>
+              <ol class="flow__row"><li>Pick a time</li><li>Send request</li><li>Seller accepts, reschedules or declines</li><li class="is-loop">Reschedule loop</li></ol>
+              <p class="label">After</p>
+              <ol class="flow__row is-after"><li>Tap request</li><li>Chat opens</li><li>Agree on details</li><li>Confirm in one tap</li></ol>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- shipping: every state written down -->
+      <section class="sec" id="shipping">
+        <div class="note">
+          <p class="sec__label">Shipping</p>
+          <h2>Every state written down, so developers weren't guessing</h2>
+          <p>I wrote lifecycle specs for every major flow, covering each state and edge case: a one-of-a-kind jacket can't be reserved twice, orders keep what was agreed even if the listing changes, and orders nobody confirms expire. Cutting Hives and the listing builder took two of the biggest pieces of work off a small team.</p>
+        </div>
+        <div class="plate"><Image src={spec} alt="The Order and Handoff lifecycle spec: four states, one door in." widths={[800, 1200, 1385]} sizes="(min-width: 1024px) 640px, 90vw" /></div>
+      </section>
+
+      <!-- results: the comparison first, then the honest caveats -->
+      <section class="sec" id="results">
+        <div class="note">
+          <p class="sec__label">Results</p>
+          <h2>Completed bookings went from about 22% to about 92%</h2>
+          <p>The fall numbers are a month in and the user base is smaller, and almost everything changed at once, so no single change gets the credit. Growing the number of users is the next challenge.</p>
+        </div>
+        <div class="cards cards--2">
+          <article class="card"><h3>Spring launch</h3><p class="big">22%</p><p>63 of 283 bookings completed, from 940 users.</p></article>
+          <article class="card"><h3>Since October 1</h3><p class="big">92%</p><p>56 of 61 bookings completed, from 147 users in the first month.</p></article>
+        </div>
+      </section>
+
+      <section class="sec" id="takeaways">
+        <div class="note">
+          <p class="sec__label">Takeaways</p>
+          <h2>What I took away</h2>
+          <p>Cut before adding: fewer features made Buzzit easier to use. Design for the supply you have, because empty screens make a new app look dead. And challenge your own decisions with evidence: the Requests tab was my idea, and my own Reddit research showed it wasn't ready. Next, Hives returns when there are enough students to fill it, and we keep interviewing students to find where Buzzit still falls short.</p>
+        </div>
+        <div class="gallery">
+          <figure style="--a: 1.217"><Image src={team1} alt="Part of the Buzzit team at an event, smiling with lanyards on." widths={[500, 800]} sizes="(min-width: 1024px) 320px, 100vw" /></figure>
+          <figure style="--a: 1.626"><Image src={team2} alt="The Buzzit team standing together in matching navy shirts." widths={[600, 1080]} sizes="(min-width: 1024px) 430px, 100vw" /></figure>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <Foot />
+</Base>
