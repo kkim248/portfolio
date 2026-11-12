@@ -236,18 +236,33 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 
 /* the work, side by side: one card per project. The cover on the case studies' paper-light plate, then the name,
    one line and what kind of project it is, with the way in on the right. The whole card is the link. */
-.work__cards { list-style: none; row-gap: var(--s-8); margin-top: var(--s-7); }
-.wcard { grid-column: 1 / -1; }
-@media (min-width: 768px) { .wcard:nth-child(odd) { grid-column: 1 / span 6; } .wcard:nth-child(even) { grid-column: 7 / span 6; } }
-.wcard__link { display: grid; gap: var(--s-3); color: inherit; text-decoration: none; }
+/* the work, composed like the About page: covers placed at their own sizes and heights on the paper, their words in
+   the open space beside them, a fine blue thread and a watercolor bloom tying them together. Every measure is a share
+   of the stage's width (cqw), so covers, words and ink stay in place together at any width. */
+.wstage { grid-column: 1 / -1; position: relative; container-type: inline-size; margin-top: var(--s-7); }
+.wstage__list { list-style: none; display: grid; row-gap: var(--s-8); }
+.wcard__link { display: grid; gap: var(--s-4); color: inherit; text-decoration: none; }
 .wcard__link:hover { text-decoration: none; }
 .wcard__cover { position: relative; display: block; overflow: hidden; }
 .wcard__cover img { display: block; width: 100%; height: auto; aspect-ratio: var(--cover-ratio); object-fit: cover; transition: transform var(--dur-slow) var(--ease); }
-.wcard__row { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s-4); padding-top: var(--s-2); }
-.wcard__title { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); }
-.wcard__line { font-family: var(--serif); font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink-slate); max-width: 46ch; }
-/* on hover the cover comes a little closer */
+.wpiece__words { display: grid; gap: var(--s-2); align-content: start; }
+.wpiece__no { color: var(--blue); }
+.wcard__title { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); }
+.wcard__line { font-family: var(--serif); font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink-slate); max-width: 34ch; }
+.wcard__meta { margin-top: var(--s-2); }
+.wstage__marks, .spill--work { display: none; }
 @media (hover: hover) { .wcard__link:hover .wcard__cover img { transform: scale(1.02); } }
+@media (min-width: 1024px) {
+  .wstage__list { display: block; position: relative; height: 76cqw; }
+  .wpiece { position: absolute; left: calc(var(--x) * 1cqw); top: calc(var(--y) * 1cqw); width: calc(var(--w) * 1cqw); }
+  .wcard__link { display: block; }
+  .wpiece__words { position: absolute; left: calc((var(--cx) - var(--x)) * 1cqw); top: calc((var(--cy) - var(--y)) * 1cqw); width: calc(var(--cw) * 1cqw); }
+  /* the ink, drawn over the paper and the covers like the marks on About */
+  .wstage__marks { display: block; position: absolute; inset: 0 0 auto 0; z-index: 2; width: 100%; height: 76cqw; overflow: visible; pointer-events: none; mix-blend-mode: multiply; fill: var(--pop); }
+  .wstage__marks .thread { fill: none; stroke: url(#work-fade); stroke-width: 1; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+  .wstage__marks .s, .wstage__marks ellipse { fill: none; stroke: var(--pop); stroke-width: 1.2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+  .spill--work { display: block; left: 36%; top: 52%; width: 18vw; opacity: 0.6; }
+}
 .wcard__link[aria-disabled] { cursor: default; }
 
 /* ---------- the closing note, on every page. The light softens here; the page ends quietly. ---------- */
