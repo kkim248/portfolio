@@ -2,52 +2,31 @@
 import { Image } from 'astro:assets';
 import { projects } from '../data/projects';
 const pad = (n: number) => String(n).padStart(2, '0');
-// the work, composed like the About page rather than set in a grid: each cover placed at its own size and height,
-// its words in the open space beside it, a fine blue thread running through them and a watercolor bloom behind.
-// Every measure is a share of the stage's width (cqw), so the covers, the words and the ink keep their places together.
-// x, y, w: the cover; cx, cy, cw: its words. A new project gets the next slot.
-const slots = [
-  { x: 0, y: 0, w: 52, cx: 0, cy: 38.5, cw: 30 },
-  { x: 60, y: 13, w: 40, cx: 60, cy: 43, cw: 30 },
-  { x: 22, y: 51, w: 33, cx: 60, cy: 62, cw: 26 },
-];
-const vars = (s: (typeof slots)[number]) => Object.entries(s).map(([k, v]) => `--${k}: ${v}`).join('; ');
+// the work, set like the pages of a printed book: on each page one small image and a short block of text against it,
+// a great deal of paper, and quiet running labels in the corners. Every page is composed differently (a, b, c in turn).
+const layouts = ['page--a', 'page--b', 'page--c'];
 ---
 <section class="work" aria-labelledby="work-title">
   <canvas class="spill spill--quiet-l" data-aspect="1.25" data-origin="0.45 0.45" data-seed="5" data-strength="0.6" aria-hidden="true"></canvas>
-  <div class="work__head grid">
-    <h2 id="work-title" class="words">Selected work</h2>
-  </div>
-  <!-- a watercolor bloom settling in the open paper between the covers (outside the stage, so it blends with the paper) -->
-  <canvas class="spill spill--work" data-aspect="1" data-origin="0.5 0.5" data-seed="9" data-strength="0.55" aria-hidden="true"></canvas>
-  <div class="grid">
-    <div class="wstage">
-      <!-- the ink: one fine thread running down through the work, and a small orbit, drawn in the stage's own units
-           (1000 wide, 760 tall: one unit is a tenth of a cqw) -->
-      <svg class="wstage__marks" viewBox="0 0 1000 760" preserveAspectRatio="none" aria-hidden="true">
-        <defs><linearGradient id="work-fade" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="760"><stop offset="0" stop-color="var(--pop)" stop-opacity="0"/><stop offset=".08" stop-color="var(--pop)"/><stop offset=".88" stop-color="var(--pop)"/><stop offset="1" stop-color="var(--pop)" stop-opacity="0"/></linearGradient></defs>
-        <path class="thread" d="M556 6 C 590 120, 548 230, 566 330 S 606 420, 572 470 C 540 520, 512 560, 566 600 C 610 632, 640 600, 626 576 C 612 552, 578 574, 596 610 C 616 650, 600 700, 588 756"/>
-        <ellipse cx="610" cy="282" rx="58" ry="17" transform="rotate(-14 610 282)"/><circle cx="664" cy="268" r="3.5"/>
-        <path class="s" d="M232 496 A44 44 0 1 1 206 536"/>
-      </svg>
-      <ul class="wstage__list">
-        {projects.map((p, i) => (
-          <li class="wpiece reveal" style={`${vars(slots[i % slots.length])}; --i: ${i}`}>
-            <a class="wcard__link" href={p.href} aria-disabled={p.soon ? 'true' : undefined} target={p.external ? '_blank' : undefined} rel={p.external ? 'noopener' : undefined}>
-              <span class="wcard__cover" data-slug={p.slug} data-soon={p.soon ? '' : undefined}>
-                <Image src={p.cover} alt={p.alt} widths={[640, 960, 1280, 1600, p.cover.width]} sizes="(min-width: 1024px) 50vw, 100vw" quality={86} loading={i === 0 ? 'eager' : 'lazy'} />
-              </span>
-              <span class="wpiece__words">
-                <span class="wpiece__no mono">{pad(i + 1)}</span>
-                <span class="wcard__title">{p.title}{p.external && <span class="arrow"> &nearr;&#65038;</span>}</span>
-                <span class="wcard__line">{p.summary}</span>
-                <span class="wcard__meta label">{p.meta.join(' · ')}</span>
-              </span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </div>
+  <h2 id="work-title" class="sr-only">Selected work</h2>
+  <ol class="pages">
+    {projects.map((p, i) => (
+      <li class={`page ${layouts[i % layouts.length]} grid reveal`}>
+        <p class="page__run page__run--tl">Selected work</p>
+        <p class="page__run page__run--tr">{pad(i + 1)} / {pad(projects.length)}</p>
+        <a class="page__pic wcard__cover" href={p.href} data-slug={p.slug} tabindex="-1" target={p.external ? '_blank' : undefined} rel={p.external ? 'noopener' : undefined}>
+          <Image src={p.cover} alt={p.alt} widths={[480, 800, 1200, 1600]} sizes="(min-width: 1024px) 46vw, 100vw" quality={86} loading={i === 0 ? 'eager' : 'lazy'} />
+        </a>
+        <div class="page__text">
+          <h3 class="page__title">{p.title}</h3>
+          <p class="page__body">{p.blurb}</p>
+          <a class="page__link" href={p.href} target={p.external ? '_blank' : undefined} rel={p.external ? 'noopener' : undefined}>{p.external ? 'Open the app' : 'Read the case study'} <span class="arrow">{p.external ? <>&nearr;&#65038;</> : <>&rarr;&#65038;</>}</span></a>
+        </div>
+        <p class="page__run page__run--bl">{p.meta.join(', ')}</p>
+        <p class="page__run page__run--bc">{p.year}</p>
+        <p class="page__run page__run--br">{p.title}</p>
+      </li>
+    ))}
+  </ol>
   <canvas class="spill spill--quiet-r" data-aspect="1.1" data-origin="0.55 0.5" data-seed="11" data-strength="0.55" aria-hidden="true"></canvas>
 </section>
