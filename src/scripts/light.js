@@ -38,7 +38,7 @@ const GLSL_COMMON = `#version 300 es
     float sa = uRes.x / uRes.y, ta = uTexSize.x / uTexSize.y;
     vec2 s = sa > ta ? vec2(1.0, ta / sa) : vec2(sa / ta, 1.0);
     // on wide screens the canopy is brought closer, so its shadows are as large and soft as they are on a phone
-    float near = mix(1.0, 2.1, smoothstep(0.75, 1.5, sa));
+    float near = mix(1.0, 1.55, smoothstep(0.75, 1.5, sa));
     vec2 uv = (p - 0.5) * s / (1.35 * near);
     float a = -0.12; uv = mat2(cos(a), -sin(a), sin(a), cos(a)) * uv + vec2(0.52, 0.46);
     vec2 w = vec2(noise(uv * 3.0 + vec2(t * 0.07, 0.0)), noise(uv * 3.0 + vec2(5.2, -t * 0.06))) - 0.5;

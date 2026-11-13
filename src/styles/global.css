@@ -89,7 +89,7 @@
   --margin: 20px; --gutter: 16px; --cols: 4;
 }
 @media (min-width: 768px)  { :root { --margin: 40px; --gutter: 24px; --cols: 8; } }
-@media (min-width: 1024px) { :root { --margin: 48px; --gutter: 24px; --cols: 12; --tex: 880px; } }
+@media (min-width: 1024px) { :root { --margin: 48px; --gutter: 24px; --cols: 12; --tex: 680px; } }
 @media (min-width: 1440px) { :root { --margin: 64px; --gutter: 32px; } }
 
 /* ---------- base ---------- */
@@ -248,11 +248,19 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .spread__link { justify-self: start; display: inline-flex; gap: var(--s-2); margin-top: var(--s-1); font-size: var(--fs-small); color: var(--ink); }
 .spread__link .arrow { transition: transform var(--dur-base) var(--ease); }
 .spread__link:hover { text-decoration: none; } .spread__link:hover .arrow { transform: translateX(var(--s-1)); }
-/* on wide screens the work stays a page in the middle, as on a phone: one column, the paper and the light at its sides */
+/* on wide screens the two projects are laid across the page, each with a sheet of tracing paper placed over a corner
+   of its cover: its words are on that sheet, and the cover shows faintly through it */
 @media (min-width: 1024px) {
-  .spread { grid-template-columns: minmax(0, 1fr); width: min(var(--measure), 100% - 2 * var(--margin)); padding-inline: 0; row-gap: var(--s-8); }
-  .spread > * { grid-column: 1; }
-  .spread__run--r { display: none; }
+  .spread__piece { grid-template-columns: subgrid; gap: 0; }
+  .spread__piece .wcard__cover { grid-row: 1; }
+  .spread__text { grid-row: 2; position: relative; z-index: 2; max-width: none; gap: var(--s-3); padding: var(--s-6); margin-top: calc(var(--s-10) * -1);
+    background: rgb(244 242 236 / 0.74); -webkit-backdrop-filter: blur(5px) saturate(0.85); backdrop-filter: blur(5px) saturate(0.85);
+    box-shadow: var(--shadow-card); }
+  .spread__piece--a .wcard__cover { grid-column: 1 / span 7; }
+  .spread__piece--a .spread__text { grid-column: 6 / span 4; transform: rotate(-1.2deg); }
+  .spread__piece--b { margin-top: var(--s-7); }
+  .spread__piece--b .wcard__cover { grid-column: 6 / span 7; }
+  .spread__piece--b .spread__text { grid-column: 3 / span 4; transform: rotate(0.9deg); }
 }
 /* screenshots sit in the paper: their colours a little quieter */
 .wcard__cover img { filter: saturate(0.86) contrast(0.97); }
