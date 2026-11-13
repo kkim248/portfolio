@@ -139,7 +139,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
 /* printed type: every serif line carries the ink filter and sits into the paper */
-.name, .menu, .statement h1, .work h3, .page__title, .foot__note,
+.name, .menu, .statement h1, .work h3, .spread__title, .foot__note,
 .cs-hero h1, .sec h2, .hmw__q, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
 
 /* words arrive the way ink takes on wet paper: each word bleeds in from a soft blur, a little bluer while it is
@@ -157,7 +157,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* phones and tablets render SVG filters at a low resolution, so the ink looked blurry and cost frames there.
    On touch screens and small screens the type stays crisp, still multiplied into the paper. */
 @media (max-width: 767px), (hover: none) {
-  .name, .menu, .statement h1, .work h3, .page__title, .foot__note, .cs-hero h1, .sec h2, .hmw__q, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
+  .name, .menu, .statement h1, .work h3, .spread__title, .foot__note, .cs-hero h1, .sec h2, .hmw__q, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
   .words.is-split .w { filter: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -231,41 +231,27 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @media (min-width: 1024px) { .statement h1 { grid-column: 1 / span 9; } }
 
 .work { padding-top: var(--section); padding-bottom: var(--s-9); }
-.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-/* the work, set like the pages of a printed book: one small image and a short block of text against it on each page,
-   a great deal of paper around them, and quiet running labels in the corners. Each page is composed differently. */
-.pages { list-style: none; display: grid; }
-.page { position: relative; min-height: 92svh; padding-block: var(--s-7); row-gap: var(--s-6); grid-template-rows: auto minmax(0, 1fr) auto; align-items: start; }
-.page__run { font-size: var(--fs-label-l); line-height: var(--lh-label); color: var(--ink-2); }
-.page__run--tl { grid-area: 1 / 1 / 2 / span 6; }
-.page__run--tr { grid-area: 1 / 7 / 2 / -1; text-align: right; }
-.page__run--bl { grid-area: 3 / 1 / 4 / span 4; }
-.page__run--bc { grid-area: 3 / 5 / 4 / span 4; text-align: center; }
-.page__run--br { grid-area: 3 / 9 / 4 / -1; text-align: right; }
+/* the work, composed on one page like a spread in a printed book: the projects at different sizes and heights, each
+   with its short text directly beneath it, and quiet running labels at the top */
+.spread { row-gap: var(--s-6); align-items: start; }
+.spread__run { font-size: var(--fs-label-l); line-height: var(--lh-label); color: var(--ink-2); }
+.spread__run--l { grid-column: 1 / span 6; }
+.spread__run--r { grid-column: 7 / -1; text-align: right; }
+.spread__piece { grid-column: 1 / -1; display: grid; gap: var(--s-4); }
 .wcard__cover { position: relative; display: block; overflow: hidden; }
 .wcard__cover img { display: block; width: 100%; height: auto; aspect-ratio: var(--cover-ratio); object-fit: cover; transition: transform var(--dur-slow) var(--ease); }
 @media (hover: hover) { .wcard__cover:hover img { transform: scale(1.02); } }
-.page__pic, .page__text { grid-row: 2; grid-column: 1 / -1; }
-.page__text { display: grid; gap: var(--s-3); align-content: start; }
-.page__title { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); }
-.page__body { font-size: var(--fs-small); line-height: var(--lh-text); color: var(--ink-2); text-align: justify; hyphens: auto; }
-.page__link { justify-self: start; display: inline-flex; gap: var(--s-2); font-size: var(--fs-small); color: var(--ink); }
-.page__link .arrow { transition: transform var(--dur-base) var(--ease); }
-.page__link:hover { text-decoration: none; } .page__link:hover .arrow { transform: translateX(var(--s-1)); }
-@media (max-width: 1023px) { .page { min-height: 0; grid-template-rows: auto auto auto auto; } .page__text { grid-row: 3; } .page__run--bl, .page__run--bc, .page__run--br { grid-row: 4; } }
+.spread__text { display: grid; gap: var(--s-2); max-width: 46ch; }
+.spread__title { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); }
+.spread__body { font-size: var(--fs-small); line-height: var(--lh-text); color: var(--ink-2); }
+.spread__link { justify-self: start; display: inline-flex; gap: var(--s-2); margin-top: var(--s-1); font-size: var(--fs-small); color: var(--ink); }
+.spread__link .arrow { transition: transform var(--dur-base) var(--ease); }
+.spread__link:hover { text-decoration: none; } .spread__link:hover .arrow { transform: translateX(var(--s-1)); }
 @media (min-width: 1024px) {
-  /* a: the image low on the left, its text beside it, level with the image's top */
-  .page--a .page__pic { grid-column: 1 / span 6; align-self: end; }
-  .page--a .page__text { grid-column: 8 / span 3; align-self: end; height: calc(6 / 12 * (100vw - 2 * var(--margin)) / var(--cover-ratio-n)); max-height: 100%; }
-  .page--a .page__pic, .page--a .page__text { margin-top: var(--s-10); }
-  /* b: the image high on the right, its text under it; the rest of the page left open */
-  .page--b { grid-template-rows: auto auto minmax(0, 1fr) auto; row-gap: var(--s-5); }
-  .page--b .page__pic { grid-column: 8 / span 5; grid-row: 2; }
-  .page--b .page__text { grid-column: 8 / span 4; grid-row: 3; }
-  .page--b .page__run--bl, .page--b .page__run--bc, .page--b .page__run--br { grid-row: 4; }
-  /* c: a small image and a narrow column of text, side by side in the middle of the page */
-  .page--c .page__pic { grid-column: 7 / span 4; align-self: center; }
-  .page--c .page__text { grid-column: 4 / span 3; align-self: center; }
+  /* both on one row of the page: the first large and set lower on the left, the second smaller and high on the right */
+  .spread__piece { grid-row: 2; }
+  .spread__piece--a { grid-column: 1 / span 6; margin-top: var(--s-9); }
+  .spread__piece--b { grid-column: 9 / span 4; }
 }
 
 /* ---------- the closing note, on every page. The light softens here; the page ends quietly. ---------- */

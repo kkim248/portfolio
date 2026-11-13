@@ -1,32 +1,28 @@
 ---
 import { Image } from 'astro:assets';
 import { projects } from '../data/projects';
-const pad = (n: number) => String(n).padStart(2, '0');
-// the work, set like the pages of a printed book: on each page one small image and a short block of text against it,
-// a great deal of paper, and quiet running labels in the corners. Every page is composed differently (a, b, c in turn).
-const layouts = ['page--a', 'page--b', 'page--c'];
+// the work, composed on one page like a spread in a printed book: the projects at different sizes and heights,
+// each with its short text directly beneath it, and quiet running labels at the top of the page.
+// The first sits large and low on the left, the second smaller and high on the right.
+const places = ['spread__piece--a', 'spread__piece--b'];
 ---
 <section class="work" aria-labelledby="work-title">
   <canvas class="spill spill--quiet-l" data-aspect="1.25" data-origin="0.45 0.45" data-seed="5" data-strength="0.6" aria-hidden="true"></canvas>
-  <h2 id="work-title" class="sr-only">Selected work</h2>
-  <ol class="pages">
+  <div class="spread grid">
+    <p id="work-title" class="spread__run spread__run--l">Selected work</p>
+    <p class="spread__run spread__run--r">2026</p>
     {projects.map((p, i) => (
-      <li class={`page ${layouts[i % layouts.length]} grid reveal`}>
-        <p class="page__run page__run--tl">Selected work</p>
-        <p class="page__run page__run--tr">{pad(i + 1)} / {pad(projects.length)}</p>
-        <a class="page__pic wcard__cover" href={p.href} data-slug={p.slug} tabindex="-1" target={p.external ? '_blank' : undefined} rel={p.external ? 'noopener' : undefined}>
-          <Image src={p.cover} alt={p.alt} widths={[480, 800, 1200, 1600]} sizes="(min-width: 1024px) 46vw, 100vw" quality={86} loading={i === 0 ? 'eager' : 'lazy'} />
+      <article class={`spread__piece ${places[i % places.length]} reveal`} style={`--i: ${i}`}>
+        <a class="wcard__cover" href={p.href} data-slug={p.slug} tabindex="-1" target={p.external ? '_blank' : undefined} rel={p.external ? 'noopener' : undefined}>
+          <Image src={p.cover} alt={p.alt} widths={[480, 800, 1200, 1600]} sizes="(min-width: 1024px) 56vw, 100vw" quality={86} loading={i === 0 ? 'eager' : 'lazy'} />
         </a>
-        <div class="page__text">
-          <h3 class="page__title">{p.title}</h3>
-          <p class="page__body">{p.blurb}</p>
-          <a class="page__link" href={p.href} target={p.external ? '_blank' : undefined} rel={p.external ? 'noopener' : undefined}>{p.external ? 'Open the app' : 'Read the case study'} <span class="arrow">{p.external ? <>&nearr;&#65038;</> : <>&rarr;&#65038;</>}</span></a>
+        <div class="spread__text">
+          <h3 class="spread__title">{p.title}</h3>
+          <p class="spread__body">{p.blurb}</p>
+          <a class="spread__link" href={p.href} target={p.external ? '_blank' : undefined} rel={p.external ? 'noopener' : undefined}>Read the case study <span class="arrow">&rarr;&#65038;</span></a>
         </div>
-        <p class="page__run page__run--bl">{p.meta.join(', ')}</p>
-        <p class="page__run page__run--bc">{p.year}</p>
-        <p class="page__run page__run--br">{p.title}</p>
-      </li>
+      </article>
     ))}
-  </ol>
+  </div>
   <canvas class="spill spill--quiet-r" data-aspect="1.1" data-origin="0.55 0.5" data-seed="11" data-strength="0.55" aria-hidden="true"></canvas>
 </section>
