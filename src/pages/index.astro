@@ -5,8 +5,7 @@ import Work from '../components/Work.astro';
 import Foot from '../components/Foot.astro';
 ---
 <Base>
-  <!-- the first screen: the sunlight is the picture. Ian's words are on a sheet of tracing paper laid in it, off-centre,
-       the leaf shadows showing through; small labels sit in the corners like the running heads of a printed page -->
+  <!-- the first screen: the sunlight on the paper is the picture; the name and menu above it, the tagline low on the left -->
   <section class="first hero rel">
     <header class="hero__top grid">
       <a class="name enter" style="--i: 0" href="/">Ian Kim</a>
@@ -14,18 +13,9 @@ import Foot from '../components/Foot.astro';
         <li><a href="/" aria-current="page">Work</a></li><li><a href="/about">About</a></li><li><a href={links.resume} target="_blank" rel="noopener">Resume</a></li>
       </ul>
     </header>
-    <div class="grid hero__mid">
-      <div class="hero__sheet enter" style="--i: 2" data-depth="0.1">
-        <p class="label">Product designer</p>
-        <h1 class="words" style="--wd: 450ms">Designer with an artist's eye for detail</h1>
-        <p class="hero__about">I study design at UC Davis and come from San Francisco. I started in fine arts and still draw. Right now I'm designing Moober and Buzzit, two live apps for Davis students.</p>
-        <p class="hero__links"><a href={links.email}>Email</a><a href={links.linkedin} target="_blank" rel="noopener">LinkedIn</a></p>
-      </div>
+    <div class="grid hero__statement">
+      <h1 class="words" style="--wd: 450ms">Designer with an artist's eye for detail</h1>
     </div>
-    <footer class="hero__foot grid">
-      <p class="label">UC Davis · San Francisco</p>
-      <p class="label hero__next">Selected work &darr;&#65038;</p>
-    </footer>
   </section>
   <main>
     <Work />

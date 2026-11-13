@@ -11,13 +11,8 @@ export function page() {
     els.forEach((e) => io.observe(e));
   }
 
-  // loose sheets: anything with data-depth drifts a little against the page as it scrolls, nearer sheets further,
-  // so the layers of paper slide over one another
-  const sheets = [...document.querySelectorAll('[data-depth]')]; let drift = 0;
-  const float = () => { sheets.forEach((el) => { const r = el.getBoundingClientRect(); const off = r.top + r.height / 2 - innerHeight / 2 - (parseFloat(el.style.getPropertyValue('--drift')) || 0); el.style.setProperty('--drift', `${(-off * +el.dataset.depth).toFixed(1)}px`); }); drift = requestAnimationFrame(float); };
-  if (!reduce && sheets.length) drift = requestAnimationFrame(float);
   const ac = new AbortController(), on = { signal: ac.signal };
-  const cleanup = () => { io?.disconnect(); ac.abort(); cancelAnimationFrame(drift); };
+  const cleanup = () => { io?.disconnect(); ac.abort(); };
   const cur = document.querySelector('.cursor');
   cur?.classList.remove('is-on');
   if (!fine || !cur) return cleanup;
