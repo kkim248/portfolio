@@ -140,7 +140,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
 /* printed type: every serif line carries the ink filter and sits into the paper */
-.name, .menu, .statement h1, .work h3, .spread__title, .foot__note,
+.name, .menu, .hero__sheet h1, .work h3, .spread__title, .foot__note,
 .cs-hero h1, .sec h2, .hmw__q, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
 
 /* words arrive the way ink takes on wet paper: each word bleeds in from a soft blur, a little bluer while it is
@@ -158,7 +158,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* phones and tablets render SVG filters at a low resolution, so the ink looked blurry and cost frames there.
    On touch screens and small screens the type stays crisp, still multiplied into the paper. */
 @media (max-width: 767px), (hover: none) {
-  .name, .menu, .statement h1, .work h3, .spread__title, .foot__note, .cs-hero h1, .sec h2, .hmw__q, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
+  .name, .menu, .hero__sheet h1, .work h3, .spread__title, .foot__note, .cs-hero h1, .sec h2, .hmw__q, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
   .words.is-split .w { filter: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -227,9 +227,25 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @media (min-width: 1024px) { .bar__name { grid-column: 1 / span 3; } .bar__crumb { grid-column: 5 / span 4; } .bar__menu { grid-column: 9 / -1; } }
 
 /* ---------- homepage ---------- */
-.statement { margin-top: var(--s-9); }
-.statement h1 { grid-column: 1 / -1; font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-display); line-height: var(--lh-tight); letter-spacing: var(--track-display); text-wrap: balance; }
-@media (min-width: 1024px) { .statement h1 { grid-column: 1 / span 9; } }
+/* the first screen: the name and menu at the top, labels at the bottom corners, and between them one sheet of tracing
+   paper laid in the light with Ian's words on it */
+.hero > .grid { width: 100%; }   /* each row of the hero spans the page */
+.hero__top { align-items: baseline; }
+.hero__top .name { grid-column: 1 / span 2; }
+.hero__menu { grid-column: 3 / -1; justify-self: end; display: flex; gap: var(--s-5); }
+.hero__mid { flex: 1; align-items: center; padding-block: var(--s-7); }
+.hero__sheet { grid-column: 1 / -1; display: grid; gap: var(--s-4); padding: var(--s-6); background: rgb(244 242 236 / 0.62); -webkit-backdrop-filter: blur(4px) saturate(0.9); backdrop-filter: blur(4px) saturate(0.9); box-shadow: var(--shadow-card); }
+.hero__sheet h1 { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); text-wrap: balance; }
+.hero__about { font-size: var(--fs-small); line-height: var(--lh-text); color: var(--ink-2); max-width: 44ch; }
+.hero__links { display: flex; gap: var(--s-5); font-size: var(--fs-small); }
+.hero__foot { align-items: end; }
+.hero__foot .label { grid-column: span 2; }
+.hero__foot .hero__next { justify-self: end; grid-column-end: -1; text-align: right; }
+@media (min-width: 1024px) {
+  .hero__sheet { grid-column: 7 / span 5; padding: var(--s-7); transform: rotate(-1deg) translateY(var(--drift, 0px)); }
+  .hero__foot .label { grid-column: span 4; }
+  .hero__foot .hero__next { grid-column: 9 / -1; }
+}
 
 .work { padding-top: var(--section); padding-bottom: var(--s-9); }
 /* the work, composed on one page like a spread in a printed book: the projects at different sizes and heights, each
@@ -238,6 +254,8 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .spread__run { font-size: var(--fs-label-l); line-height: var(--lh-label); color: var(--ink-2); }
 .spread__run--l { grid-column: 1 / span 6; }
 .spread__run--r { grid-column: 7 / -1; text-align: right; }
+.spread__back { display: none; }
+@media (min-width: 1024px) { .spread__back { display: block; } }
 .spread__piece { grid-column: 1 / -1; display: grid; gap: var(--s-4); }
 .wcard__cover { position: relative; display: block; overflow: hidden; }
 .wcard__cover img { display: block; width: 100%; height: auto; aspect-ratio: var(--cover-ratio); object-fit: cover; transition: transform var(--dur-slow) var(--ease); }
@@ -252,15 +270,19 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
    of its cover: its words are on that sheet, and the cover shows faintly through it */
 @media (min-width: 1024px) {
   .spread__piece { grid-template-columns: subgrid; gap: 0; }
-  .spread__piece .wcard__cover { grid-row: 1; }
+  .spread__piece .wcard__cover { grid-row: 1; position: relative; z-index: 1; box-shadow: var(--shadow-card); }
+  /* the blank sheet each print is laid on, a little larger and a little askew */
+  .spread__back { grid-row: 1; background: var(--paper); box-shadow: var(--shadow-card); margin: calc(var(--s-5) * -1) calc(var(--s-6) * -1) calc(var(--s-7) * -1) calc(var(--s-5) * -1); }
+  .spread__piece--a .spread__back { grid-column: 1 / span 7; transform: translateY(var(--drift, 0px)) rotate(-1.6deg); }
+  .spread__piece--b .spread__back { grid-column: 6 / span 7; transform: translateY(var(--drift, 0px)) rotate(1.3deg); }
   .spread__text { grid-row: 2; position: relative; z-index: 2; max-width: none; gap: var(--s-3); padding: var(--s-6); margin-top: calc(var(--s-10) * -1);
     background: rgb(244 242 236 / 0.74); -webkit-backdrop-filter: blur(5px) saturate(0.85); backdrop-filter: blur(5px) saturate(0.85);
     box-shadow: var(--shadow-card); }
   .spread__piece--a .wcard__cover { grid-column: 1 / span 7; }
-  .spread__piece--a .spread__text { grid-column: 6 / span 4; transform: rotate(-1.2deg); }
-  .spread__piece--b { margin-top: var(--s-7); }
+  .spread__piece--a .spread__text { grid-column: 6 / span 4; transform: translateY(var(--drift, 0px)) rotate(-1.2deg); }
+  .spread__piece--b { margin-top: var(--s-9); }
   .spread__piece--b .wcard__cover { grid-column: 6 / span 7; }
-  .spread__piece--b .spread__text { grid-column: 3 / span 4; transform: rotate(0.9deg); }
+  .spread__piece--b .spread__text { grid-column: 3 / span 4; transform: translateY(var(--drift, 0px)) rotate(0.9deg); }
 }
 /* screenshots sit in the paper: their colours a little quieter */
 .wcard__cover img { filter: saturate(0.86) contrast(0.97); }

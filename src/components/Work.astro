@@ -13,10 +13,11 @@ const places = ['spread__piece--a', 'spread__piece--b'];
     <p class="spread__run spread__run--r">2026</p>
     {projects.map((p, i) => (
       <article class={`spread__piece ${places[i % places.length]} reveal`} style={`--i: ${i}`}>
+        <span class="spread__back" data-depth="-0.05" aria-hidden="true"></span>
         <a class="wcard__cover" href={p.href} data-slug={p.slug} tabindex="-1" target={p.external ? '_blank' : undefined} rel={p.external ? 'noopener' : undefined}>
           <Image src={p.cover} alt={p.alt} widths={[480, 800, 1200, 1600]} sizes="(min-width: 1024px) 56vw, 100vw" quality={86} loading={i === 0 ? 'eager' : 'lazy'} />
         </a>
-        <div class="spread__text">
+        <div class="spread__text" data-depth="0.07">
           <h3 class="spread__title">{p.title}</h3>
           <p class="spread__body">{p.blurb}</p>
           <a class="spread__link" href={p.href} target={p.external ? '_blank' : undefined} rel={p.external ? 'noopener' : undefined}>Read the case study <span class="arrow">&rarr;&#65038;</span></a>
