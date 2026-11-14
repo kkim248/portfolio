@@ -232,6 +232,16 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .hero__top { align-items: baseline; }
 .hero__top .name { grid-column: 1 / span 2; }
 .hero__menu { grid-column: 3 / -1; justify-self: end; display: flex; gap: var(--s-5); }
+/* Ian's shadow on the paper: soft, in the light's own shade, the leaves' shadows falling over it. It breathes and sways
+   very slowly, like someone standing by the window with a coffee. */
+.hero { overflow: clip; }
+.hero > :not(.hero__shadow) { position: relative; z-index: 1; }
+.hero__shadow { position: absolute; z-index: 0; right: 14%; bottom: 0; height: 88%; pointer-events: none; transform-origin: 50% 100%; transform: skewX(-7deg); opacity: 0.32; mix-blend-mode: multiply; }
+.hero__shadow img { display: block; height: 100%; width: auto; filter: blur(6px); transform-origin: 50% 100%; animation: breathe 6.5s ease-in-out infinite, sway 17s ease-in-out infinite alternate; }
+@keyframes breathe { 0%, 100% { scale: 1 1; } 50% { scale: 1.004 1.008; } }
+@keyframes sway { from { rotate: -0.6deg; translate: -4px 0; } to { rotate: 0.5deg; translate: 5px 0; } }
+@media (max-width: 767px) { .hero__shadow { right: -18%; height: 72%; opacity: 0.26; } }
+@media (prefers-reduced-motion: reduce) { .hero__shadow img { animation: none; } }
 .hero__statement { margin-top: auto; }
 .hero__statement h1 { grid-column: 1 / -1; font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-display); line-height: var(--lh-tight); letter-spacing: var(--track-display); text-wrap: balance; }
 @media (min-width: 1024px) { .hero__statement h1 { grid-column: 1 / span 8; } }
