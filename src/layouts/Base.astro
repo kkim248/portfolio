@@ -42,6 +42,9 @@ const turn = { forwards: sheet, backwards: sheet };
   <link rel="preload" href="/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/GeistMono-Variable.woff2" as="font" type="font/woff2" crossorigin>
   <ClientRouter />
+  <!-- Vercel Web Analytics: counts page views, including the page changes the router makes without a full load -->
+  <script is:inline>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+  <script is:inline defer src="/_vercel/insights/script.js"></script>
   <!-- the opening plays on every full load (not on page-to-page navigation); decided before first paint so the page never flashes underneath it -->
   <script is:inline>
     try {
