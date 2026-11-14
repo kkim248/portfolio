@@ -10,9 +10,9 @@ export function words() {
         if (c.nodeType === 1) { walk(c); return; }
         if (c.nodeType !== 3 || !c.textContent.trim()) return;
         const frag = document.createDocumentFragment();
-        c.textContent.split(/(\s+)/).forEach((part) => {
+        c.textContent.split(/([ \t\n\r]+)/).forEach((part) => {
           if (!part) return;
-          if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+          if (/^[ \t\n\r]+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
           const w = document.createElement('span'); w.className = 'w';
           const inner = document.createElement('span'); inner.textContent = part; inner.style.setProperty('--wi', i++);
           w.appendChild(inner); frag.appendChild(w);

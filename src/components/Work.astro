@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import { projects } from '../data/projects';
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
-<section class="work" aria-labelledby="work-title">
+<section class="work" id="work" aria-labelledby="work-title">
   <canvas class="spill spill--quiet-l" data-aspect="1.25" data-origin="0.45 0.45" data-seed="5" data-strength="0.6" aria-hidden="true"></canvas>
   <div class="work__head grid">
     <h2 id="work-title" class="words">Selected work</h2>

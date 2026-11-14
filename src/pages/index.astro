@@ -1,14 +1,31 @@
 ---
 import Base from '../layouts/Base.astro';
-import Top from '../components/Top.astro';
+import { links } from '../data/site';
 import Work from '../components/Work.astro';
 import Foot from '../components/Foot.astro';
 ---
 <Base>
-  <section class="first rel">
-    <Top current="work" />
-    <div class="statement grid">
-      <h1 class="words" style="--wd: 450ms">Designer with an artist's eye for <em>detail</em></h1>
+  <!-- the first screen: the light fills it. The name, then the site as a short index (pages, then ways to say hello),
+       San Francisco and the time low on the left, a few lines about Ian low on the right -->
+  <section class="first hero rel">
+    <header class="hero__top grid"><a class="name enter" style="--i: 0" href="/">Ian Kim</a></header>
+    <nav class="hero__index grid enter" style="--i: 1" aria-label="Site">
+      <div class="ix">
+        <p class="label">Index</p>
+        <a href="#work" aria-current="page"><span>Work</span><span class="ix__n">01</span></a>
+        <a href="/about"><span>About</span><span class="ix__n">02</span></a>
+        <span class="ix__soon"><span>Studio</span><span class="ix__n">03</span><span class="ix__tag">Soon</span></span>
+      </div>
+      <div class="ix">
+        <p class="label">Say hello</p>
+        <a href={links.linkedin} target="_blank" rel="noopener"><span>LinkedIn</span><span class="ix__n">&nearr;&#65038;</span></a>
+        {links.twitter && <a href={links.twitter} target="_blank" rel="noopener"><span>Twitter</span><span class="ix__n">&nearr;&#65038;</span></a>}
+        <a href={links.email}><span>Email</span><span class="ix__n">&nearr;&#65038;</span></a>
+      </div>
+    </nav>
+    <div class="grid hero__statement">
+      <p class="hero__time label enter" style="--i: 2"><span>San Francisco, California</span><span data-clock>&nbsp;</span></p>
+      <h1 class="words" style="--wd: 600ms">I'm a product designer from San Francisco, studying at UC&nbsp;Davis. I&nbsp;started out drawing, and I still design in the same way: in layers, with an eye for texture and small details. Right now I'm designing Moober and Buzzit, two live apps for Davis students.</h1>
     </div>
   </section>
   <main>

@@ -64,6 +64,7 @@
   --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px; --s-9: 96px; --s-10: 128px;
   --section: clamp(96px, 10vw, 160px);   /* between major sections, on every page */
   --page-top: var(--s-6);                /* from the top of the window to the first line */
+  --hero-gap: clamp(var(--s-6), 8svh, var(--s-9));   /* phones: the breathing room between the parts of the first screen, more on tall phones */
 
   /* radius: four, by what is being rounded */
   --r-s: 8px;        /* product screens */
@@ -74,6 +75,7 @@
   /* measure */
   --measure: 680px;        /* one reading column */
   --measure-wide: 940px;   /* the case study column */
+  --measure-note: 27em;    /* the few lines low on the right of the homepage's first screen: four even lines */
 
   /* motion */
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -140,8 +142,10 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
 /* printed type: every serif line carries the ink filter and sits into the paper */
-.name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note,
-.cs-hero h1, .sec h2, .sub, .tierrow__text h4, .hmw__q, .stat__big, .calls__big, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
+.name, .menu, .hero__statement h1, .work__head h2, .work h3, .scene__list a, .foot__note,
+.cs-hero h1, .sec h2, .sub, .tierrow__text h4, .hmw__q, .stat__big, .calls__big, .bar__crumb, .bar__menu, .ab__hello, .ix a, .ix__soon { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
+/* the small mono labels beside them stay crisp, but are still multiplied into the paper and the light */
+.ix .label, .hero__time { mix-blend-mode: multiply; }
 
 /* words arrive the way ink takes on wet paper: each word bleeds in from a soft blur, a little bluer while it is
    wet, written left to right along a feathered edge, and dries to ink. Staggered word by word, like a pen. Every
@@ -158,7 +162,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* phones and tablets render SVG filters at a low resolution, so the ink looked blurry and cost frames there.
    On touch screens and small screens the type stays crisp, still multiplied into the paper. */
 @media (max-width: 767px), (hover: none) {
-  .name, .menu, .statement h1, .work__head h2, .work h3, .scene__list a, .foot__note, .cs-hero h1, .sec h2, .sub, .tierrow__text h4, .hmw__q, .stat__big, .calls__big, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
+  .name, .menu, .hero__statement h1, .work__head h2, .work h3, .scene__list a, .foot__note, .cs-hero h1, .sec h2, .sub, .tierrow__text h4, .hmw__q, .stat__big, .calls__big, .bar__crumb, .bar__menu, .ab__hello, .ix a, .ix__soon { filter: none; }
   .words.is-split .w { filter: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -190,28 +194,8 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .menu a:hover, .bar__menu a:hover { color: var(--ink); text-decoration: none; }
 .menu [aria-current], .bar__menu [aria-current] { font-style: italic; color: var(--blue); }
 
-/* the homepage top row: dense, small columns */
+/* the homepage first screen */
 .first { position: relative; min-height: 100svh; display: flex; flex-direction: column; justify-content: space-between; padding-block: var(--page-top) var(--s-7); }
-.top { row-gap: var(--s-5); align-items: start; }
-.top__id, .top__menu { grid-column: span 2; }
-.top__contact, .top__profile, .top__now { grid-column: span 4; }
-@media (max-width: 767px) {
-  .top { align-items: baseline; }
-  .top__menu { grid-column: 3 / -1; justify-self: end; }
-  .top__menu .menu { display: flex; gap: var(--s-5); }
-  .top__id .mono { display: none; }
-}
-@media (min-width: 768px) {
-  .top__id { grid-column: 1 / span 2; } .top__menu { grid-column: 3 / span 2; } .top__contact { grid-column: 5 / span 4; }
-  .top__profile { grid-column: 1 / span 4; } .top__now { grid-column: 5 / span 4; }
-}
-@media (min-width: 1024px) {
-  .top__id { grid-column: 1 / span 2; } .top__menu { grid-column: 3 / span 2; } .top__contact { grid-column: 5 / span 2; }
-  .top__profile { grid-column: 7 / span 3; } .top__now { grid-column: 10 / span 3; }
-}
-.top p:not(.label) { color: var(--ink-2); }
-.top .label { margin-bottom: var(--s-2); }
-.contact li { line-height: var(--s-5); }   /* mono links, spaced to a 24px rhythm */
 
 /* the slim bar on inner pages: name, where you are, the menu inline */
 .bar { align-items: baseline; row-gap: var(--s-2); padding-top: var(--page-top); width: 100%; }
@@ -227,10 +211,39 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @media (min-width: 1024px) { .bar__name { grid-column: 1 / span 3; } .bar__crumb { grid-column: 5 / span 4; } .bar__menu { grid-column: 9 / -1; } }
 
 /* ---------- homepage ---------- */
-.statement { margin-top: var(--s-9); }
-.statement h1 { grid-column: 1 / -1; font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-display); line-height: var(--lh-tight); letter-spacing: var(--track-display); text-wrap: balance; }
-@media (min-width: 1024px) { .statement h1 { grid-column: 1 / span 9; } }
-.statement h1 em { font-style: italic; color: var(--blue); }
+/* the first screen: the light fills it. The name, then the site as a short index; San Francisco and the time low on
+   the left, a few lines about Ian low on the right */
+.hero > .grid { width: 100%; }   /* each row of the hero spans the page */
+.hero__top { align-items: baseline; }
+.hero__top .name { grid-column: 1 / span 2; }
+/* the index: the pages, then ways to say hello, as short numbered rows, one group above the other. On phones the
+   space around them grows with the screen's height, so tall phones breathe and short ones still fit */
+.hero__index { margin-top: var(--hero-gap); row-gap: var(--s-6); }
+.ix { grid-column: 1 / -1; display: grid; align-content: start; }
+@media (min-width: 768px) { .hero__index { margin-top: var(--s-8); row-gap: var(--s-7); } .ix { grid-column: 1 / span 3; } }
+.ix .label { margin-bottom: var(--s-2); }
+/* each row: a small mono number first, then the name; under the pointer a fine line draws in beneath the name */
+.ix a, .ix__soon { position: relative; width: fit-content; display: grid; grid-template-columns: var(--s-6) auto auto; align-items: baseline; padding-top: var(--s-1); font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-nav); line-height: var(--lh-nav); color: var(--ink); }
+.ix a::after { content: ""; position: absolute; left: var(--s-6); right: 0; bottom: var(--s-1); height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform var(--dur-base) var(--ease); }
+.ix__n { order: -1; font-family: var(--mono); font-size: var(--fs-label); letter-spacing: var(--track-mono); color: var(--ink-3); transition: color var(--dur-base) var(--ease); }
+.ix a:hover { text-decoration: none; }
+.ix a:hover::after { transform: scaleX(1); }
+.ix a:hover .ix__n { color: var(--blue); }
+.ix a[aria-current] > span:first-child { font-style: italic; color: var(--blue); }
+.ix a[aria-current]::after { display: none; }
+.ix__soon { color: var(--ink-3); }
+.ix__tag { margin-left: var(--s-3); font-family: var(--mono); font-size: var(--fs-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); }
+/* the bottom row: always at least a clear gap below the index, even on short phones. On phones the words come first
+   and the time sits under them; from tablets up the time sits low on the left, level with the words' last line */
+.hero__statement { margin-top: auto; padding-top: var(--hero-gap); align-items: end; row-gap: var(--s-5); }
+@media (min-width: 768px) { .hero__statement { padding-top: var(--s-8); } }
+.hero__statement h1 { grid-column: 1 / -1; font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-2); text-wrap: pretty; }
+.hero__time { grid-column: 1 / -1; grid-row: 2; display: grid; }
+@media (min-width: 768px) {
+  .hero__time { grid-column: 1 / span 4; grid-row: 1; }
+  .hero__statement h1 { grid-column: 5 / -1; }
+}
+@media (min-width: 1024px) { .hero__statement h1 { grid-column: 8 / -1; max-width: var(--measure-note); justify-self: end; } }
 
 .work { padding-top: var(--section); }
 .work__head { align-items: end; padding-bottom: var(--s-5); border-bottom: 1px solid var(--ink); }

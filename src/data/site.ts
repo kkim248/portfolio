@@ -2,5 +2,6 @@
 export const links = {
   email: 'mailto:iansoojinkim@gmail.com',
   linkedin: 'https://www.linkedin.com/in/ian-kim-549226356/',
+  twitter: 'https://x.com/ianskim_',
   resume: 'https://drive.google.com/file/d/1bYq4r07i9nYkBTbbrEGq-AFQjUMQ2v5u/view?usp=sharing',
 };
