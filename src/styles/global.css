@@ -200,28 +200,9 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .menu a:hover, .bar__menu a:hover { color: var(--ink); text-decoration: none; }
 .menu [aria-current], .bar__menu [aria-current] { font-style: italic; color: var(--blue); }
 
-/* the homepage top row: dense, small columns */
+/* the homepage first screen */
 .first { position: relative; min-height: 100svh; display: flex; flex-direction: column; justify-content: space-between; padding-block: var(--page-top) var(--s-7); }
-.top { row-gap: var(--s-5); align-items: start; }
-.top__id, .top__menu { grid-column: span 2; }
-.top__contact, .top__profile, .top__now { grid-column: span 4; }
-@media (max-width: 767px) {
-  .top { align-items: baseline; }
-  .top__menu { grid-column: 3 / -1; justify-self: end; }
-  .top__menu .menu { display: flex; gap: var(--s-5); }
-  .top__id .mono { display: none; }
-}
-@media (min-width: 768px) {
-  .top__id { grid-column: 1 / span 2; } .top__menu { grid-column: 3 / span 2; } .top__contact { grid-column: 5 / span 4; }
-  .top__profile { grid-column: 1 / span 4; } .top__now { grid-column: 5 / span 4; }
-}
-@media (min-width: 1024px) {
-  .top__id { grid-column: 1 / span 2; } .top__menu { grid-column: 3 / span 2; } .top__contact { grid-column: 5 / span 2; }
-  .top__profile { grid-column: 7 / span 3; } .top__now { grid-column: 10 / span 3; }
-}
-.top p:not(.label) { color: var(--ink-2); }
 .top .label { margin-bottom: var(--s-2); }
-.contact li { line-height: var(--s-5); }   /* mono links, spaced to a 24px rhythm */
 
 /* the slim bar on inner pages: name, where you are, the menu inline */
 .bar { align-items: baseline; row-gap: var(--s-2); padding-top: var(--page-top); width: 100%; }
