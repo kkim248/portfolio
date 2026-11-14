@@ -15,6 +15,8 @@
   --ink-2: #4A4A47;           /* body text */
   --ink-3: #6A6863;           /* labels, captions, inactive items: 5.0:1 on paper, 4.6:1 in the deepest shade */
   --rule: #DAD6CC;            /* hairlines */
+  --leader: rgb(34 31 27 / 0.22);     /* the dotted leaders in the hero index */
+  --leader-on: rgb(34 31 27 / 0.55);  /* a leader under the pointer */
   --blue: #1F3A93;            /* cyanotype blue, the only colour */
   --on-blue: #F1EEE6;         /* text on blue */
   --surface: #FFFFFF;         /* product screens and app UI lying on the paper */
@@ -238,9 +240,27 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .hero > .grid { width: 100%; }   /* each row of the hero spans the page */
 .hero__top { align-items: baseline; }
 .hero__top .name { grid-column: 1 / span 2; }
-.hero__menu { grid-column: 3 / -1; justify-self: end; display: flex; gap: var(--s-5); }
-/* Ian's shadow on the paper: soft, in the light's own shade, the leaves' shadows falling over it. It breathes and sways
-   very slowly, like someone standing by the window with a coffee. */
+/* the index: the pages, then ways to say hello, as short rows with a fine dotted leader to a number */
+.hero__index { margin-top: var(--s-8); row-gap: var(--s-7); }
+.ix { grid-column: 1 / -1; display: grid; align-content: start; }
+@media (min-width: 768px)  { .ix { grid-column: 1 / span 3; } }
+@media (min-width: 1024px) { .ix { grid-column: 1 / span 3; } }
+.ix .label { margin-bottom: var(--s-2); }
+.ix a, .ix__soon { display: grid; grid-template-columns: auto 1fr auto; align-items: baseline; column-gap: var(--s-3); padding-block: var(--s-1) 0; font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-nav); line-height: var(--lh-nav); color: var(--ink); }
+.ix a::after, .ix__soon::after { content: ""; order: 1; align-self: end; margin-bottom: var(--s-2); border-bottom: 1px dotted var(--leader); transition: border-color var(--dur-base) var(--ease); }
+.ix__n { order: 2; font-family: var(--mono); font-size: var(--fs-label); letter-spacing: var(--track-mono); color: var(--ink-3); transition: color var(--dur-base) var(--ease); }
+.ix a > span:first-child { transition: transform var(--dur-base) var(--ease); }
+.ix a:hover { text-decoration: none; }
+.ix a:hover > span:first-child { transform: translateX(var(--s-1)); }
+.ix a:hover::after { border-color: var(--leader-on); }
+.ix a:hover .ix__n { color: var(--ink); }
+.ix a[aria-current] > span:first-child { font-style: italic; color: var(--blue); }
+.ix__soon { color: var(--ink-3); }
+.ix__soon .ix__n { text-transform: uppercase; letter-spacing: var(--track-label); }
+/* Davis and the time, low on the left, level with the last line of the words on the right */
+.hero__statement { align-items: end; row-gap: var(--s-6); }
+.hero__time { grid-column: 1 / -1; grid-row: 2; display: grid; }
+@media (min-width: 768px) { .hero__time { grid-column: 1 / span 4; grid-row: 1; } }
 .hero__statement { margin-top: auto; }
 /* a few lines of serif, small and low on the right, the way a note sits in the corner of a page */
 .hero__statement h1 { grid-column: 1 / -1; max-width: 36ch; font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-2); text-wrap: pretty; }

@@ -11,8 +11,14 @@ export function page() {
     els.forEach((e) => io.observe(e));
   }
 
+  // the time in Davis, ticking, wherever a page shows it
+  const clocks = document.querySelectorAll('[data-clock]');
+  const tick = () => { const t = new Date().toLocaleTimeString('en-US', { timeZone: 'America/Los_Angeles', hour: 'numeric', minute: '2-digit', second: '2-digit' }); clocks.forEach((c) => (c.textContent = t)); };
+  let clock = 0;
+  if (clocks.length) { tick(); clock = setInterval(tick, 1000); }
+
   const ac = new AbortController(), on = { signal: ac.signal };
-  const cleanup = () => { io?.disconnect(); ac.abort(); };
+  const cleanup = () => { io?.disconnect(); ac.abort(); clearInterval(clock); };
   const cur = document.querySelector('.cursor');
   cur?.classList.remove('is-on');
   if (!fine || !cur) return cleanup;

@@ -5,17 +5,27 @@ import Work from '../components/Work.astro';
 import Foot from '../components/Foot.astro';
 ---
 <Base>
-  <!-- the first screen, from Ian's frame: the sunlight on the paper is the picture. The name and menu above it,
-       and a few quiet lines low on the right -->
+  <!-- the first screen: the light fills it. The name, then the site as a short index (pages, then ways to say hello),
+       Davis and the time low on the left, a few lines about Ian low on the right -->
   <section class="first hero rel">
-    <header class="hero__top grid">
-      <a class="name enter" style="--i: 0" href="/">Ian Kim</a>
-      <ul class="menu hero__menu enter" style="--i: 1">
-        <li><a href="/" aria-current="page">Work</a></li><li><a href="/about">About</a></li><li><a href={links.resume} target="_blank" rel="noopener">Resume</a></li>
-      </ul>
-    </header>
+    <header class="hero__top grid"><a class="name enter" style="--i: 0" href="/">Ian Kim</a></header>
+    <nav class="hero__index grid enter" style="--i: 1" aria-label="Site">
+      <div class="ix">
+        <p class="label">Index</p>
+        <a href="#work" aria-current="page"><span>Work</span><span class="ix__n">01</span></a>
+        <a href="/about"><span>About</span><span class="ix__n">02</span></a>
+        <span class="ix__soon"><span>Studio</span><span class="ix__n">Soon</span></span>
+      </div>
+      <div class="ix">
+        <p class="label">Say hello</p>
+        <a href={links.linkedin} target="_blank" rel="noopener"><span>LinkedIn</span><span class="ix__n">&nearr;&#65038;</span></a>
+        {links.twitter && <a href={links.twitter} target="_blank" rel="noopener"><span>Twitter</span><span class="ix__n">&nearr;&#65038;</span></a>}
+        <a href={links.email}><span>Email</span><span class="ix__n">&nearr;&#65038;</span></a>
+      </div>
+    </nav>
     <div class="grid hero__statement">
-      <h1 class="hero__intro words" style="--wd: 600ms">I'm a designer and a senior at UC Davis. I started in fine art, and now I design Moober and Buzzit, two live apps for Davis students.</h1>
+      <p class="hero__time label enter" style="--i: 2"><span>Davis, California</span><span data-clock>&nbsp;</span></p>
+      <h1 class="words" style="--wd: 600ms">I'm a designer and a senior at UC Davis. I started in fine art, and now I design Moober and Buzzit, two live apps for Davis students.</h1>
     </div>
   </section>
   <main>
