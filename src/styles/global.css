@@ -265,7 +265,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* a few lines of serif, small and low on the right, the way a note sits in the corner of a page */
 .hero__statement h1 { grid-column: 1 / -1; max-width: 36ch; font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-2); text-wrap: pretty; }
 @media (min-width: 768px) { .hero__statement h1 { grid-column: 5 / -1; } }
-@media (min-width: 1024px) { .hero__statement h1 { grid-column: 8 / -1; max-width: 30em; justify-self: end; } }
+@media (min-width: 1024px) { .hero__statement h1 { grid-column: 8 / -1; max-width: 27em; justify-self: end; } }
 
 .work { padding-top: var(--section); padding-bottom: var(--s-9); }
 /* the work, composed on one page like a spread in a printed book: the projects at different sizes and heights, each
