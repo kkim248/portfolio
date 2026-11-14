@@ -48,7 +48,6 @@
   --fs-heading: clamp(28px, 2.4vw, 36px);                /* case study section headings and statements */
   --fs-subheading: clamp(22px, 1.8vw, 26px);             /* subheadings, list titles */
   --fs-nav: 19px;                                        /* name, menu, breadcrumb */
-  --fs-note: clamp(20px, 1.6vw, 24px);                  /* the few lines low on the homepage's first screen: one step above reading text */
   --fs-body: clamp(17px, 1.25vw, 19px);                  /* reading text */
   --fs-body-s: 17px;                                     /* text in cards, lists and notes */
   --fs-small: 15px;                                      /* info rows, captions, links */
@@ -86,7 +85,7 @@
   --measure: 680px;        /* one reading column */
   --measure-hero: 1040px;  /* the case study hero: a step wider than the column it opens */
   --measure-wide: 760px;
-  --measure-note: 28em;    /* the few lines low on the right of the homepage's first screen: four even lines */   /* the case study column, about the width the reference studies use */
+  --measure-note: 27em;    /* the few lines low on the right of the homepage's first screen: four even lines */   /* the case study column, about the width the reference studies use */
 
   /* motion */
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -252,7 +251,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
   .hero__time { grid-column: 1 / span 4; grid-row: 1; }
   .hero__statement h1 { grid-column: 5 / -1; }
 }
-@media (min-width: 1024px) { .hero__statement h1 { grid-column: 7 / -1; max-width: var(--measure-note); justify-self: end; font-size: var(--fs-note); line-height: var(--lh-snug); letter-spacing: var(--track-heading); } }
+@media (min-width: 1024px) { .hero__statement h1 { grid-column: 8 / -1; max-width: var(--measure-note); justify-self: end; } }
 
 .work { padding-top: var(--section); padding-bottom: var(--s-9); }
 /* the work, composed on one page like a spread in a printed book: the projects at different sizes and heights, each
