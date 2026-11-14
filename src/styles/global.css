@@ -150,7 +150,9 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 
 /* printed type: every serif line carries the ink filter and sits into the paper */
 .name, .menu, .hero__statement h1, .work h3, .spread__title, .bk__title, .bk__head, .bk__q, .foot__note,
-.cs-hero h1, .sec h2, .hmw__q, .bar__crumb, .bar__menu, .ab__hello { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
+.cs-hero h1, .sec h2, .hmw__q, .bar__crumb, .bar__menu, .ab__hello, .ix a, .ix__soon { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
+/* the small mono labels beside them stay crisp, but are still multiplied into the paper and the light */
+.ix .label, .hero__time { mix-blend-mode: multiply; }
 
 /* words arrive the way ink takes on wet paper: each word bleeds in from a soft blur, a little bluer while it is
    wet, written left to right along a feathered edge, and dries to ink. Staggered word by word, like a pen. Every
@@ -167,7 +169,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* phones and tablets render SVG filters at a low resolution, so the ink looked blurry and cost frames there.
    On touch screens and small screens the type stays crisp, still multiplied into the paper. */
 @media (max-width: 767px), (hover: none) {
-  .name, .menu, .hero__statement h1, .work h3, .spread__title, .bk__title, .bk__head, .bk__q, .foot__note, .cs-hero h1, .sec h2, .hmw__q, .bar__crumb, .bar__menu, .ab__hello { filter: none; }
+  .name, .menu, .hero__statement h1, .work h3, .spread__title, .bk__title, .bk__head, .bk__q, .foot__note, .cs-hero h1, .sec h2, .hmw__q, .bar__crumb, .bar__menu, .ab__hello, .ix a, .ix__soon { filter: none; }
   .words.is-split .w { filter: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
