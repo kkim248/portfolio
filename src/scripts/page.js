@@ -11,7 +11,7 @@ export function page() {
     els.forEach((e) => io.observe(e));
   }
 
-  // the time in Davis, ticking, wherever a page shows it
+  // the time in San Francisco (Pacific), ticking, wherever a page shows it
   const clocks = document.querySelectorAll('[data-clock]');
   const tick = () => { const t = new Date().toLocaleTimeString('en-US', { timeZone: 'America/Los_Angeles', hour: 'numeric', minute: '2-digit', second: '2-digit' }); clocks.forEach((c) => (c.textContent = t)); };
   let clock = 0;
