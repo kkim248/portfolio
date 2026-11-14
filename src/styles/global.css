@@ -73,6 +73,7 @@
   --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px; --s-9: 96px; --s-10: 128px;
   --section: clamp(96px, 10vw, 160px);   /* between major sections, on every page */
   --page-top: var(--s-6);                /* from the top of the window to the first line */
+  --hero-gap: clamp(var(--s-6), 8svh, var(--s-9));   /* phones: the breathing room between the parts of the first screen, more on tall phones */
 
   /* radius: four, by what is being rounded */
   --r-s: 0;          /* product screens: square, like prints on paper */
@@ -223,10 +224,10 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .hero > .grid { width: 100%; }   /* each row of the hero spans the page */
 .hero__top { align-items: baseline; }
 .hero__top .name { grid-column: 1 / span 2; }
-/* the index: the pages, then ways to say hello, as short numbered rows. Side by side on phones, so the light keeps
-   the middle of the screen; one above the other from tablets up */
-.hero__index { margin-top: var(--s-7); row-gap: var(--s-6); }
-.ix { grid-column: span 2; display: grid; align-content: start; }
+/* the index: the pages, then ways to say hello, as short numbered rows, one group above the other. On phones the
+   space around them grows with the screen's height, so tall phones breathe and short ones still fit */
+.hero__index { margin-top: var(--hero-gap); row-gap: var(--s-6); }
+.ix { grid-column: 1 / -1; display: grid; align-content: start; }
 @media (min-width: 768px) { .hero__index { margin-top: var(--s-8); row-gap: var(--s-7); } .ix { grid-column: 1 / span 3; } }
 .ix .label { margin-bottom: var(--s-2); }
 /* each row: a small mono number first, then the name; under the pointer a fine line draws in beneath the name */
@@ -242,7 +243,8 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .ix__tag { margin-left: var(--s-3); font-family: var(--mono); font-size: var(--fs-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); }
 /* the bottom row: always at least a clear gap below the index, even on short phones. On phones the words come first
    and the time sits under them; from tablets up the time sits low on the left, level with the words' last line */
-.hero__statement { margin-top: auto; padding-top: var(--s-8); align-items: end; row-gap: var(--s-5); }
+.hero__statement { margin-top: auto; padding-top: var(--hero-gap); align-items: end; row-gap: var(--s-5); }
+@media (min-width: 768px) { .hero__statement { padding-top: var(--s-8); } }
 .hero__statement h1 { grid-column: 1 / -1; font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-2); text-wrap: pretty; }
 .hero__time { grid-column: 1 / -1; grid-row: 2; display: grid; }
 @media (min-width: 768px) {
