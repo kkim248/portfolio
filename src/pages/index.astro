@@ -5,10 +5,9 @@ import Work from '../components/Work.astro';
 import Foot from '../components/Foot.astro';
 ---
 <Base>
-  <!-- the first screen: the sunlight on the paper is the picture; the name and menu above it, the tagline low on the left -->
+  <!-- the first screen, from Ian's frame: the sunlight on the paper is the picture. The name and menu above it,
+       and a few quiet lines low on the right -->
   <section class="first hero rel">
-    <!-- Ian's own shadow, cast on the paper by the same light as the leaves, breathing and shifting a little -->
-    <div class="hero__shadow" aria-hidden="true"><img src="/assets/ian-shadow.png" alt="" /></div>
     <header class="hero__top grid">
       <a class="name enter" style="--i: 0" href="/">Ian Kim</a>
       <ul class="menu hero__menu enter" style="--i: 1">
@@ -16,7 +15,7 @@ import Foot from '../components/Foot.astro';
       </ul>
     </header>
     <div class="grid hero__statement">
-      <h1 class="words" style="--wd: 450ms">Designer with an artist's eye for detail</h1>
+      <h1 class="hero__intro words" style="--wd: 600ms">I'm a designer and a senior at UC Davis. I started in fine art, and now I design Moober and Buzzit, two live apps for Davis students.</h1>
     </div>
   </section>
   <main>

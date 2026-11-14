@@ -27,6 +27,13 @@
   /* depth: two shadows only */
   --shadow-card: 0 0 0 1px rgb(34 31 27 / 0.05), 0 6px 18px rgb(34 31 27 / 0.06);
   --shadow-screen: 0 0 0 1px rgb(34 31 27 / 0.06), 0 1px 2px rgb(34 31 27 / 0.06), 0 20px 48px rgb(34 31 27 / 0.08);
+  /* a print lying in the sunlight: its shadow falls down and to the right, the way the leaves' shadows fall.
+     Resting, it lies nearly flat; lifted (arriving, or under the pointer) it rises off the paper and the shadow
+     grows softer and longer */
+  --lay: 0 0 0 1px rgb(40 50 90 / 0.04), 2px 3px 4px rgb(40 50 90 / 0.08), 14px 22px 36px -10px rgb(40 50 90 / 0.18);
+  --lay-lifted: 0 0 0 1px rgb(40 50 90 / 0.03), 6px 10px 14px rgb(40 50 90 / 0.06), 40px 64px 80px -20px rgb(40 50 90 / 0.24);
+  --lift: translate(-4px, -8px);
+  --dur-land: 1600ms;   /* a print settling onto the paper */
   --shadow-phone: drop-shadow(0 1px 1px rgb(34 31 27 / 0.08)) drop-shadow(0 16px 28px rgb(34 31 27 / 0.12));   /* a phone with rounded corners: the shadow follows its shape */
 
   /* type families */
@@ -234,17 +241,11 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .hero__menu { grid-column: 3 / -1; justify-self: end; display: flex; gap: var(--s-5); }
 /* Ian's shadow on the paper: soft, in the light's own shade, the leaves' shadows falling over it. It breathes and sways
    very slowly, like someone standing by the window with a coffee. */
-.hero { overflow: clip; }
-.hero > :not(.hero__shadow) { position: relative; z-index: 1; }
-.hero__shadow { position: absolute; z-index: 0; right: 14%; bottom: 0; height: 88%; pointer-events: none; transform-origin: 50% 100%; transform: skewX(-7deg); opacity: 0.32; mix-blend-mode: multiply; }
-.hero__shadow img { display: block; height: 100%; width: auto; filter: blur(6px); transform-origin: 50% 100%; animation: breathe 6.5s ease-in-out infinite, sway 17s ease-in-out infinite alternate; }
-@keyframes breathe { 0%, 100% { scale: 1 1; } 50% { scale: 1.004 1.008; } }
-@keyframes sway { from { rotate: -0.6deg; translate: -4px 0; } to { rotate: 0.5deg; translate: 5px 0; } }
-@media (max-width: 767px) { .hero__shadow { right: -18%; height: 72%; opacity: 0.26; } }
-@media (prefers-reduced-motion: reduce) { .hero__shadow img { animation: none; } }
 .hero__statement { margin-top: auto; }
-.hero__statement h1 { grid-column: 1 / -1; font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-display); line-height: var(--lh-tight); letter-spacing: var(--track-display); text-wrap: balance; }
-@media (min-width: 1024px) { .hero__statement h1 { grid-column: 1 / span 8; } }
+/* a few lines of serif, small and low on the right, the way a note sits in the corner of a page */
+.hero__statement h1 { grid-column: 1 / -1; max-width: 36ch; font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-2); text-wrap: pretty; }
+@media (min-width: 768px) { .hero__statement h1 { grid-column: 5 / -1; } }
+@media (min-width: 1024px) { .hero__statement h1 { grid-column: 9 / -1; } }
 
 .work { padding-top: var(--section); padding-bottom: var(--s-9); }
 /* the work, composed on one page like a spread in a printed book: the projects at different sizes and heights, each
@@ -254,9 +255,15 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .spread__run--l { grid-column: 1 / span 6; }
 .spread__run--r { grid-column: 7 / -1; text-align: right; }
 .spread__piece { grid-column: 1 / -1; display: grid; gap: var(--s-4); }
-.wcard__cover { position: relative; display: block; overflow: hidden; }
-.wcard__cover img { display: block; width: 100%; height: auto; aspect-ratio: var(--cover-ratio); object-fit: cover; transition: transform var(--dur-slow) var(--ease); }
-@media (hover: hover) { .wcard__cover:hover img { transform: scale(1.02); } }
+.wcard__cover { position: relative; display: block; overflow: hidden; box-shadow: var(--lay); transition: transform var(--dur-slow) var(--ease), box-shadow var(--dur-slow) var(--ease); }
+.wcard__cover img { display: block; width: 100%; height: auto; aspect-ratio: var(--cover-ratio); object-fit: cover; }
+@media (hover: hover) { .wcard__cover:hover { transform: var(--lift); box-shadow: var(--lay-lifted); } }
+/* arriving, each cover is held a little above the paper, then laid down onto it */
+@media (prefers-reduced-motion: no-preference) {
+  .spread__piece.reveal .wcard__cover { transition-duration: var(--dur-land); transition-delay: calc(var(--i, 0) * 80ms + 120ms); }
+  .spread__piece.reveal:not(.is-in) .wcard__cover { transform: var(--lift); box-shadow: var(--lay-lifted); }
+  .spread__piece.reveal.is-in .wcard__cover:hover { transition-duration: var(--dur-slow); transition-delay: 0ms; }
+}
 .spread__text { display: grid; gap: var(--s-2); max-width: 46ch; }
 .spread__title { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); }
 .spread__body { font-size: var(--fs-small); line-height: var(--lh-text); color: var(--ink-2); }
