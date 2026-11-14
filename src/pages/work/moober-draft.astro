@@ -1,0 +1,129 @@
+---
+// A draft of the Moober case study set like the pages of a printed book: each section is a page with quiet running
+// labels, images at different sizes placed with intention, and short blocks of small text set against them.
+// The current case study stays at /work/moober for comparison.
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Bar from '../../components/Bar.astro';
+import Foot from '../../components/Foot.astro';
+import { projects } from '../../data/projects';
+import before from '../../assets/moober/moober-search-before.png';
+import after from '../../assets/moober/moober-search-results.png';
+import trip from '../../assets/moober/moober-trip-details.png';
+import mobileTrip from '../../assets/moober/mobile-trip.png';
+import mobileResults from '../../assets/moober/mobile-results.png';
+import tierDirect from '../../assets/moober/tier-direct.png';
+import tierRoute from '../../assets/moober/tier-route.png';
+import tierNearby from '../../assets/moober/tier-nearby.png';
+import team from '../../assets/moober/team.jpeg';
+import sf from '../../assets/moober/sf.jpeg';
+
+const p = projects.find((x) => x.slug === 'moober')!;
+const img = { widths: [600, 1000, 1600, 2400], quality: 88 };
+---
+<Base title="Moober: tiered search, a case study by Ian Kim (draft)" description="Nearly half of Moober's rides drove empty while riders searched and saw nothing. I redesigned how the platform matches riders to drivers.">
+  <Bar current="work" crumb="Moober" />
+  <main class="bk" data-light="quiet">
+
+    <!-- opening: the title on the left, the cover set to the right, the facts small beneath the title -->
+    <section class="bk__page grid">
+      <p class="bk__run bk__run--l">Case study</p><p class="bk__run bk__run--r">Moober, 2026</p>
+      <div class="bk__open-words">
+        <h1 class="bk__title words">Finding rides that were already there</h1>
+        <dl class="bk__facts">
+          <div><dt>Role</dt><dd>Product designer</dd></div>
+          <div><dt>Timeline</dt><dd>Spring 2026</dd></div>
+          <div><dt>Team</dt><dd>2 PMs, 1 PD (me), 1 GD, 1 PMM, 4 SWEs</dd></div>
+          <div><dt>Status</dt><dd>Designed, handed off, in build</dd></div>
+        </dl>
+      </div>
+      <figure class="bk__fig bk__open-fig wcard__cover" data-slug={p.slug} style="view-transition-name: cover">
+        <Image src={p.cover} alt={p.alt} {...img} sizes="(min-width: 1024px) 50vw, 100vw" loading="eager" fetchpriority="high" />
+      </figure>
+    </section>
+
+    <!-- overview and problem: a narrow column of text, and the empty search set small beside it -->
+    <section class="bk__page grid" id="problem">
+      <p class="bk__run bk__run--l">01 Overview</p><p class="bk__run bk__run--r">Moober</p>
+      <div class="bk__col bk__col--overview">
+        <p class="bk__body">Moober is UC Davis's student-only rideshare, used by more than 2,000 students to share rides out of Davis. Drivers post trips with open seats, and riders search by where they're going. I was the only product designer on a team of nine.</p>
+      </div>
+      <div class="bk__col bk__col--problem">
+        <p class="bk__label">02 Problem</p>
+        <h2 class="bk__head">Riders searched, saw nothing, and left.</h2>
+        <p class="bk__body">Search only matched a driver's final city. A rider going to Fresno never saw the driver heading to Los Angeles straight through it, even with seats open.</p>
+      </div>
+      <figure class="bk__fig bk__fig--empty">
+        <Image src={before} alt="Searching Davis to Fresno before the redesign: no rides found." {...img} sizes="(min-width: 1024px) 34vw, 100vw" />
+        <figcaption>Davis to Fresno, before.</figcaption>
+      </figure>
+    </section>
+
+    <!-- research: three findings set as numbered lines across the page, and the question beneath them -->
+    <section class="bk__page grid" id="research">
+      <p class="bk__run bk__run--l">03 Research</p><p class="bk__run bk__run--r">Moober</p>
+      <div class="bk__col bk__col--research">
+        <h2 class="bk__head">We looked at our data and talked to riders.</h2>
+        <p class="bk__body">Our PostHog analytics, and interviews with riders recruited through a gift card giveaway.</p>
+      </div>
+      <ol class="bk__finds">
+        <li><span class="bk__num">44%</span><p>of listed rides drove empty in April 2026.</p></li>
+        <li><span class="bk__num">1</span><p>search was all it took: after one empty result, riders assumed the app was dead.</p></li>
+        <li><span class="bk__num">0</span><p>rides showed for towns a driver passed through, only for where they ended.</p></li>
+      </ol>
+      <div class="bk__ask">
+        <canvas class="spill spill--hmw" data-aspect="1.6" data-origin="0.5 0.5" data-seed="11" data-strength="0.45" aria-hidden="true"></canvas>
+        <p class="bk__q">How might we help riders find the rides already passing through their town?</p>
+      </div>
+    </section>
+
+    <!-- design decisions: the tiers small on the left with their reason beside them; the driver's setting the other way round -->
+    <section class="bk__page grid" id="decisions">
+      <p class="bk__run bk__run--l">04 Design decisions</p><p class="bk__run bk__run--r">Moober</p>
+      <div class="bk__col bk__col--decide">
+        <h2 class="bk__head">Designing around 3,000 map calls a day.</h2>
+        <p class="bk__body">Checking a driver's route costs map calls, and our free tier allowed 3,000 a day. We weighed fixed zones and having drivers list every city; matching the whole route was the only idea that found more rides with no extra work for drivers.</p>
+      </div>
+      <figure class="bk__fig bk__fig--tiers">
+        <div class="bk__stack"><Image src={tierDirect} alt="A Direct result: Davis to Fresno." {...img} sizes="(min-width: 1024px) 40vw, 100vw" /><Image src={tierRoute} alt="An On your route result: Davis to Los Angeles, passing through Fresno." {...img} sizes="(min-width: 1024px) 40vw, 100vw" /><Image src={tierNearby} alt="A Nearby result: Davis to Clovis, 4.2 miles from Fresno." {...img} sizes="(min-width: 1024px) 40vw, 100vw" /></div>
+      </figure>
+      <div class="bk__col bk__col--tiers">
+        <h3 class="bk__sub">Tiers built around the budget</h3>
+        <p class="bk__body">Caching cut each check from 5 calls to 2. I designed the tiers so only On your route spends them: Direct matches on the city, and Nearby shows the distance up front.</p>
+      </div>
+      <div class="bk__col bk__col--detour">
+        <h3 class="bk__sub">Drivers set the detour</h3>
+        <p class="bk__body">Drivers opt into pickups along the way and choose a 5, 15 or 30 minute limit. They carry the cost, so they decide, and riders never have to negotiate.</p>
+      </div>
+      <figure class="bk__fig bk__fig--toggle"><img src="/media/moober-toggle.gif" width="1438" height="820" alt="Posting a new carpool: the toggle for pickups along the way and the maximum detour." loading="lazy" /></figure>
+    </section>
+
+    <!-- solution: the result large, its phone small beside it, and the trip page set lower with a line of text -->
+    <section class="bk__page grid" id="solution">
+      <p class="bk__run bk__run--l">05 Solution</p><p class="bk__run bk__run--r">Moober</p>
+      <div class="bk__col bk__col--solution">
+        <h2 class="bk__head">The same search, now full of rides.</h2>
+        <p class="bk__body">Davis to Fresno used to return nothing. Now it shows rides going there, passing through, or ending close by.</p>
+      </div>
+      <figure class="bk__fig bk__fig--after"><Image src={after} alt="The redesigned search results for Davis to Fresno, sorted into tiers." {...img} sizes="(min-width: 1024px) 58vw, 100vw" /></figure>
+      <figure class="bk__fig bk__fig--phone"><Image src={mobileResults} alt="The same search on a phone." widths={[300, 520, 780]} sizes="(min-width: 1024px) 14vw, 40vw" /></figure>
+      <figure class="bk__fig bk__fig--trip">
+        <Image src={trip} alt="Trip details for a Davis to Los Angeles ride via Fresno: pickup, the rider's stop, and drop-off." {...img} sizes="(min-width: 1024px) 42vw, 100vw" />
+        <figcaption>Every stop, before booking.</figcaption>
+      </figure>
+      <figure class="bk__fig bk__fig--mtrip"><Image src={mobileTrip} alt="The same trip on a phone." widths={[300, 520, 780]} sizes="(min-width: 1024px) 12vw, 40vw" /></figure>
+    </section>
+
+    <!-- takeaways: a short paragraph, and the team small -->
+    <section class="bk__page grid" id="takeaways">
+      <p class="bk__run bk__run--l">06 Takeaways</p><p class="bk__run bk__run--r">Moober</p>
+      <div class="bk__col bk__col--take">
+        <h2 class="bk__head">What I took away</h2>
+        <p class="bk__body">Constraints are design material: the call limit, found early with engineering, is why the tiers exist. Honesty is a feature, and showing the distance up front earns more trust than polish. After launch, I'll watch whether riders who find rides actually book them.</p>
+      </div>
+      <figure class="bk__fig bk__fig--team"><Image src={team} alt="The Moober team, ten students arm in arm on a tree-lined path." widths={[600, 1000, 1400]} sizes="(min-width: 1024px) 30vw, 100vw" /><figcaption>The Moober team.</figcaption></figure>
+      <figure class="bk__fig bk__fig--sf"><Image src={sf} alt="Moober written in the sand on a San Francisco beach." widths={[400, 700, 1000]} sizes="(min-width: 1024px) 14vw, 50vw" /><figcaption>A trip to San Francisco.</figcaption></figure>
+    </section>
+  </main>
+  <Foot />
+</Base>
