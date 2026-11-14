@@ -83,7 +83,8 @@
   /* measure */
   --measure: 680px;        /* one reading column */
   --measure-hero: 1040px;  /* the case study hero: a step wider than the column it opens */
-  --measure-wide: 760px;   /* the case study column, about the width the reference studies use */
+  --measure-wide: 760px;
+  --measure-note: 27em;    /* the few lines low on the right of the homepage's first screen: four even lines */   /* the case study column, about the width the reference studies use */
 
   /* motion */
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -236,18 +237,19 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @media (min-width: 1024px) { .bar__name { grid-column: 1 / span 3; } .bar__crumb { grid-column: 5 / span 4; } .bar__menu { grid-column: 9 / -1; } }
 
 /* ---------- homepage ---------- */
-/* the first screen: the name and menu at the top, the light on the paper, and the tagline low on the left */
+/* the first screen: the light fills it. The name, then the site as a short index; San Francisco and the time low on
+   the left, a few lines about Ian low on the right */
 .hero > .grid { width: 100%; }   /* each row of the hero spans the page */
 .hero__top { align-items: baseline; }
 .hero__top .name { grid-column: 1 / span 2; }
-/* the index: the pages, then ways to say hello, as short numbered rows */
-.hero__index { margin-top: var(--s-8); row-gap: var(--s-7); }
-.ix { grid-column: 1 / -1; display: grid; align-content: start; }
-@media (min-width: 768px)  { .ix { grid-column: 1 / span 3; } }
-@media (min-width: 1024px) { .ix { grid-column: 1 / span 3; } }
+/* the index: the pages, then ways to say hello, as short numbered rows. Side by side on phones, so the light keeps
+   the middle of the screen; one above the other from tablets up */
+.hero__index { margin-top: var(--s-7); row-gap: var(--s-6); }
+.ix { grid-column: span 2; display: grid; align-content: start; }
+@media (min-width: 768px) { .hero__index { margin-top: var(--s-8); row-gap: var(--s-7); } .ix { grid-column: 1 / span 3; } }
 .ix .label { margin-bottom: var(--s-2); }
 /* each row: a small mono number first, then the name; under the pointer a fine line draws in beneath the name */
-.ix a, .ix__soon { position: relative; width: fit-content; display: grid; grid-template-columns: var(--s-6) auto auto; align-items: baseline; padding-block: var(--s-1) 0; font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-nav); line-height: var(--lh-nav); color: var(--ink); }
+.ix a, .ix__soon { position: relative; width: fit-content; display: grid; grid-template-columns: var(--s-6) auto auto; align-items: baseline; padding-top: var(--s-1); font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-nav); line-height: var(--lh-nav); color: var(--ink); }
 .ix a::after { content: ""; position: absolute; left: var(--s-6); right: 0; bottom: var(--s-1); height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform var(--dur-base) var(--ease); }
 .ix__n { order: -1; font-family: var(--mono); font-size: var(--fs-label); letter-spacing: var(--track-mono); color: var(--ink-3); transition: color var(--dur-base) var(--ease); }
 .ix a:hover { text-decoration: none; }
@@ -257,15 +259,16 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .ix a[aria-current]::after { display: none; }
 .ix__soon { color: var(--ink-3); }
 .ix__tag { margin-left: var(--s-3); font-family: var(--mono); font-size: var(--fs-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); }
-/* San Francisco and the time, low on the left, level with the last line of the words on the right */
-.hero__statement { align-items: end; row-gap: var(--s-6); }
+/* the bottom row: always at least a clear gap below the index, even on short phones. On phones the words come first
+   and the time sits under them; from tablets up the time sits low on the left, level with the words' last line */
+.hero__statement { margin-top: auto; padding-top: var(--s-8); align-items: end; row-gap: var(--s-5); }
+.hero__statement h1 { grid-column: 1 / -1; font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-2); text-wrap: pretty; }
 .hero__time { grid-column: 1 / -1; grid-row: 2; display: grid; }
-@media (min-width: 768px) { .hero__time { grid-column: 1 / span 4; grid-row: 1; } }
-.hero__statement { margin-top: auto; }
-/* a few lines of serif, small and low on the right, the way a note sits in the corner of a page */
-.hero__statement h1 { grid-column: 1 / -1; max-width: 36ch; font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-2); text-wrap: pretty; }
-@media (min-width: 768px) { .hero__statement h1 { grid-column: 5 / -1; } }
-@media (min-width: 1024px) { .hero__statement h1 { grid-column: 8 / -1; max-width: 27em; justify-self: end; } }
+@media (min-width: 768px) {
+  .hero__time { grid-column: 1 / span 4; grid-row: 1; }
+  .hero__statement h1 { grid-column: 5 / -1; }
+}
+@media (min-width: 1024px) { .hero__statement h1 { grid-column: 8 / -1; max-width: var(--measure-note); justify-self: end; } }
 
 .work { padding-top: var(--section); padding-bottom: var(--s-9); }
 /* the work, composed on one page like a spread in a printed book: the projects at different sizes and heights, each

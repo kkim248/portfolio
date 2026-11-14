@@ -155,7 +155,12 @@ Covers on the homepage and the case study hero are square-cornered on purpose: t
 
 ### 3.2 Homepage
 
-1. **First screen** (`.first`, at least `100svh`). The **top row** is information-dense small columns, as on billguo.me: the name and role; the menu (Work, About, Résumé); Contact; Profile; Now. Below it sits the **statement**, a single serif sentence across columns 1 to 9. The work heading must appear on the first scroll.
+1. **First screen** (`.first`, at least `100svh`, November 2026, from Ian's Figma frame and the Jade Franson reference). The light fills the screen; everything else is small and sits at the edges.
+   - **Top left:** the name, then the site as a short index (`.hero__index`, `.ix`). "Index": 01 Work (current, italic blue), 02 About, 03 Studio (grey, tagged "Soon" until the page exists). "Say hello": LinkedIn, Twitter, Email, each with ↗. Each row is a mono number (`--fs-label`, `--ink-3`) in a 32px column, then the serif name (`--fs-nav`). On hover a 1px line draws in under the name and the number turns blue. The names carry the ink filter; the labels stay crisp but multiply into the light.
+   - **Bottom left:** "San Francisco, California" and the Pacific time, ticking (`[data-clock]`, set in `page.js`).
+   - **Bottom right:** a few lines about Ian in serif `--fs-body`, from column 8, at most `--measure-note` (27em) so it reads as four even lines, set against the right margin.
+   - **Phones:** the two index groups sit side by side; the words come first at the bottom, the time under them; the bottom row always keeps at least 64px below the index, so short phones never collide.
+   - Ian rejected (do not bring back): a big headline, his shadow figure, the work in the hero (hover previews, thumbnails), a centred painting with a wall label, dotted leaders (A1), a sidebar.
 2. **Selected work** (`.work`). The heading row has a strong 1px ink rule under it and a project count.
    - **Desktop (1024 and up): the pinned scene.**
      - Columns 1 to 4 hold the numbered project list, the blue progress bar, and the active project's meta, summary and "View case study".
