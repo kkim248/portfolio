@@ -461,6 +461,12 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 }
 .spec__nav .ix { grid-column: auto; }
 .spec__col { grid-column: 1 / -1; grid-row: 2; }
+/* phones: the mosaic (beach across the top; the bridge tall on the left, the trail and the snow trip on the right) */
+.spec__mosaic { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-3); }
+.spec__mosaic .spec__ph { height: 100%; object-fit: cover; object-position: var(--pos); aspect-ratio: 3 / 2; }
+.spec__mosaic .spec__ph:first-child { grid-column: 1 / -1; aspect-ratio: 1162 / 514; }
+.spec__mosaic .spec__ph:nth-child(4) { grid-column: 1; grid-row: 2 / span 2; aspect-ratio: auto; }
+.spec__lead { display: none; }
 .spec figure { margin: 0; }
 .spec__ph { display: block; width: 100%; height: auto; mix-blend-mode: multiply; }
 .spec__pic { position: relative; width: 80%; }
@@ -498,6 +504,8 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @media (min-width: 768px) {
   .spec__nav { grid-column: auto; }
   .spec__col { grid-column: 2 / span 6; }
+  .spec__mosaic { display: none; }
+  .spec__lead { display: block; }
   .spec__side { display: block; position: absolute; top: 0; right: calc(100% + var(--gutter) / 2); translate: 50% 0; margin: 0; writing-mode: vertical-rl; rotate: 180deg; letter-spacing: var(--track-wide); white-space: nowrap; }
   .spec__no { left: calc(100% / 0.8 + var(--gutter)); translate: none; }
 }

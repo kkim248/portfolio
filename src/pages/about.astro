@@ -43,6 +43,11 @@ const prints = [
       </aside>
 
       <article class="spec__col enter" style="--i: 2">
+        <!-- phones: all four photos at once as a small mosaic (the beach across the top, the bridge tall beside the trail
+             and the snow trip); a deck you tap through is too hidden on a small screen. From tablets up, the flip deck -->
+        <div class="spec__mosaic">
+          {prints.map((p, i) => <Image class="spec__ph" src={p.src} alt={p.alt} widths={[480, 960]} sizes={i ? '50vw' : '(min-width: 1024px) 432px, 80vw'} loading={i ? 'lazy' : 'eager'} style={`--pos: ${p.pos}`} />)}
+        </div>
         <figure class="spec__lead" data-flip>
           <div class="spec__pic">
             <button class="spec__deck" type="button" aria-label="Show the next photo">
