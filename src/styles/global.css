@@ -151,7 +151,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 
 /* printed type: every serif line carries the ink filter and sits into the paper */
 .name, .menu, .hero__statement h1, .work h3, .spread__title, .bk__title, .bk__head, .bk__q, .foot__note,
-.cs-hero h1, .sec h2, .hmw__q, .bar__crumb, .bar__menu, .ab__hello, .ix a, .ix__soon { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
+.cs-hero h1, .sec h2, .hmw__q, .bar__crumb, .bar__menu, .spec__strip, .ab__hello, .ix a, .ix__soon { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
 /* the small mono labels beside them stay crisp, but are still multiplied into the paper and the light */
 .ix .label, .hero__time { mix-blend-mode: multiply; }
 
@@ -170,7 +170,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* phones and tablets render SVG filters at a low resolution, so the ink looked blurry and cost frames there.
    On touch screens and small screens the type stays crisp, still multiplied into the paper. */
 @media (max-width: 767px), (hover: none) {
-  .name, .menu, .hero__statement h1, .work h3, .spread__title, .bk__title, .bk__head, .bk__q, .foot__note, .cs-hero h1, .sec h2, .hmw__q, .bar__crumb, .bar__menu, .ab__hello, .ix a, .ix__soon { filter: none; }
+  .name, .menu, .hero__statement h1, .work h3, .spread__title, .bk__title, .bk__head, .bk__q, .foot__note, .cs-hero h1, .sec h2, .hmw__q, .bar__crumb, .bar__menu, .spec__strip, .ab__hello, .ix a, .ix__soon { filter: none; }
   .words.is-split .w { filter: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -446,20 +446,17 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .spec__body { row-gap: var(--s-8); align-items: start; }
 .spec__rail { grid-column: 1 / -1; display: grid; }
 .spec__bar { display: flex; justify-content: space-between; align-items: baseline; }
-/* phones: Index and Say hello fold into a menu under the name, opened from "Menu" at the top right. The fold opens in
-   the page's flow (rows from 0fr to 1fr), so the card moves down with it and the paper shows through */
-.spec__menu { display: inline-flex; align-items: baseline; gap: var(--s-2); padding: var(--s-2) 0; border: 0; background: none; color: var(--ink); cursor: pointer; }
-.spec__menu i { display: inline-block; font-style: normal; transition: transform var(--dur-base) var(--ease); }
-.spec__rail[data-open] .spec__menu i { transform: rotate(45deg); }
-.spec__drop { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--dur-base) var(--ease); }
-.spec__rail[data-open] .spec__drop { grid-template-rows: 1fr; }
-.spec__drop > * { min-height: 0; overflow: hidden; }
-.spec__nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gutter); padding-top: var(--hero-gap); opacity: 0; transition: opacity var(--dur-base) var(--ease); }
-.spec__rail[data-open] .spec__nav { opacity: 1; }
+/* phones: only three pages, so they sit in the bar beside the name, the current one in blue italic; Say hello is
+   already in the footer. From tablets up the rail shows the full Index and Say hello instead. */
+.spec__strip { display: flex; gap: var(--s-4); font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-nav); line-height: var(--lh-nav); }
+.spec__strip a { color: var(--ink-2); }
+.spec__strip a:hover { color: var(--ink); text-decoration: none; }
+.spec__strip [aria-current] { font-style: italic; color: var(--blue); }
+.spec__strip span { color: var(--ink-3); }
+.spec__nav { display: none; }
 @media (min-width: 768px) {
-  .spec__menu { display: none; }
-  .spec__drop { grid-template-rows: 1fr; }
-  .spec__nav { opacity: 1; }
+  .spec__strip { display: none; }
+  .spec__nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gutter); padding-top: var(--hero-gap); }
 }
 .spec__nav .ix { grid-column: auto; }
 .spec__col { grid-column: 1 / -1; grid-row: 2; }
