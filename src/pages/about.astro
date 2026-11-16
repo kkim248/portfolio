@@ -53,7 +53,6 @@ const prints = [
             <button class="spec__deck" type="button" aria-label="Show the next photo">
               {prints.map((p, i) => <Image class="spec__ph" src={p.src} alt={p.alt} widths={[480, 960]} sizes="(min-width: 1024px) 432px, 80vw" loading={i ? 'lazy' : 'eager'} style={`--pos: ${p.pos}`} data-cap={p.cap} aria-hidden={i ? 'true' : undefined} data-on={i ? undefined : ''} />)}
             </button>
-            <p class="spec__side label" aria-hidden="true">San Francisco</p>
             <p class="spec__no label">No. 02</p>
           </div>
           <figcaption class="spec__cap"><span data-cap-text>Crissy Field</span><span class="spec__count label" aria-live="polite"><span data-count>01</span> / {String(prints.length).padStart(2, '0')}<span class="arrow" aria-hidden="true">&rarr;</span></span></figcaption>
@@ -61,7 +60,7 @@ const prints = [
 
         <h1 class="spec__sub">I learned to look before I learned to design.</h1>
         <div class="spec__text">
-          <p>I grew up in San Francisco and study design at UC Davis. I started out drawing portraits and landscapes, and drawing taught me to look closely. That habit is most of what I bring to product design.</p>
+          <p>I’m a product designer from San Francisco, studying at UC Davis. I came to design through drawing: years of portraits and landscapes taught me to notice small details, and that’s still how I work.</p>
           <p>Right now I’m the only designer on Moober and Buzzit, two live apps for Davis students. Moober helps students find rides that are already going their way; Buzzit is a marketplace where students trade services and things.</p>
           <p>Outside of design, I take spontaneous trips with friends, sketch, make beats, and go looking for good food.</p>
         </div>

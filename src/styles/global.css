@@ -63,7 +63,6 @@
   --track-label: 0.06em;
   --track-label-l: 0.08em;
   --track-mono: 0.02em;
-  --track-wide: 0.4em;                                   /* very wide mono: the margin text beside the About photo */
   --w-serif-light: 350;       /* display and titles */
   --w-serif: 450;             /* headings, subheadings, statements, navigation */
   --w-strong: 500;            /* sans emphasis: titles inside cards, lists and notes */
@@ -470,7 +469,6 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .spec figure { margin: 0; }
 .spec__ph { display: block; width: 100%; height: auto; mix-blend-mode: multiply; }
 .spec__pic { position: relative; width: 80%; }
-.spec__side { display: none; }
 .spec__no { position: absolute; bottom: 0; left: calc(100% / 0.8); translate: -100% 0; margin: 0; letter-spacing: var(--track-mono); white-space: nowrap; }
 .spec__deck:focus-visible { outline: 1px solid var(--blue); outline-offset: var(--s-1); }
 /* the prints you can flip through. The frame keeps the beach photo's own shape, so the first print is exactly the
@@ -506,7 +504,6 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
   .spec__col { grid-column: 2 / span 6; }
   .spec__mosaic { display: none; }
   .spec__lead { display: block; }
-  .spec__side { display: block; position: absolute; top: 0; right: calc(100% + var(--gutter) / 2); translate: 50% 0; margin: 0; writing-mode: vertical-rl; rotate: 180deg; letter-spacing: var(--track-wide); white-space: nowrap; }
   .spec__no { left: calc(100% / 0.8 + var(--gutter)); translate: none; }
 }
 @media (min-width: 1024px) {
