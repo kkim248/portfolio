@@ -1,48 +1,105 @@
 ---
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
-import Bar from '../components/Bar.astro';
 import Foot from '../components/Foot.astro';
-// Ian's About frame in Figma (MY-PORTFOLIOOO, "About — type 2 + accents A"), set on the site grid: the photos span
-// columns 1 to 6, the first paragraph spans columns 7 to 9 and the second 8 to 10. Heights come from the screen
-// (--u, one 672th of it), so the whole composition fits the first view at any width.
+import { links } from '../data/site';
+// About as a centred portrait card. The rail on the left (name, Index, Say hello) stays on screen as you scroll; the
+// text column sits in the middle of the page with the beach photo a little narrower than the text, then the words
+// and a row of facts. Nothing else: the page is one card.
 import beach from '../assets/about/slate-beach.jpg';
 import bridge from '../assets/about/slate-bridge.jpg';
 import trail from '../assets/about/slate-trail.jpg';
 import group from '../assets/about/slate-group.jpg';
-import plant from '../assets/about/plant.png';
-const shot = { widths: [400, 700, 1100], sizes: '(min-width: 900px) 45vw, 100vw' };
+// the prints you can flip through: the beach first, then the rest; pos keeps the people in frame
+const prints = [
+  { src: beach, cap: 'Crissy Field', alt: 'Ian on the beach at Crissy Field at sunset, the Golden Gate Bridge behind him.', pos: '38% 60%' },
+  { src: trail, cap: 'On the coast trail', alt: 'Two friends on a coastal trail above the ocean.', pos: '50% 50%' },
+  { src: group, cap: 'Snow trip', alt: 'A group of friends with snowboards on the mountain.', pos: '50% 55%' },
+  { src: bridge, cap: 'Across the bridge', alt: 'Friends walking across a bridge toward the city skyline.', pos: '50% 70%' },
+];
 ---
 <Base title="About Ian Kim" description="Ian Kim is a designer at UC Davis with an artist's eye for detail.">
-  <!-- the first screen is exactly the bar and the composition; scroll once and the footer is there -->
-  <div class="abx-screen">
-  <Bar current="about" crumb="About" parent={{ label: 'Home', href: '/' }} />
-  <main class="abx" data-light="soft">
-    <!-- the plant is set against the page's right edge, so its stem always leaves the page -->
-    <Image class="abx__plant" src={plant} alt="" widths={[600, 1000]} sizes="25vw" />
-    <div class="abx__stage grid">
-      <!-- a watercolor mark blooms into the open paper under the words, as on the rest of the site -->
-      <canvas class="spill spill--about" data-aspect="0.9" data-origin="0.5 0.55" data-seed="7" data-strength="0.6" aria-hidden="true"></canvas>
-      <div class="abx__photos">
-        <figure class="abx__ph abx__ph--beach"><Image src={beach} alt="Ian on the beach at Crissy Field at sunset, the Golden Gate Bridge behind him." {...shot} loading="eager" /></figure>
-        <figure class="abx__ph abx__ph--bridge"><Image src={bridge} alt="Friends walking across a bridge toward the city skyline." {...shot} /></figure>
-        <figure class="abx__ph abx__ph--trail"><Image src={trail} alt="Two friends on a coastal trail above the ocean." {...shot} /></figure>
-        <figure class="abx__ph abx__ph--group"><Image src={group} alt="A group of friends with snowboards on the mountain." {...shot} /></figure>
-      </div>
-      <div class="abx__words">
-      <p class="abx__p abx__p--1">I'm a product designer from San Francisco, studying design at UC Davis. I started out in fine arts, but quickly realized I wanted to use those creative skills to make things people use every day, which led me to product design. Right now I design for Moober and Buzzit, two live apps for Davis students.</p>
-      <p class="abx__p abx__p--2">In my free time, I like to go on spontaneous trips with friends, sketch portraits and landscapes, make beats, and find yummy food to eat!</p>
-      </div>
-      <!-- the marks, drawn on the content box at 1440 (1312 wide, 700 of --u tall) -->
-      <svg class="abx__marks" viewBox="0 0 1312 700" preserveAspectRatio="none" aria-hidden="true">
-        <defs><linearGradient id="abx-fade" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="704"><stop offset="0" stop-color="var(--pop)" stop-opacity="0"/><stop offset=".06" stop-color="var(--pop)"/><stop offset=".9" stop-color="var(--pop)"/><stop offset="1" stop-color="var(--pop)" stop-opacity="0"/></linearGradient></defs>
-        <path class="abx__line" d="M532 28 C 594 -2, 646 56, 641 172 S 632 400, 646 482 C 670 562, 732 604, 772 566 C 810 530, 782 490, 746 512 C 708 536, 726 626, 792 704"/>
-        <path class="s" d="M321.6 277.5 A57 57 0 1 1 296.5 247.6"/>
-        <ellipse class="s" cx="514" cy="635" rx="140" ry="44" transform="rotate(-12 514 635)"/><circle cx="638" cy="612" r="3.5"/>
-      </svg>
+  <main class="spec" data-light="soft">
+    <div class="spec__body grid">
+      <aside class="spec__rail">
+        <div class="spec__bar">
+          <a class="name enter" style="--i: 0" href="/">Ian Kim</a>
+          <button class="spec__menu label enter" style="--i: 0" type="button" aria-expanded="false" aria-controls="about-nav">Menu<i aria-hidden="true">+</i></button>
+        </div>
+        <div class="spec__drop"><div>
+        <nav class="spec__nav enter" id="about-nav" style="--i: 1" aria-label="Site">
+          <div class="ix">
+            <p class="label">Index</p>
+            <a href="/"><span>Work</span><span class="ix__n">01</span></a>
+            <a href="/about" aria-current="page"><span>About</span><span class="ix__n">02</span></a>
+            <span class="ix__soon"><span>Studio</span><span class="ix__n">03</span><span class="ix__tag">Soon</span></span>
+          </div>
+          <div class="ix">
+            <p class="label">Say hello</p>
+            <a href={links.linkedin} target="_blank" rel="noopener"><span>LinkedIn</span><span class="ix__n">&nearr;&#65038;</span></a>
+            {links.twitter && <a href={links.twitter} target="_blank" rel="noopener"><span>Twitter</span><span class="ix__n">&nearr;&#65038;</span></a>}
+            <a href={links.email}><span>Email</span><span class="ix__n">&nearr;&#65038;</span></a>
+          </div>
+        </nav>
+        </div></div>
+      </aside>
+
+      <article class="spec__col enter" style="--i: 2">
+        <figure class="spec__lead" data-flip>
+          <div class="spec__pic">
+            <button class="spec__deck" type="button" aria-label="Show the next photo">
+              {prints.map((p, i) => <Image class="spec__ph" src={p.src} alt={p.alt} widths={[480, 960]} sizes="(min-width: 1024px) 432px, 80vw" loading={i ? 'lazy' : 'eager'} style={`--pos: ${p.pos}`} data-cap={p.cap} aria-hidden={i ? 'true' : undefined} data-on={i ? undefined : ''} />)}
+            </button>
+            <p class="spec__side label" aria-hidden="true">San Francisco</p>
+            <p class="spec__no label">No. 02</p>
+          </div>
+          <figcaption class="spec__cap"><span data-cap-text>Crissy Field</span><span class="spec__count label" aria-live="polite"><span data-count>01</span> / {String(prints.length).padStart(2, '0')}<span class="arrow" aria-hidden="true">&rarr;</span></span></figcaption>
+        </figure>
+
+        <h1 class="spec__sub">I learned to look before I learned to design.</h1>
+        <div class="spec__text">
+          <p>I grew up in San Francisco and study design at UC Davis. I started out drawing portraits and landscapes, and drawing taught me to look closely. That habit is most of what I bring to product design.</p>
+          <p>Right now I’m the only designer on Moober and Buzzit, two live apps for Davis students. Moober helps students find rides that are already going their way; Buzzit is a marketplace where students trade services and things.</p>
+          <p>Outside of design, I take spontaneous trips with friends, sketch, make beats, and go looking for good food.</p>
+        </div>
+
+      </article>
+      <!-- a watercolor stain low beside the words, running off the column onto the paper; it blooms in and dries lighter.
+           It sits outside the card (which fades in) so it can multiply straight into the paper -->
+      <div class="spec__stain" aria-hidden="true"><canvas class="spill spill--card" data-aspect="1.1" data-origin="0.42 0.4" data-seed="7" data-strength="0.65"></canvas></div>
+
     </div>
   </main>
-  </div>
 
   <Foot />
 </Base>
+
+<script>
+  import { light } from '../scripts/light.js';
+  // click (or tap, or Enter) on the photo to develop the next print on top; over the photo, the light leans in
+  const init = () => {
+    const fig = document.querySelector('[data-flip]');
+    if (!fig) return;
+    const deck = fig.querySelector('.spec__deck'), imgs = [...deck.querySelectorAll('img')];
+    const capRow = fig.querySelector('.spec__cap'), cap = fig.querySelector('[data-cap-text]'), count = fig.querySelector('[data-count]');
+    let i = 0;
+    deck.addEventListener('click', () => {
+      deck.setAttribute('data-ready', '');
+      imgs[i].removeAttribute('data-on'); imgs[i].setAttribute('aria-hidden', 'true');
+      i = (i + 1) % imgs.length;
+      imgs[i].setAttribute('data-on', ''); imgs[i].removeAttribute('aria-hidden');
+      capRow.classList.add('is-turning');
+      setTimeout(() => { cap.textContent = imgs[i].dataset.cap; count.textContent = String(i + 1).padStart(2, '0'); capRow.classList.remove('is-turning'); }, 300);
+    });
+    // phones: Menu opens and closes the folded Index; Escape closes it
+    const rail = document.querySelector('.spec__rail'), menu = rail?.querySelector('.spec__menu');
+    const setOpen = (on) => { rail.toggleAttribute('data-open', on); menu.setAttribute('aria-expanded', String(on)); };
+    menu?.addEventListener('click', () => setOpen(!rail.hasAttribute('data-open')));
+    const ac = new AbortController();
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && rail?.hasAttribute('data-open')) { setOpen(false); menu.focus(); } }, { signal: ac.signal });
+    document.addEventListener('astro:before-swap', () => ac.abort(), { once: true });
+    deck.addEventListener('pointerenter', () => { light.hover = deck; });
+    deck.addEventListener('pointerleave', () => { if (light.hover === deck) light.hover = null; });
+  };
+  document.addEventListener('astro:page-load', init);
+</script>

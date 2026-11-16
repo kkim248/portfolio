@@ -221,15 +221,27 @@ The light, paper and type carry over. A recruiter scans a case study, so the bod
 
 ### 3.4 About (`/about`)
 
-Built from Ian's own Figma frame (file MY-PORTFOLIOOO, "About — type 2 + accents A"). Ian rejected many generated layouts before this one, so change it only from his frame.
+Redesigned in November 2026 so About belongs with the minimal home hero. Built through many rounds with Ian (via Rivet), starting from the Tide & Flare product card he picked as the model. It replaced the earlier composition from his Figma frame (photo collage, pen marks, plant).
 
-- **On the site grid.** The photos span columns 1 to 6, ending one `--gutter` short of column 6 so two gutters separate them from the words (they start on the page margin with "Ian Kim"), the words span columns 7 to 10 (`.abx__words`): the first paragraph on 7 to 9, the second on 8 to 10 and always `--s-6` below the first, so longer copy never overlaps (three columns each, the narrow measure Ian liked). Copy is Ian's own words. Widths come from the grid; heights come from the screen through `--u` (one 672th of the screen below the bar, clamped 520 to 1000), so the photos always fit the first view. The photos inside columns 1 to 6 keep Ian's proportions (the bridge 42%, the right pair 53.5%). The marks are drawn on the content box at 1440 (1312 by 700 units) and stretch with it.
-- **Photos:** beach, bridge, coastal trail and the group snowboarding shot in Ian's slate colouring, exported from his frame at 2x (`slate-*.jpg`). The beach photo is wide on top, the bridge is tall, and the other two are stacked.
-- **Words:** no greeting. Two serif paragraphs (`--ink-slate`), no links (Ian found the underlined Moober link ugly), the second offset right and down: design first, then life outside it. Ian found a heading less elegant.
-- **The plant:** the forget-me-not cut-out, upright and leaning in (`rotate(-28deg)`), set against the page's right edge rather than the stage (sized from `--stage-w`), so on every width its stem leaves the page and nothing is cut at the bottom; 55% multiply.
-- **Tokens:** text is `--fs-body`, `--lh-text` and `--ink-slate`; marks are `--pop`; edges are the grid's `--margin`, columns and gutters.
-- **Marks:** fine `--pop` electric-blue lines, each touching a photo: one long curve (`.abx__line`, 1px, fading in and out at its ends through the `#abx-fade` gradient) that rises from the beach photo's top edge, runs down the gutter between the photos and the words, and makes a single loop, an open circle on the gutter where the photos meet, an orbit with a dot around the foot of the snow photo. Nothing on the left. Ian rejected the light spray ("unprofessional"), the ringed asterisk and a dotted trail, and every earlier set of floating marks, labels, rules and ornaments.
-- **Below 900:** a plain stack: the photo grid, then the paragraphs (the second indented); no marks or plant.
+- **One card.** About is a single narrow printed column (`--measure-card`, 540px), centred in columns 4 to 9 at 1024+. Nothing sits below it but the footer. Ian removed a photo grid and a Based / Studying / Designing fact row as redundant.
+- **The rail.** Name, Index (About current) and Say hello sit in columns 1 to 3 and stay on screen as you scroll (`position: sticky`). The photo's top lines up with the Index label.
+- **Phones: a menu.** Below 768, only the name and a mono "Menu +" show at the top. "Menu" folds Index and Say hello open in the page's flow (`grid-template-rows` 0fr to 1fr), so the card moves down and the paper shows through. The "+" turns to "×", and Escape closes it. Tablets show both lists inline.
+- **The photo.** The beach photo (Crissy Field) is 80% of the column, a little narrower than the text, as in Ian's reference. "SAN FRANCISCO" runs up the gutter on its left in very wide mono (`--track-wide`). "No. 02" sits beyond the column, level with the photo's foot.
+- **Flip through prints.** Clicking the photo shows the next one: beach, coast trail, snow trip, bridge. The frame keeps the beach photo's shape (1162:514), so the bridge is cropped to a strip. A new print develops: a soft band of light sweeps across it left to right (a mask driven by `@property --sweep`), and it comes up from pale and slightly soft to finished (`--dur-develop`, 1400ms). The old print stays under it, then fades. The caption and the "01 / 04 →" count change as it lands. The deck multiplies into the paper as one, so prints never double-expose. Over the photo, the light leans in (`light.hover`). Reduced motion switches instantly.
+- **Words.** An italic serif line ("I learned to look before I learned to design."), then three paragraphs at `--fs-body`, `--ink-2`: drawing taught me to look, the only designer on Moober and Buzzit, life outside design.
+- **Watercolor.** A `.spill--card` blotch blooms low beside the words and runs off the column. It sits in its own layer outside the card, because the card's entrance animation isolates blending and would turn it into a white box.
+- **Photos are flat.** They have no shadow and multiply into the paper, and the photo class is not in `light.js` PICS, so the leaf shade falls across them. Ian found shadowed photos looked like they were hovering.
+- **Rejected along the way:**
+  - the hero layout copied onto About;
+  - a reading column with side labels;
+  - one portrait beside the text;
+  - a corner sheet;
+  - a dated stamp;
+  - paired spreads;
+  - a contact strip of square photos;
+  - annotated photos with pen marks and arrows;
+  - a full-width photo spread;
+  - an IAN KIM / Product designer / time sign-off.
 
 ## 4. Materials
 
