@@ -34,21 +34,33 @@ const GLSL_COMMON = `#version 300 es
   vec2 screenP() { vec2 p = gl_FragCoord.xy / uRes; p.y = 1.0 - p.y; return p; }
   // now and then a breeze picks up for a few seconds, then settles
   float gust(float t) { return smoothstep(0.45, 0.9, noise(vec2(t * 0.12, 1.3))); }
-  // where on Ian's painting this pixel's light comes from: cover-mapped, tilted, moved by wind
-  vec2 leafUV(vec2 p, float t) {
+  // the wind: a light constant breeze, the gusts on top, and a little restless turbulence
+  float wind(float t) { return 0.35 + 0.65 * gust(t) + 0.3 * (noise(vec2(t * 0.45, 4.1)) - 0.5); }
+  // where on the canopy plate this pixel's light comes from, for one layer of leaves. k: how close the layer is
+  // (larger = nearer, so larger leaves). Each layer feels the same wind a little later (lag) and swings at its
+  // own natural rate (f), so the layers move against each other the way real branches do; nearer layers swing
+  // further. On top, every leaf flutters on its own, more in a gust.
+  vec2 canopyUV(vec2 p, float t, float k, vec2 c, float a, float amp, float lag, float f) {
     float sa = uRes.x / uRes.y, ta = uTexSize.x / uTexSize.y;
     vec2 s = sa > ta ? vec2(1.0, ta / sa) : vec2(sa / ta, 1.0);
     // on wide screens the canopy is brought closer, so its shadows are as large and soft as they are on a phone
     float near = mix(1.0, 1.55, smoothstep(0.75, 1.5, sa));
-    vec2 uv = (p - 0.5) * s / (1.35 * near);
-    float a = -0.12; uv = mat2(cos(a), -sin(a), sin(a), cos(a)) * uv + vec2(0.52, 0.46);
+    vec2 uv = (p - 0.5) * s / (1.35 * near * k);
+    uv = mat2(cos(a), -sin(a), sin(a), cos(a)) * uv + c;
+    float wd = wind(t - lag);
+    // the branch is pushed downwind, then swings back and forth around that, more the harder it blows
+    float swing = wd * 0.55 + sin(t * f + uv.y * 3.0) * wd * 0.7 + sin(t * f * 1.73 + uv.x * 5.0) * 0.18;
+    vec2 bend = vec2(1.0, 0.32) * swing * 0.013 * amp;
     vec2 w = vec2(noise(uv * 3.0 + vec2(t * 0.07, 0.0)), noise(uv * 3.0 + vec2(5.2, -t * 0.06))) - 0.5;
-    float sway = sin(t * 0.55 + uv.y * 5.0) * 0.6 + sin(t * 0.33 + uv.x * 4.0) * 0.4;
-    float g = 1.15 + 1.0 * gust(t);
-    uv += (w * 0.042 + vec2(sway * 0.01, sway * 0.004)) * g * (1.0 - p.y * 0.6) + uPointer * 0.012;
-    uv += vec2(sin(t * 0.031), cos(t * 0.026)) * 0.018;        // the whole canopy drifts very slowly
+    vec2 flutter = vec2(noise(uv * 16.0 + vec2(t * 1.5, 0.0)), noise(uv * 16.0 + vec2(2.7, t * 1.25))) - 0.5;
+    uv += (bend + w * 0.032 * amp * (0.6 + wd) + flutter * 0.0032 * amp * (0.3 + wd)) * (1.0 - p.y * 0.5) + uPointer * 0.012 * k;
+    uv += vec2(sin(t * 0.031), cos(t * 0.026)) * 0.018 / k;        // the whole canopy drifts very slowly
     return uv;
   }
+  // the far canopy: the softest, palest shadows
+  vec2 leafUV(vec2 p, float t) { return canopyUV(p, t, 1.0, vec2(0.52, 0.46), -0.12, 1.0, 0.0, 0.5); }
+  // nearer leaves from another part of the same trees: larger, sharper, darker, and they move more
+  vec2 midUV(vec2 p, float t) { return canopyUV(p, t, 1.75, vec2(0.3, 0.64), 0.55, 1.6, 0.7, 0.78); }
   // where the light is strongest on screen: top right, plus one patch wandering over the statement
   float lightMask(vec2 p, float t) {
     float base = smoothstep(0.15, 0.95, p.x * 0.85 + (1.0 - p.y) * 0.45);
@@ -78,7 +90,9 @@ const GLSL_COMMON = `#version 300 es
   float flowerShadow(vec2 p, float t, float lod) {
     float sa = uRes.x / uRes.y;
     vec2 local = vec2(p.x * sa, p.y) - vec2(sa * 1.02, -0.12) + uPointer * 0.05;
-    float sway = sin(t * 0.62) * 0.03 + sin(t * 0.27 + 1.3) * 0.02 + gust(t) * 0.045 * sin(t * 1.6);
+    // the nearest branch: pushed by the wind a beat after the trees, springing back and trembling a little
+    float wd = wind(t - 1.3);
+    float sway = wd * 0.035 + sin(t * 0.95) * wd * 0.03 + sin(t * 0.37 + 1.3) * 0.012 + sin(t * 2.4) * 0.004 * wd;
     vec2 iuv = vec2(0.47, 0.98) + rot(local, -3.785 + sway) / vec2(1.05 * 0.776, 1.05);   // stem at the anchor, blooms reaching down and left
     if (iuv.x < 0.0 || iuv.y < 0.0 || iuv.x > 1.0 || iuv.y > 1.0) return 0.0;
     vec3 c = textureLod(uFlower, mix(vec2(0.09, 0.08), vec2(0.88, 0.86), iuv), lod).rgb;
@@ -108,12 +122,17 @@ const GLSL_COMMON = `#version 300 es
 const FS_SHADE = GLSL_COMMON + `
   void main() {
     vec2 p = screenP(); float t = uTime;
-    vec2 uv = leafUV(p, t);
-    // focus breathes: leaf shadows slowly sharpen and soften, like a lens pulling focus
-    float lod = mix(1.6, 4.4, noise(uv * 2.0 + 11.0)) + 0.9 * sin(t * 0.21);
-    float lit = smoothstep(0.32, 0.68, lum(textureLod(uTex, uv, max(lod, 0.8)).rgb));
-    // softer than before, but still a little sharper than the trees behind it
-    lit *= 1.0 - flowerShadow(p, t, 2.6 + 0.4 * sin(t * 0.21)) * 0.85;
+    vec2 uv = leafUV(p, t), um = midUV(p, t);
+    // three depths of shadow, like light falling through a real tree: the far canopy soft and pale, nearer leaves
+    // sharper and darker, and the nearest branch sharpest of all. Where they overlap the shade deepens.
+    float lodF = mix(3.2, 5.0, noise(uv * 2.0 + 11.0)) + 0.6 * sin(t * 0.21);
+    float litF = smoothstep(0.3, 0.7, lum(textureLod(uTex, uv, max(lodF, 0.8)).rgb));
+    float lodM = mix(1.7, 2.9, noise(um * 2.0 + 3.0)) + 0.5 * sin(t * 0.17 + 1.0);
+    // only the densest clusters of the nearer leaves cast a shadow, mostly toward the top where the branches reach in
+    float reach = smoothstep(1.05, 0.35, p.y + (1.0 - p.x) * 0.35);
+    float shM = (1.0 - smoothstep(0.1, 0.34, lum(textureLod(uTex, um, max(lodM, 0.8)).rgb))) * reach;
+    float lit = mix(1.0, litF, 0.85) * (1.0 - shM * 0.7);
+    lit *= 1.0 - flowerShadow(p, t, 1.9 + 0.3 * sin(t * 0.21)) * 0.92;
     float inside = hoverMask(p) * clamp(uFade * 4.0, 0.0, 1.0);   // no light, no hover glow
     lit = mix(lit, 1.0, inside);
     vec3 c = mix(uShade, uSun, lit);
@@ -146,7 +165,7 @@ const FS_GLINT = GLSL_COMMON + `
     vec2 p = screenP(); float t = uTime;
     vec2 uv = leafUV(p, t);
     // the brightest gaps in the canopy, seen nearly in focus
-    float gap = smoothstep(0.58, 0.82, lum(textureLod(uTex, uv, 1.4).rgb)) * (1.0 - flowerShadow(p, t, 2.6));
+    float gap = smoothstep(0.58, 0.82, lum(textureLod(uTex, uv, 1.4).rgb)) * smoothstep(0.4, 0.75, lum(textureLod(uTex, midUV(p, t), 2.2).rgb)) * (1.0 - flowerShadow(p, t, 2.6));
     // tiny points of sun that twinkle slowly, each on its own rhythm
     vec2 cell = uv * 85.0 + vec2(t * 0.35, -t * 0.22);
     float sp = smoothstep(0.74, 0.95, noise(cell));
