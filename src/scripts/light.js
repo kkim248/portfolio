@@ -1,7 +1,7 @@
 import { reduce, fine, smooth, glProgram, texture, VS } from './util.js';
 
-/* ---------- one fixed palette: late morning sun, sky-blue shade, a touch vibrant ---------- */
-const PALETTE = { sun: [0.985, 0.965, 0.92], shade: [0.77, 0.835, 0.965], warm: [1.0, 0.95, 0.885], cool: [0.86, 0.92, 1.0], strength: 1.05 };
+/* ---------- one fixed palette: late morning sun and real shadow, a soft warm grey (no blue), so any image sits on it ---------- */
+const PALETTE = { sun: [0.99, 0.975, 0.94], shade: [0.8, 0.79, 0.755], warm: [1.0, 0.96, 0.9], cool: [0.95, 0.945, 0.93], strength: 1.0 };
 
 /* ---------- the light: two fixed WebGL layers over the whole page ----------
    shade: leaf shadows and the colour wash, multiplied onto the page
@@ -151,7 +151,7 @@ const FS_GLINT = GLSL_COMMON + `
     float bloom = smoothstep(0.6, 0.92, lum(textureLod(uTex, uv, 5.2).rgb));
 
     float k = lightMask(p, t) * (1.0 - hoverMask(p)) * (1.0 - imgMask(p) * 0.35);
-    o = vec4(vec3(0.93, 0.97, 1.0) * (glint * 0.8 + bloom * 0.12) * k, 1.0);
+    o = vec4(vec3(1.0, 0.98, 0.94) * (glint * 0.8 + bloom * 0.12) * k, 1.0);
   }`;
 
 // started once; the canvases persist across page changes, so the light carries on through navigation
