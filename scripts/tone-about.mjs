@@ -5,7 +5,7 @@
 import sharp from 'sharp';
 const names = ['beach', 'bridge', 'trail', 'group'];
 // the tone: stops from shadow to highlight (0..1 -> rgb)
-const stops = [[0, [56, 57, 48]], [0.45, [136, 135, 119]], [0.78, [203, 199, 184]], [1, [242, 237, 224]]];
+const stops = [[0, [55, 56, 51]], [0.45, [134, 134, 126]], [0.78, [200, 198, 190]], [1, [240, 237, 230]]];   // greyed down a little (2026-11-17)
 const tone = (v) => {
   for (let i = 1; i < stops.length; i++) {
     const [a, ca] = stops[i - 1], [b, cb] = stops[i];
