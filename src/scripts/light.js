@@ -199,11 +199,11 @@ export function startLight() {
   // pages meant for reading mark data-light on their main: "quiet" for case studies, "soft" for About
   // the light lives on the homepage's first screen only: it fades out as the hero scrolls away, and pages marked
   // data-light (About, case studies) are blank paper, so whatever sits on them carries its own look
-  const LEVELS = { home: [1, 0], quiet: [0, 0], soft: [0, 0], pass: [0.6, 0.6] };   // pass: the light carried through a page change
+  const LEVELS = { home: [1, 0], quiet: [0, 0], soft: [0, 0], blank: [0, 0] };
   let first = null, foot = null, level = LEVELS.home;
   let pics = [];
   const PICS = '.wcard__cover, .cs-cover, .ab__photo, .gallery figure > img, .gallery .clip, .shot, .plate, .compare__frame, .phones img';
-  const find = () => { first = document.querySelector('.first'); foot = document.querySelector('.foot'); level = LEVELS[document.querySelector('[data-light]')?.dataset.light] || LEVELS.home; light.hover = null; pics = [...document.querySelectorAll(PICS)]; };
+  const find = () => { first = document.querySelector('.first'); foot = document.querySelector('.foot'); level = LEVELS[document.querySelector('[data-light]')?.dataset.light] || LEVELS.home; light.next = null; light.hover = null; pics = [...document.querySelectorAll(PICS)]; };
   find(); document.addEventListener('astro:page-load', find); document.addEventListener('astro:after-swap', find);
   let px = 0, py = 0, tx = 0, ty = 0, fade = 1, clearAmt = 0, rect = [0, 0, 0, 0];
   const boxes = new Float32Array(64);
@@ -217,8 +217,7 @@ export function startLight() {
     const lv = LEVELS[light.next] || level;
     let f = lv[0] + (lv[1] - lv[0]) * smooth(0, (first ? first.offsetHeight : innerHeight) * 0.9, scrollY);
     if (foot) f *= 1 - 0.85 * smooth(0, innerHeight * 0.8, innerHeight - foot.getBoundingClientRect().top);
-    // the light comes up quickly, and on a plain page it fades away slowly, about a second and a half after arriving
-    fade += (f - fade) * (lv[0] === 0 && lv[1] === 0 && f < fade ? 0.03 : 0.1);
+    fade += (f - fade) * 0.1;
     const h = light.hover;
     if (h && !h.isConnected) light.hover = null;
     else if (h) { const r = h.getBoundingClientRect(); rect = [r.left / innerWidth, r.top / VH, r.right / innerWidth, r.bottom / VH]; }
