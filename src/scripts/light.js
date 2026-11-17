@@ -2,7 +2,7 @@ import { reduce, fine, smooth, glProgram, texture, VS } from './util.js';
 
 /* ---------- one fixed palette: late morning sun and real shadow, grey with a distant sage in it (like leaves seen
    through mist), plus a faint haze of ochre, terracotta rose and sage on the hero only; every other page is neutral paper ---------- */
-const PALETTE = { sun: [1.0, 0.982, 0.945], shade: [0.745, 0.762, 0.705], warm: [1.0, 0.965, 0.915], cool: [0.95, 0.965, 0.935], rose: [1.0, 0.955, 0.94], strength: 1.0 };
+const PALETTE = { sun: [0.995, 0.975, 0.935], shade: [0.79, 0.805, 0.75], warm: [1.0, 0.965, 0.915], cool: [0.95, 0.965, 0.935], rose: [1.0, 0.955, 0.94], strength: 1.0 };
 
 /* ---------- the light: two fixed WebGL layers over the whole page ----------
    shade: leaf shadows and the colour wash, multiplied onto the page
@@ -128,13 +128,13 @@ const FS_SHADE = GLSL_COMMON + `
     // sharper and darker, and the nearest branch sharpest of all. Where they overlap the shade deepens.
     float haze = (1.0 - sunny(t)) * 4.0;   // under a cloud, the shadows lose their edges
     float lodF = mix(3.4, 5.0, noise(uv * 2.0 + 11.0)) + haze;
-    float litF = smoothstep(0.34, 0.64, lum(textureLod(uTex, uv, max(lodF, 0.8)).rgb));
+    float litF = smoothstep(0.3, 0.7, lum(textureLod(uTex, uv, max(lodF, 0.8)).rgb));
     float lodM = mix(1.7, 2.7, noise(um * 2.0 + 3.0)) + haze;
     // only the densest clusters of the nearer leaves cast a shadow, mostly toward the top where the branches reach in
     float reach = smoothstep(1.05, 0.35, p.y + (1.0 - p.x) * 0.35);
     float shM = (1.0 - smoothstep(0.1, 0.34, lum(textureLod(uTex, um, max(lodM, 0.8)).rgb))) * reach;
-    float lit = mix(1.0, litF, 0.92) * (1.0 - shM * 0.75);
-    lit *= 1.0 - flowerShadow(p, t, 2.7 + haze * 0.8) * 0.72;   // a touch softer and lighter than it is near, so it sits in the light rather than on top of it
+    float lit = mix(1.0, litF, 0.8) * (1.0 - shM * 0.6);
+    lit *= 1.0 - flowerShadow(p, t, 2.2 + haze * 0.8) * 0.88;   // the nearest and darkest shadow, so nothing reads in front of it
     float inside = hoverMask(p) * clamp(uFade * 4.0, 0.0, 1.0);   // no light, no hover glow
     lit = mix(lit, 1.0, inside);
     vec3 c = mix(uShade, uSun, lit);
