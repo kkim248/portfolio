@@ -440,8 +440,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
    gentle emphasis, and how to reach me. ---------- */
 /* About as a portrait card, centred: the left rail (name, Index, Say hello) stays on screen as you scroll, the text
    column is a narrow printed column (--measure-card) centred in columns 4-9, and the beach photo is a little narrower than the text, like a
-   print laid on the page. "San Francisco" runs up the gutter left of the photo; "No. 02" sits in column 10, level with
-   the photo's foot. Spacing inside the card is kept close, like a printed product card. */
+   print laid on the page; "No. 02" sits in column 10, level with the photo's foot. Spacing inside the card is kept close, like a printed product card. */
 .spec { padding-block: var(--page-top) var(--section); overflow-x: clip; }
 .spec__body { row-gap: var(--s-8); align-items: start; }
 .spec__rail { grid-column: 1 / -1; display: grid; }
