@@ -534,8 +534,9 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
    so the cover never loses its light while it moves. It shows live, with no crossfade. */
 .light-gl[data-layer="shade"] { view-transition-name: light-shade; }
 ::view-transition-group(light-shade) { z-index: 2; mix-blend-mode: multiply; animation: none; }
-::view-transition-old(light-shade) { display: none; }
-::view-transition-new(light-shade) { animation: none; }
+/* the old frame of the light stays up and hands over to the live one: hiding it left the page without its shadows
+   for the first few frames, until the moved canvas drew again, which read as the page flashing lighter on click */
+::view-transition-old(light-shade), ::view-transition-new(light-shade) { animation-duration: 200ms; }
 @media (prefers-reduced-motion: reduce) { ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; } }
 
 /* ---------- opening: the page waits in shade, then a band of warm sunlight sweeps in from the top right, and
