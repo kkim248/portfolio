@@ -4,7 +4,7 @@ Read this before writing or editing any code. It describes the site as built. Wh
 
 **Design read:** a product designer's portfolio for hiring managers and design recruiters. About 90% clean, conventional, usable structure; the remaining 10% is one personal material that everything comes from.
 
-**The idea: sunlight on paper, in cyanotype blue.** The page is a sheet of paper lying in late-morning light. Light falls through the trees in Ian's forest pastel and a flowering branch at the window, and moves slowly over the paper. Type is printed into the paper. Project covers are printed onto it. A few watercolor blotches, in the same blue as the shade, are painted in as you scroll. Nothing is a standalone gimmick: if an element cannot be explained as part of this one scene, it does not belong.
+**The idea: sunlight on paper, kept neutral.** (2026-11-17: the shade and watercolor are real warm-grey shadow, not blue; text accents are ink; the light shows only on the homepage's first screen, and every other page and everything below the hero is blank paper, so any image or brand can sit on it.) The page is a sheet of paper lying in late-morning light. Light falls through the trees in Ian's forest pastel and a flowering branch at the window, and moves slowly over the paper. Type is printed into the paper. Project covers are printed onto it. A few watercolor blotches, in the same blue as the shade, are painted in as you scroll. Nothing is a standalone gimmick: if an element cannot be explained as part of this one scene, it does not belong.
 
 **Built with:** Astro 7, plain TypeScript and JavaScript modules (no UI framework), Lenis for smooth scroll, self-hosted fonts, WebGL2 for the light and the blotches.
 
@@ -46,7 +46,8 @@ Audited on 2026-10-15:
 | `--ink-2` | `#4A4A47` | Body text, inactive menu items |
 | `--ink-3` | `#6A6863` | Labels, captions, inactive index items. 5.0:1 on paper, 4.6:1 in the deepest shade. |
 | `--rule` | `#DAD6CC` | Hairlines |
-| `--blue` | `#1F3A93` | The only colour. See the rules below for where it goes. |
+| `--accent` | `var(--ink)` | The current page (italic), links, accent labels and focus rings. Plain ink, so the page stays neutral. |
+| `--blue` | `#1F3A93` | Case study drawings only (no text). |
 | `--on-blue` | `#F1EEE6` | Text on blue (the cursor pill) |
 | `--surface` | `#FFFFFF` | Product screens and app UI lying on the paper |
 | `--tint` | `rgb(34 31 27 / 0.04)` | Panels and cards: a slightly deeper patch of the same paper |
@@ -354,7 +355,7 @@ The canvases and cursor live in `Base.astro` with `transition:persist`, so they 
 
 **Links.** Text links underline on hover (1px, offset 4px). Arrows are text characters followed by `&#65038;`.
 
-**Focus.** `outline: 2px solid var(--blue); outline-offset: 4px` on every interactive element. Never remove it.
+**Focus.** `outline: 2px solid var(--accent); outline-offset: 4px` on every interactive element. Never remove it.
 
 **Adding a project.** Add a cover to `src/assets/covers`, then add an entry to `projects.ts`. The scene's height and the count follow `projects.length`.
 

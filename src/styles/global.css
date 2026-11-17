@@ -15,6 +15,7 @@
   --ink-2: #4A4A47;           /* body text */
   --ink-3: #6A6863;           /* labels, captions, inactive items: 5.0:1 on paper, 4.6:1 in the deepest shade */
   --rule: #DAD6CC;            /* hairlines */
+  --accent: var(--ink);      /* the current page, links and accent labels: plain ink, so the page stays neutral and any brand can sit on it */
   --blue: #1F3A93;            /* cyanotype blue, the only colour */
   --on-blue: #F1EEE6;         /* text on blue */
   --surface: #FFFFFF;         /* product screens and app UI lying on the paper */
@@ -114,7 +115,7 @@ ul, ol { list-style: none; }
 a { color: inherit; text-decoration: none; }
 a:hover { text-decoration: underline; text-underline-offset: 0.25em; text-decoration-thickness: 1px; }
 img { display: block; max-width: 100%; height: auto; }
-:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 
 .grid { display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); column-gap: var(--gutter); padding-inline: var(--margin); max-width: 2048px; margin-inline: auto; }
 .rel { position: relative; }
@@ -123,9 +124,9 @@ img { display: block; max-width: 100%; height: auto; }
 .mono { font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-mono); }
 /* labels: small capitals in mono. Grey for information, blue (.label--accent) to mark a part of a component. */
 .label { font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); }
-.label--accent { color: var(--blue); }
+.label--accent { color: var(--accent); }
 /* an inline link inside reading text */
-.link { color: var(--blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.25em; }
+.link { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.25em; }
 /* a call to action with an arrow */
 .cta { font-size: var(--fs-small); display: inline-flex; gap: var(--s-2); }
 .cta .arrow { display: inline-block; transition: transform var(--dur-fast) var(--ease); }
@@ -176,7 +177,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
   .words.is-split .w > span {
     --d: calc(var(--wi) * 45ms + var(--wd, 0ms) + var(--intro-w, 0ms));
     --c: cubic-bezier(0.25, 0.6, 0.3, 1);
-    opacity: 0; filter: blur(5px); color: color-mix(in srgb, var(--blue) 60%, currentColor 40%);
+    opacity: 0; filter: blur(5px); color: color-mix(in srgb, var(--accent) 60%, currentColor 40%);
     -webkit-mask-image: linear-gradient(90deg, #000 35%, transparent 65%); mask-image: linear-gradient(90deg, #000 35%, transparent 65%);
     -webkit-mask-size: 300% 100%; mask-size: 300% 100%; -webkit-mask-position: 100% 0; mask-position: 100% 0;
     transition: opacity 900ms var(--c) var(--d), filter 1200ms var(--c) var(--d), -webkit-mask-position 1100ms var(--c) var(--d), mask-position 1100ms var(--c) var(--d), color 1100ms ease calc(var(--d) + 100ms);
@@ -199,7 +200,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .menu li, .bar__menu { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-nav); line-height: var(--lh-nav); }
 .menu a, .bar__menu a { color: var(--ink-2); }
 .menu a:hover, .bar__menu a:hover { color: var(--ink); text-decoration: none; }
-.menu [aria-current], .bar__menu [aria-current] { font-style: italic; color: var(--blue); }
+.menu [aria-current], .bar__menu [aria-current] { font-style: italic; color: var(--accent); }
 
 /* the homepage first screen */
 .first { position: relative; min-height: 100svh; display: flex; flex-direction: column; justify-content: space-between; padding-block: var(--page-top) var(--s-7); }
@@ -237,8 +238,8 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .ix__n { order: -1; font-family: var(--mono); font-size: var(--fs-label); letter-spacing: var(--track-mono); color: var(--ink-3); transition: color var(--dur-base) var(--ease); }
 .ix a:hover { text-decoration: none; }
 .ix a:hover::after { transform: scaleX(1); }
-.ix a:hover .ix__n { color: var(--blue); }
-.ix a[aria-current] > span:first-child { font-style: italic; color: var(--blue); }
+.ix a:hover .ix__n { color: var(--accent); }
+.ix a[aria-current] > span:first-child { font-style: italic; color: var(--accent); }
 .ix a[aria-current]::after { display: none; }
 .ix__soon { color: var(--ink-3); }
 .ix__tag { margin-left: var(--s-3); font-family: var(--mono); font-size: var(--fs-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); }
@@ -402,7 +403,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 }
 /* a section: label, then heading 16px below it, then everything else 24px apart */
 .sec { display: grid; gap: var(--s-5); scroll-margin-top: var(--s-8); min-width: 0; }
-.sec__label { font-family: var(--mono); font-size: var(--fs-label-l); line-height: var(--lh-label); letter-spacing: var(--track-label-l); text-transform: uppercase; color: var(--blue); }
+.sec__label { font-family: var(--mono); font-size: var(--fs-label-l); line-height: var(--lh-label); letter-spacing: var(--track-label-l); text-transform: uppercase; color: var(--accent); }
 .sec h2 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); max-width: 34ch; text-wrap: balance; margin-top: calc(var(--s-1) * -1); }
 /* panels and screens: a deeper patch of the paper, with product screens lying on it */
 .shot { position: relative; width: 100%; }
@@ -450,7 +451,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .strip { display: flex; gap: var(--s-4); font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-nav); line-height: var(--lh-nav); }
 .strip a { color: var(--ink-2); }
 .strip a:hover { color: var(--ink); text-decoration: none; }
-.strip [aria-current] { font-style: italic; color: var(--blue); }
+.strip [aria-current] { font-style: italic; color: var(--accent); }
 .strip span { color: var(--ink-3); }
 .spec__nav { display: none; }
 @media (min-width: 768px) {
@@ -469,7 +470,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .spec__ph { display: block; width: 100%; height: auto; mix-blend-mode: multiply; }
 .spec__pic { position: relative; width: 80%; }
 .spec__no { position: absolute; bottom: 0; left: calc(100% / 0.8); translate: -100% 0; margin: 0; letter-spacing: var(--track-mono); white-space: nowrap; }
-.spec__deck:focus-visible { outline: 1px solid var(--blue); outline-offset: var(--s-1); }
+.spec__deck:focus-visible { outline: 1px solid var(--accent); outline-offset: var(--s-1); }
 /* the prints you can flip through. The frame keeps the beach photo's own shape, so the first print is exactly the
    minimal card's photo. A new print develops the way a photo does under light: a soft band of light sweeps across it
    left to right (the mask), and it comes up from a pale, slightly soft exposure to the finished print, while the one
@@ -486,7 +487,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 }
 .spec__deck .spec__ph[data-on] { mask-image: linear-gradient(90deg, #000 calc(var(--sweep) * 1.4 - 40%), transparent calc(var(--sweep) * 1.4)); }
 .spec__deck:not([data-ready]) .spec__ph[data-on] { animation: none; mask-image: none; }
-.spec__deck:focus-visible { outline: 1px solid var(--blue); outline-offset: var(--s-1); }
+.spec__deck:focus-visible { outline: 1px solid var(--accent); outline-offset: var(--s-1); }
 .spec__cap [data-cap-text] { transition: opacity var(--dur-base) var(--ease); }
 .spec__cap.is-turning [data-cap-text] { opacity: 0; }
 .spec__count .arrow { display: inline-block; margin-left: var(--s-2); transition: transform var(--dur-base) var(--ease); }
@@ -520,7 +521,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .ab__text { display: grid; gap: var(--s-5); }
 .ab__text p { font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-2); }
 .ab__text em { font-family: var(--serif); font-style: italic; font-size: 1.12em; color: var(--ink); }
-.ab__text a { color: var(--blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.25em; }
+.ab__text a { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.25em; }
 /* a row of recent prints, between the words and the links */
 
 /* ---------- page transition: the content lifts off the sheet and the next page settles onto it, while the
@@ -560,11 +561,6 @@ html[data-intro] .intro { display: block; position: fixed; inset: 0; z-index: 29
   animation: intro-flare 700ms cubic-bezier(0.3, 0, 0.3, 1) 500ms both; }
 html[data-intro].is-skipping .intro__shade, html[data-intro].is-skipping .intro__glow { animation-delay: 0ms; animation-duration: 350ms; }
 html[data-intro].is-skipping .intro__flare { animation-delay: 150ms; animation-duration: 350ms; }
-/* the quick flash on arriving at About: the same light, faster, starting as the page swaps in */
-html[data-intro].is-quick { --intro-w: 120ms; }
-html[data-intro].is-quick .intro__shade, html[data-intro].is-quick .intro__glow { animation-duration: 620ms; animation-delay: 120ms; }
-html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; animation-duration: 520ms; animation-delay: 380ms; }
-@keyframes intro-flare-soft { 0% { opacity: 0; } 40% { opacity: 0.22; } 100% { opacity: 0; } }
 @keyframes intro-open { to { --open: 1; } }
 @keyframes intro-flare { 0% { opacity: 0; } 40% { opacity: 0.42; } 100% { opacity: 0; } }
 @keyframes intro-fallback { to { opacity: 0; visibility: hidden; } }
@@ -637,7 +633,7 @@ html[data-intro].is-quick .intro__flare { animation-name: intro-flare-soft; anim
 .flow__row.is-after li { box-shadow: inset 0 0 0 1px var(--blue-line), var(--shadow-card); }
 /* boxes: a big figure, a number, a list, or a paraphrased quote */
 .card p.big { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); color: var(--blue); }
-.card p.num { font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); color: var(--blue); }
+.card p.num { font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); color: var(--accent); }
 .card ul { display: grid; gap: var(--s-1); padding-left: var(--s-4); font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); }
 .quotes .card { margin: 0; }
 .quotes .card p { font-family: var(--serif); font-style: italic; font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink); }
@@ -652,7 +648,7 @@ blockquote.hmw { margin: 0; padding-block: var(--s-6); }
 @media (min-width: 768px) { .spec__stain { grid-column: 2 / span 6; } .spill--card { right: -24%; top: 52%; width: 50%; } }
 @media (min-width: 1024px) { .spec__stain { grid-column: 4 / span 6; grid-row: 1; justify-self: center; width: min(100%, var(--measure-card)); } }
 .spill--hmw { left: 50%; top: 50%; width: clamp(280px, 40vw, 520px); transform: translate(-50%, -50%); opacity: 0.55; }
-.hmw .label { color: var(--blue); }
+.hmw .label { color: var(--accent); }
 .hmw__q { font-family: var(--serif); font-style: italic; font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); text-wrap: balance; max-width: 26ch; }
 /* a design decision: the claim, why, then the screen that shows it */
 .decision { display: grid; gap: var(--s-5); margin-top: var(--s-5); }   /* a part of a section: the same note-to-visual gap as the section, a clear break above */

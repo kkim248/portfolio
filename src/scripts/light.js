@@ -113,7 +113,7 @@ const FS_SHADE = GLSL_COMMON + `
     float lit = smoothstep(0.32, 0.68, lum(textureLod(uTex, uv, max(lod, 0.8)).rgb));
     // softer than before, but still a little sharper than the trees behind it
     lit *= 1.0 - flowerShadow(p, t, 2.6 + 0.4 * sin(t * 0.21)) * 0.85;
-    float inside = hoverMask(p);
+    float inside = hoverMask(p) * clamp(uFade * 4.0, 0.0, 1.0);   // no light, no hover glow
     lit = mix(lit, 1.0, inside);
     vec3 c = mix(uShade, uSun, lit);
     float tooth = noise(gl_FragCoord.xy * 0.9) * 0.6 + noise(gl_FragCoord.xy * 2.1) * 0.4;
@@ -177,9 +177,9 @@ export function startLight() {
 
   // the first screen and the closing note set how strong the light is; looked up again on every page
   // pages meant for reading mark data-light on their main: "quiet" for case studies, "soft" for About
-  // how strong the light is on each page: full on the homepage's first screen, then it steps back so the work
-  // and the words carry the page. data-light="quiet" (case studies) and "soft" (About) keep it lower still.
-  const LEVELS = { home: [1, 0.2], quiet: [1, 0.18], soft: [0.26, 0.2] };
+  // the light lives on the homepage's first screen only: it fades out as the hero scrolls away, and pages marked
+  // data-light (About, case studies) are blank paper, so whatever sits on them carries its own look
+  const LEVELS = { home: [1, 0], quiet: [0, 0], soft: [0, 0] };
   let first = null, foot = null, level = LEVELS.home;
   let pics = [];
   const PICS = '.wcard__cover, .cs-cover, .ab__photo, .gallery figure > img, .gallery .clip, .shot, .plate, .compare__frame, .phones img';
