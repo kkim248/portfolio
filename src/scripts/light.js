@@ -8,7 +8,7 @@ const PALETTE = { sun: [0.995, 0.975, 0.935], shade: [0.79, 0.805, 0.75], warm: 
    shade: leaf shadows and the colour wash, multiplied onto the page
    glint: points of sun shimmering through the leaves and a soft bloom, screened onto the page
    Both share one leaf field, so glints always sit in the gaps between the shadows. */
-export const light = { hover: null, morph: null };
+export const light = { hover: null, morph: null, next: null };   // next: the level of the page being opened, so the light changes with the transition
 // the cover's flight between pages (set by transition.js): where it started and the element it lands on.
 // Its box is eased the same way as ::view-transition-group(cover), so the light follows it the whole way.
 const MORPH_MS = 900;
@@ -199,11 +199,11 @@ export function startLight() {
   // pages meant for reading mark data-light on their main: "quiet" for case studies, "soft" for About
   // the light lives on the homepage's first screen only: it fades out as the hero scrolls away, and pages marked
   // data-light (About, case studies) are blank paper, so whatever sits on them carries its own look
-  const LEVELS = { home: [1, 0], quiet: [0, 0], soft: [0, 0] };
+  const LEVELS = { home: [1, 0], quiet: [0, 0], soft: [0, 0], blank: [0, 0] };
   let first = null, foot = null, level = LEVELS.home;
   let pics = [];
   const PICS = '.wcard__cover, .cs-cover, .ab__photo, .gallery figure > img, .gallery .clip, .shot, .plate, .compare__frame, .phones img';
-  const find = () => { first = document.querySelector('.first'); foot = document.querySelector('.foot'); level = LEVELS[document.querySelector('[data-light]')?.dataset.light] || LEVELS.home; light.hover = null; pics = [...document.querySelectorAll(PICS)]; };
+  const find = () => { first = document.querySelector('.first'); foot = document.querySelector('.foot'); level = LEVELS[document.querySelector('[data-light]')?.dataset.light] || LEVELS.home; light.next = null; light.hover = null; pics = [...document.querySelectorAll(PICS)]; };
   find(); document.addEventListener('astro:page-load', find); document.addEventListener('astro:after-swap', find);
   let px = 0, py = 0, tx = 0, ty = 0, fade = 1, clearAmt = 0, rect = [0, 0, 0, 0];
   const boxes = new Float32Array(64);
@@ -214,7 +214,8 @@ export function startLight() {
     if (touch && now - lastDraw < 32) return; lastDraw = now;
     px += (tx - px) * 0.015; py += (ty - py) * 0.015;   // eases after the cursor over a couple of seconds
     // the light is full on the first screen, softer down the page, and fades out at the closing note
-    let f = level[0] + (level[1] - level[0]) * smooth(0, (first ? first.offsetHeight : innerHeight) * 0.9, scrollY);
+    const lv = LEVELS[light.next] || level;
+    let f = lv[0] + (lv[1] - lv[0]) * smooth(0, (first ? first.offsetHeight : innerHeight) * 0.9, scrollY);
     if (foot) f *= 1 - 0.85 * smooth(0, innerHeight * 0.8, innerHeight - foot.getBoundingClientRect().top);
     fade += (f - fade) * 0.1;
     const h = light.hover;

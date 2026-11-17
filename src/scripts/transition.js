@@ -12,6 +12,8 @@ let flight = null;
 export function startTransitions() {
   // leaving: name the old page's cover (runs before the old snapshot is taken)
   document.addEventListener('astro:before-preparation', (e) => {
+    // the light starts settling to the next page's level at once, so it changes with the transition, not after it
+    light.next = e.to.pathname.replace(/\/$/, '') === '' ? 'home' : 'blank';
     document.querySelectorAll('.wcard__cover').forEach((c) => (c.style.viewTransitionName = ''));
     const slug = slugOf(e.to);
     const c = slug && homeCover(document, slug);
@@ -22,6 +24,8 @@ export function startTransitions() {
   });
   // arriving: name the new page's cover
   document.addEventListener('astro:before-swap', (e) => {
+    // arriving from another page: the transition is the entrance, so the new page doesn't wait to rise in again
+    e.newDocument.documentElement.setAttribute('data-nav', '');
     const slug = slugOf(e.from);
     if (!slug || slugOf(e.to)) return;
     const c = homeCover(e.newDocument, slug);
