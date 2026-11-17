@@ -1,9 +1,8 @@
 import { reduce, fine, smooth, glProgram, texture, VS } from './util.js';
 
 /* ---------- one fixed palette: late morning sun and real shadow, grey with a distant sage in it (like leaves seen
-   through mist), plus a soft haze of ochre, terracotta rose and sage that stays on every page, so blank paper has a
-   little warmth without ever being loud ---------- */
-const PALETTE = { sun: [0.995, 0.975, 0.935], shade: [0.79, 0.805, 0.75], warm: [1.0, 0.915, 0.79], cool: [0.875, 0.92, 0.84], rose: [0.99, 0.875, 0.835], strength: 1.0 };
+   through mist), plus a faint haze of ochre, terracotta rose and sage on the hero only; every other page is neutral paper ---------- */
+const PALETTE = { sun: [0.995, 0.975, 0.935], shade: [0.79, 0.805, 0.75], warm: [1.0, 0.965, 0.915], cool: [0.95, 0.965, 0.935], rose: [1.0, 0.955, 0.94], strength: 1.0 };
 
 /* ---------- the light: two fixed WebGL layers over the whole page ----------
    shade: leaf shadows and the colour wash, multiplied onto the page
@@ -131,7 +130,7 @@ const FS_SHADE = GLSL_COMMON + `
     vec2 sq = vec2(0.45, 1.6);
     float a1 = exp(-dot((ap - g1) * sq, (ap - g1) * sq) / 0.32), a2 = exp(-dot((ap - g2) * sq, (ap - g2) * sq) / 0.4), a3 = exp(-dot((ap - g3) * sq, (ap - g3) * sq) / 0.22);
     vec3 tint = mix(mix(mix(vec3(1.0), uWarm, a1), uCool, a2 * (1.0 - 0.5 * a1)), uRose, a3 * 0.85 * (1.0 - 0.6 * a1));
-    vec3 col = leaf * mix(vec3(1.0), tint, clamp(max(uFade * 1.2, 0.7), 0.0, 1.0));   // the colour wash steps back with the light, but a distant haze of it always stays
+    vec3 col = leaf * mix(vec3(1.0), tint, clamp(uFade * 1.2, 0.0, 1.0));   // the colour wash lives with the light: on the hero only
     // refracted light: a faint network of bright threads drifting through the shade, like sun through water or
     // glass, where two slow noise fields cross; strongest during a breeze
     vec2 cp = uv * 5.0 + vec2(t * 0.05, -t * 0.035);

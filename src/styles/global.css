@@ -358,7 +358,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .foot__links a { display: inline-flex; gap: var(--s-2); }
 @media (min-width: 768px) { .foot__note { grid-column: 1 / span 5; } .foot__links { grid-column: 6 / -1; justify-self: end; } }
 
-/* watercolor blotches: the same grey-sage as the light's shade, painted in as they scroll into view. Their sizes and
+/* watercolor blotches: a neutral warm grey, painted in as they scroll into view. Their sizes and
    positions are composition, not system: they are set by eye against the page. */
 .spill { position: absolute; pointer-events: none; mix-blend-mode: multiply; z-index: 0; display: block; opacity: 0.9; }
 .spill--quiet-r { width: clamp(150px, 14vw, 260px); right: -2vw; bottom: -40px; opacity: 0.8; }

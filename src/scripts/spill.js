@@ -1,7 +1,7 @@
 import { reduce, clamp, smooth, glProgram, texture, VS } from './util.js';
 
-// Watercolor blotch: a grey-sage wash that spills onto the page as it scrolls into view. Water runs ahead,
-// pigment follows, drifts while wet, blooms and lightens as it dries. The same grey-sage as the light's shade.
+// Watercolor blotch: a grey wash that spills onto the page as it scrolls into view. Water runs ahead,
+// pigment follows, drifts while wet, blooms and lightens as it dries. A neutral grey, so the pages stay neutral.
 // Each <canvas class="spill"> runs its own small WebGL shader.
 //   data-src       optional: a painting to hold back as a white silhouette inside the wash
 //   data-crop      "x0 y0 x1 y1": the part of the sheet to use, 0 to 1
@@ -95,11 +95,11 @@ const FS = `#version 300 es
     dens = clamp(dens * painted + tide * 0.08 + wetPaper + drop * 0.45, 0.0, 1.0);
 
     // two blues mixed on the paper, ultramarine and cerulean; wet paint is deeper, it dries lighter
-    // the same grey-sage as the light's shade, so paint and light read as one shadow
-    vec3 ultra = vec3(0.32, 0.37, 0.3), ceru = vec3(0.5, 0.56, 0.47);
+    // a neutral warm grey, like a real shadow
+    vec3 ultra = vec3(0.34, 0.33, 0.31), ceru = vec3(0.5, 0.49, 0.46);
     vec3 col = mix(ultra, ceru, smoothstep(0.35, 0.7, fbm(uv * 2.4 + sd * 9.0)));
     float dryness = clamp(uDry + smoothstep(front, front - 0.5, df) * 0.5, 0.0, 1.0);
-    col = mix(col * 0.82, mix(col, vec3(0.6, 0.65, 0.57), 0.35), dryness);
+    col = mix(col * 0.82, mix(col, vec3(0.6, 0.59, 0.56), 0.35), dryness);
     // fade out toward the canvas edges, so a rectangle can never show
     float edge = smoothstep(0.0, 0.1, uv.x) * smoothstep(1.0, 0.9, uv.x) * smoothstep(0.0, 0.1, uv.y) * smoothstep(1.0, 0.9, uv.y);
     o = vec4(mix(vec3(1.0), col, dens * 0.82 * uStrength * edge), 1.0);
