@@ -2,7 +2,7 @@ import { reduce, fine, smooth, glProgram, texture, VS } from './util.js';
 
 /* ---------- one fixed palette: late morning sun and real shadow, grey with a distant sage in it (like leaves seen
    through mist), plus a faint haze of ochre, terracotta rose and sage on the hero only; every other page is neutral paper ---------- */
-const PALETTE = { sun: [0.995, 0.975, 0.935], shade: [0.79, 0.805, 0.75], warm: [1.0, 0.965, 0.915], cool: [0.95, 0.965, 0.935], rose: [1.0, 0.955, 0.94], strength: 1.0 };
+const PALETTE = { sun: [1.0, 0.982, 0.945], shade: [0.745, 0.762, 0.705], warm: [1.0, 0.965, 0.915], cool: [0.95, 0.965, 0.935], rose: [1.0, 0.955, 0.94], strength: 1.0 };
 
 /* ---------- the light: two fixed WebGL layers over the whole page ----------
    shade: leaf shadows and the colour wash, multiplied onto the page
@@ -54,14 +54,14 @@ const GLSL_COMMON = `#version 300 es
     q = mat2(cos(ang), -sin(ang), sin(ang), cos(ang)) * q;
     vec2 uv = (q + vec2(0.7, -0.35) * s - 0.5 * s) / (1.35 * near * k);
     uv = mat2(cos(a), -sin(a), sin(a), cos(a)) * uv + c;
-    uv += uPointer * 0.012 * k;
+    uv += uPointer * 0.006 * k;   // the cursor nudges the light only a little, and slowly
     uv += vec2(sin(t * 0.021), cos(t * 0.017)) * 0.008 / k;        // the sun itself creeps, very slowly
     return uv;
   }
   // the far canopy: the softest, palest shadows
   vec2 leafUV(vec2 p, float t) { return canopyUV(p, t, 1.0, vec2(0.52, 0.46), -0.12, 0.3, 0.0, 0.45); }
   // nearer leaves from another part of the same trees: larger, sharper, darker, and they move more
-  vec2 midUV(vec2 p, float t) { return canopyUV(p, t, 1.75, vec2(0.3, 0.64), 0.55, 1.0, 0.7, 1.15); }
+  vec2 midUV(vec2 p, float t) { return canopyUV(p, t, 1.75, vec2(0.3, 0.64), 0.55, 1.0, 0.7, 0.95); }
   // where the light is strongest on screen: top right, plus one patch wandering over the statement
   float lightMask(vec2 p, float t) {
     float base = smoothstep(0.15, 0.95, p.x * 0.85 + (1.0 - p.y) * 0.45);
@@ -77,7 +77,7 @@ const GLSL_COMMON = `#version 300 es
       float fi = float(i), depth = hash(vec2(fi, 7.0));
       float speed = mix(0.4, 1.3, depth), r = mix(0.009, 0.03, depth);
       vec2 c = vec2(hash(vec2(fi, 1.0)), hash(vec2(fi, 2.0)));
-      c += vec2(sin(t * 0.05 * speed + fi) * 0.05, -t * 0.0045 * speed) + uPointer * 0.02 * depth;
+      c += vec2(sin(t * 0.05 * speed + fi) * 0.05, -t * 0.0045 * speed) + uPointer * 0.01 * depth;
       c = fract(c);
       float dist = length((p - c) * vec2(sa, 1.0));
       float disk = smoothstep(r, r * 0.5, dist) * (0.7 + 0.3 * smoothstep(r * 0.45, r * 0.9, dist));   // soft disk, faint bright rim
@@ -90,10 +90,10 @@ const GLSL_COMMON = `#version 300 es
   // shadow is a little sharper, it sways more, and it shifts more with the cursor.
   float flowerShadow(vec2 p, float t, float lod) {
     float sa = uRes.x / uRes.y;
-    vec2 local = vec2(p.x * sa, p.y) - vec2(sa * 1.02, -0.12) + uPointer * 0.05;
+    vec2 local = vec2(p.x * sa, p.y) - vec2(sa * 1.02, -0.12) + uPointer * 0.022;
     // the nearest branch: pushed by the wind a beat after the trees, springing back and trembling a little
     float wd = wind(t - 1.3);
-    float sway = wd * 0.04 + sin(t * 1.9) * (0.008 + 0.03 * wd) + sin(t * 0.8 + 1.3) * 0.01;   // a pendulum: about three seconds a swing
+    float sway = wd * 0.04 + sin(t * 1.5) * (0.008 + 0.027 * wd) + sin(t * 0.62 + 1.3) * 0.01;   // a pendulum: about four seconds a swing
     vec2 iuv = vec2(0.47, 0.98) + rot(local, -3.785 + sway) / vec2(1.05 * 0.776, 1.05);   // stem at the anchor, blooms reaching down and left
     if (iuv.x < 0.0 || iuv.y < 0.0 || iuv.x > 1.0 || iuv.y > 1.0) return 0.0;
     vec3 c = textureLod(uFlower, mix(vec2(0.09, 0.08), vec2(0.88, 0.86), iuv), lod).rgb;
@@ -128,12 +128,12 @@ const FS_SHADE = GLSL_COMMON + `
     // sharper and darker, and the nearest branch sharpest of all. Where they overlap the shade deepens.
     float haze = (1.0 - sunny(t)) * 4.0;   // under a cloud, the shadows lose their edges
     float lodF = mix(3.4, 5.0, noise(uv * 2.0 + 11.0)) + haze;
-    float litF = smoothstep(0.3, 0.7, lum(textureLod(uTex, uv, max(lodF, 0.8)).rgb));
+    float litF = smoothstep(0.34, 0.64, lum(textureLod(uTex, uv, max(lodF, 0.8)).rgb));
     float lodM = mix(1.7, 2.7, noise(um * 2.0 + 3.0)) + haze;
     // only the densest clusters of the nearer leaves cast a shadow, mostly toward the top where the branches reach in
     float reach = smoothstep(1.05, 0.35, p.y + (1.0 - p.x) * 0.35);
     float shM = (1.0 - smoothstep(0.1, 0.34, lum(textureLod(uTex, um, max(lodM, 0.8)).rgb))) * reach;
-    float lit = mix(1.0, litF, 0.85) * (1.0 - shM * 0.7);
+    float lit = mix(1.0, litF, 0.92) * (1.0 - shM * 0.75);
     lit *= 1.0 - flowerShadow(p, t, 1.9 + haze * 0.8) * 0.92;
     float inside = hoverMask(p) * clamp(uFade * 4.0, 0.0, 1.0);   // no light, no hover glow
     lit = mix(lit, 1.0, inside);
@@ -212,7 +212,7 @@ export function startLight() {
   let lastDraw = 0;
   function draw(now) {
     if (touch && now - lastDraw < 32) return; lastDraw = now;
-    px += (tx - px) * 0.04; py += (ty - py) * 0.04;
+    px += (tx - px) * 0.015; py += (ty - py) * 0.015;   // eases after the cursor over a couple of seconds
     // the light is full on the first screen, softer down the page, and fades out at the closing note
     let f = level[0] + (level[1] - level[0]) * smooth(0, (first ? first.offsetHeight : innerHeight) * 0.9, scrollY);
     if (foot) f *= 1 - 0.85 * smooth(0, innerHeight * 0.8, innerHeight - foot.getBoundingClientRect().top);
