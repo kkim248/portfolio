@@ -1,8 +1,9 @@
 import { reduce, fine, smooth, glProgram, texture, VS } from './util.js';
 
 /* ---------- one fixed palette: late morning sun and real shadow, grey with a distant sage in it (like leaves seen
-   through mist), plus a faint warm and sage haze that stays on every page so blank paper never feels lifeless ---------- */
-const PALETTE = { sun: [0.99, 0.978, 0.945], shade: [0.785, 0.812, 0.765], warm: [1.0, 0.968, 0.92], cool: [0.9, 0.935, 0.885], strength: 1.0 };
+   through mist), plus a soft haze of ochre, terracotta rose and sage that stays on every page, so blank paper has a
+   little warmth without ever being loud ---------- */
+const PALETTE = { sun: [0.995, 0.975, 0.935], shade: [0.79, 0.805, 0.75], warm: [1.0, 0.915, 0.79], cool: [0.875, 0.92, 0.84], rose: [0.99, 0.875, 0.835], strength: 1.0 };
 
 /* ---------- the light: two fixed WebGL layers over the whole page ----------
    shade: leaf shadows and the colour wash, multiplied onto the page
@@ -21,7 +22,7 @@ const morphEase = bez(0.6, 0, 0.15, 1);
 const GLSL_COMMON = `#version 300 es
   precision highp float;
   uniform sampler2D uTex; uniform vec2 uRes; uniform vec2 uTexSize; uniform float uTime; uniform vec2 uPointer;
-  uniform vec3 uSun; uniform vec3 uShade; uniform vec3 uWarm; uniform vec3 uCool; uniform float uStrength;
+  uniform vec3 uSun; uniform vec3 uShade; uniform vec3 uWarm; uniform vec3 uCool; uniform vec3 uRose; uniform float uStrength;
   uniform float uFade; uniform vec4 uClear; uniform float uClearAmt; uniform sampler2D uFlower;
   uniform vec4 uImgs[16]; uniform int uImgN;
   out vec4 o;
@@ -124,9 +125,13 @@ const FS_SHADE = GLSL_COMMON + `
     float sa = uRes.x / uRes.y; vec2 ap = vec2(p.x * sa, p.y);
     vec2 g1 = vec2((0.86 + 0.06 * sin(t * 0.05)) * sa, 0.1 + 0.08 * cos(t * 0.04));
     vec2 g2 = vec2((0.1 + 0.08 * cos(t * 0.035)) * sa, 0.98 + 0.05 * sin(t * 0.03));
-    float a1 = exp(-dot(ap - g1, ap - g1) / 0.55), a2 = exp(-dot(ap - g2, ap - g2) / 0.7);
-    vec3 tint = mix(mix(vec3(1.0), uWarm, a1), uCool, a2 * (1.0 - 0.5 * a1));
-    vec3 col = leaf * mix(vec3(1.0), tint, clamp(max(uFade * 1.2, 0.55), 0.0, 1.0));   // the colour wash steps back with the light, but a distant haze of it always stays
+    vec2 g3 = vec2((0.22 + 0.1 * sin(t * 0.03)) * sa, 0.28 + 0.06 * cos(t * 0.045));
+    // three soft fields of colour, stretched sideways like a long exposure: ochre high on the right, sage low on the
+    // left, a terracotta rose drifting between them
+    vec2 sq = vec2(0.45, 1.6);
+    float a1 = exp(-dot((ap - g1) * sq, (ap - g1) * sq) / 0.32), a2 = exp(-dot((ap - g2) * sq, (ap - g2) * sq) / 0.4), a3 = exp(-dot((ap - g3) * sq, (ap - g3) * sq) / 0.22);
+    vec3 tint = mix(mix(mix(vec3(1.0), uWarm, a1), uCool, a2 * (1.0 - 0.5 * a1)), uRose, a3 * 0.85 * (1.0 - 0.6 * a1));
+    vec3 col = leaf * mix(vec3(1.0), tint, clamp(max(uFade * 1.2, 0.7), 0.0, 1.0));   // the colour wash steps back with the light, but a distant haze of it always stays
     // refracted light: a faint network of bright threads drifting through the shade, like sun through water or
     // glass, where two slow noise fields cross; strongest during a breeze
     vec2 cp = uv * 5.0 + vec2(t * 0.05, -t * 0.035);
@@ -239,7 +244,7 @@ export function startLight() {
       gl.uniform1i(U('uTex'), 0);
       gl.uniform2f(U('uTexSize'), img.naturalWidth, img.naturalHeight);
       const P = PALETTE;
-      gl.uniform3fv(U('uSun'), P.sun); gl.uniform3fv(U('uShade'), P.shade); gl.uniform3fv(U('uWarm'), P.warm); gl.uniform3fv(U('uCool'), P.cool); gl.uniform1f(U('uStrength'), P.strength);
+      gl.uniform3fv(U('uSun'), P.sun); gl.uniform3fv(U('uShade'), P.shade); gl.uniform3fv(U('uWarm'), P.warm); gl.uniform3fv(U('uCool'), P.cool); gl.uniform3fv(U('uRose'), P.rose); gl.uniform1f(U('uStrength'), P.strength);
       // the shade is soft, so half resolution is plenty; glints need a little more
       // resize only when the width or the large viewport changes (a rotation, a window resize), never for the address bar
       let w0 = 0, h0 = 0;
