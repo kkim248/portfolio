@@ -128,6 +128,9 @@ function setup(canvas, img, texOn) {
 
 export function spills() {
   const stops = [];
+  // starting a blotch's WebGL (context, shader compile) costs the GPU a few frames, so it waits until the page
+  // transition has finished and the browser is idle; a blotch only paints in as it is reached, so the wait never shows
+  const settled = new Promise((r) => setTimeout(() => (window.requestIdleCallback ? requestIdleCallback(r, { timeout: 500 }) : r()), 700));
   document.querySelectorAll('canvas.spill').forEach((canvas) => {
     let dead = false, raf = 0, ro, io, gl;
     stops.push(() => { dead = true; cancelAnimationFrame(raf); ro?.disconnect(); io?.disconnect(); gl?.getExtension('WEBGL_lose_context')?.loseContext(); });
@@ -136,7 +139,7 @@ export function spills() {
     let img;
     if (texOn) { img = new Image(); img.src = canvas.dataset.src; }
     else { img = document.createElement('canvas'); img.width = img.height = 4; const g = img.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, 4, 4); }
-    (texOn ? img.decode() : Promise.resolve()).then(() => {
+    settled.then(() => (texOn ? img.decode() : null)).then(() => {
       if (dead) return;
       const s = setup(canvas, img, texOn); if (!s) return;
       const { U, size } = s; gl = s.gl;
