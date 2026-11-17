@@ -1,7 +1,8 @@
 import { reduce, fine, smooth, glProgram, texture, VS } from './util.js';
 
-/* ---------- one fixed palette: late morning sun and real shadow, a soft warm grey (no blue), so any image sits on it ---------- */
-const PALETTE = { sun: [0.99, 0.975, 0.94], shade: [0.8, 0.79, 0.755], warm: [1.0, 0.96, 0.9], cool: [0.95, 0.945, 0.93], strength: 1.0 };
+/* ---------- one fixed palette: late morning sun and real shadow, grey with a distant sage in it (like leaves seen
+   through mist), plus a faint warm and sage haze that stays on every page so blank paper never feels lifeless ---------- */
+const PALETTE = { sun: [0.99, 0.978, 0.945], shade: [0.785, 0.812, 0.765], warm: [1.0, 0.968, 0.92], cool: [0.9, 0.935, 0.885], strength: 1.0 };
 
 /* ---------- the light: two fixed WebGL layers over the whole page ----------
    shade: leaf shadows and the colour wash, multiplied onto the page
@@ -125,7 +126,7 @@ const FS_SHADE = GLSL_COMMON + `
     vec2 g2 = vec2((0.1 + 0.08 * cos(t * 0.035)) * sa, 0.98 + 0.05 * sin(t * 0.03));
     float a1 = exp(-dot(ap - g1, ap - g1) / 0.55), a2 = exp(-dot(ap - g2, ap - g2) / 0.7);
     vec3 tint = mix(mix(vec3(1.0), uWarm, a1), uCool, a2 * (1.0 - 0.5 * a1));
-    vec3 col = leaf * mix(vec3(1.0), tint, clamp(uFade * 1.2, 0.0, 1.0));   // the colour wash steps back with the light
+    vec3 col = leaf * mix(vec3(1.0), tint, clamp(max(uFade * 1.2, 0.55), 0.0, 1.0));   // the colour wash steps back with the light, but a distant haze of it always stays
     // refracted light: a faint network of bright threads drifting through the shade, like sun through water or
     // glass, where two slow noise fields cross; strongest during a breeze
     vec2 cp = uv * 5.0 + vec2(t * 0.05, -t * 0.035);

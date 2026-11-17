@@ -133,7 +133,7 @@ img { display: block; max-width: 100%; height: auto; }
 .cta:hover .arrow { transform: translateX(4px); }
 /* a project without a case study yet: the same place as the link, quieter, not clickable */
 
-body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100lvh; pointer-events: none; z-index: 30; background: url('/assets/grain-tile.png'); opacity: 0.04; mix-blend-mode: multiply; }
+body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100lvh; pointer-events: none; z-index: 30; background: url('/assets/grain-tile.png'); opacity: 0.065; mix-blend-mode: multiply; }
 
 /* The light: one fixed layer over the whole page, multiplied onto everything beneath it */
 .light-gl { position: fixed; top: 0; left: 0; width: 100%; height: 100lvh; z-index: 20; pointer-events: none; mix-blend-mode: multiply; opacity: 0; transition: opacity 2400ms cubic-bezier(0.3, 0, 0.2, 1); }
@@ -358,7 +358,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .foot__links a { display: inline-flex; gap: var(--s-2); }
 @media (min-width: 768px) { .foot__note { grid-column: 1 / span 5; } .foot__links { grid-column: 6 / -1; justify-self: end; } }
 
-/* watercolor blotches: the same warm grey as the light's shade, painted in as they scroll into view. Their sizes and
+/* watercolor blotches: the same grey-sage as the light's shade, painted in as they scroll into view. Their sizes and
    positions are composition, not system: they are set by eye against the page. */
 .spill { position: absolute; pointer-events: none; mix-blend-mode: multiply; z-index: 0; display: block; opacity: 0.9; }
 .spill--quiet-r { width: clamp(150px, 14vw, 260px); right: -2vw; bottom: -40px; opacity: 0.8; }
@@ -542,7 +542,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
    the paper flares warm for a moment before it settles. About 1.2s, every full load. Its colours are the light's
    own (the shade's warm grey and the sun's warm white), so they live here rather than in the tokens. ---------- */
 @property --open { syntax: '<number>'; inherits: false; initial-value: 0; }
-.intro { display: none; --shade: #DEDCD6; --sun: 255 244 224; }
+.intro { display: none; --shade: #D9DED3; --sun: 255 244 224; }
 html[data-intro] { --intro-w: 180ms; }
 html[data-intro] .intro { display: block; position: fixed; inset: 0; z-index: 29; pointer-events: none;
   /* if the script never runs, the overlay still clears itself */
