@@ -1,0 +1,3 @@
+{ "out": "src/assets/covers/moober-neutral.jpg",
+  "screens": [ { "src": "src/assets/moober/moober-search-results.png", "x": 0.06, "y": 0.173, "w": 0.64, "radius": 0.009 },
+               { "src": "src/assets/moober/mobile-results.png", "x": 0.725, "y": 0.173, "w": 0.215, "radius": 0.022 } ] }

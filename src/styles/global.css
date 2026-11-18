@@ -150,7 +150,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
 /* printed type: every serif line carries the ink filter and sits into the paper */
-.name, .menu, .hero__statement h1, .work h3, .spread__title, .bk__title, .bk__head, .bk__q, .foot__note,
+.name, .menu, .hero__statement h1, .work h3, .wg__title, .bk__title, .bk__head, .bk__q, .foot__note,
 .cs-hero h1, .sec h2, .hmw__q, .bar__crumb, .bar__menu, .strip, .ab__hello, .ix a, .ix__soon { filter: url(#ink); mix-blend-mode: multiply; opacity: 0.97; }
 /* the small mono labels beside them stay crisp, but are still multiplied into the paper and the light */
 .ix .label, .hero__time { mix-blend-mode: multiply; }
@@ -170,7 +170,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* phones and tablets render SVG filters at a low resolution, so the ink looked blurry and cost frames there.
    On touch screens and small screens the type stays crisp, still multiplied into the paper. */
 @media (max-width: 767px), (hover: none) {
-  .name, .menu, .hero__statement h1, .work h3, .spread__title, .bk__title, .bk__head, .bk__q, .foot__note, .cs-hero h1, .sec h2, .hmw__q, .bar__crumb, .bar__menu, .strip, .ab__hello, .ix a, .ix__soon { filter: none; }
+  .name, .menu, .hero__statement h1, .work h3, .wg__title, .bk__title, .bk__head, .bk__q, .foot__note, .cs-hero h1, .sec h2, .hmw__q, .bar__crumb, .bar__menu, .strip, .ab__hello, .ix a, .ix__soon { filter: none; }
   .words.is-split .w { filter: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -256,35 +256,24 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @media (min-width: 1024px) { .hero__statement h1 { grid-column: 8 / -1; max-width: var(--measure-note); justify-self: end; } }
 
 .work { padding-top: var(--section); padding-bottom: var(--s-9); }
-/* the work, composed on one page like a spread in a printed book: the projects at different sizes and heights, each
-   with its short text directly beneath it, and quiet running labels at the top */
-.spread { row-gap: var(--s-6); align-items: start; }
-.spread__run { font-size: var(--fs-label-l); line-height: var(--lh-label); color: var(--ink-2); }
-.spread__run--l { grid-column: 1 / span 6; }
-.spread__run--r { grid-column: 7 / -1; text-align: right; }
-.spread__piece { grid-column: 1 / -1; display: grid; gap: var(--s-4); }
-.wcard__cover { position: relative; display: block; overflow: hidden; box-shadow: var(--lay); transition: transform var(--dur-slow) var(--ease), box-shadow var(--dur-slow) var(--ease); }
-.wcard__cover img { display: block; width: 100%; height: auto; aspect-ratio: var(--cover-ratio); object-fit: cover; }
-@media (hover: hover) { .wcard__cover:hover { transform: var(--lift); box-shadow: var(--lay-lifted); } }
-/* arriving, each cover is held a little above the paper, then laid down onto it */
-@media (prefers-reduced-motion: no-preference) {
-  .spread__piece.reveal .wcard__cover { transition-duration: var(--dur-land); transition-delay: calc(var(--i, 0) * 80ms + 120ms); }
-  .spread__piece.reveal:not(.is-in) .wcard__cover { transform: var(--lift); box-shadow: var(--lay-lifted); }
-  .spread__piece.reveal.is-in .wcard__cover:hover { transition-duration: var(--dur-slow); transition-delay: 0ms; }
+/* the work, side by side: two equal covers, each with its name and kind on one line and one short line beneath */
+.wg { row-gap: var(--s-5); align-items: start; }
+.wg__head { grid-column: 1 / -1; display: flex; justify-content: space-between; }
+.wg__item { grid-column: 1 / -1; display: grid; gap: var(--s-2); color: var(--ink); }
+.wg__item:hover { text-decoration: none; }
+.wcard__cover { display: block; overflow: hidden; margin-bottom: var(--s-2); }
+.wcard__cover img { display: block; width: 100%; height: auto; aspect-ratio: var(--cover-ratio); object-fit: cover; transition: transform var(--dur-slow) var(--ease); }
+.wg__line { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s-4); }
+.wg__title { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-nav); line-height: var(--lh-nav); }
+.wg__sum { font-family: var(--serif); font-size: var(--fs-body-s); line-height: var(--lh-body); color: var(--ink-2); max-width: 40ch; }
+@media (hover: hover) {
+  .wg__item:hover .wcard__cover img { transform: scale(1.02); }
+  .wg__item:hover .wg__title { font-style: italic; }
 }
-.spread__text { display: grid; gap: var(--s-2); max-width: 46ch; }
-.spread__title { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); }
-.spread__body { font-size: var(--fs-small); line-height: var(--lh-text); color: var(--ink-2); }
-.spread__link { justify-self: start; display: inline-flex; gap: var(--s-2); margin-top: var(--s-1); font-size: var(--fs-small); color: var(--ink); }
-.spread__link .arrow { transition: transform var(--dur-base) var(--ease); }
-.spread__link:hover { text-decoration: none; } .spread__link:hover .arrow { transform: translateX(var(--s-1)); }
-/* on wide screens: the first cover large on the left, the second lower on the right, each with its words beneath */
-@media (min-width: 1024px) {
-  .spread__piece--a { grid-column: 1 / span 7; }
-  .spread__piece--b { grid-column: 9 / span 4; margin-top: var(--s-10); }
+@media (min-width: 768px) {
+  .wg__item:nth-of-type(odd) { grid-column: 1 / span 6; }
+  .wg__item:nth-of-type(even) { grid-column: 7 / span 6; }
 }
-/* screenshots sit in the paper: their colours a little quieter */
-.wcard__cover img { filter: saturate(0.86) contrast(0.97); }
 
 /* ---------- a case study set like a printed book (draft: /work/moober-draft) ----------
    Each section is a page: quiet running labels at the top, images at different sizes placed with intention, and short
@@ -361,14 +350,12 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 /* watercolor blotches: a neutral warm grey, painted in as they scroll into view. Their sizes and
    positions are composition, not system: they are set by eye against the page. */
 .spill { position: absolute; pointer-events: none; mix-blend-mode: multiply; z-index: 0; display: block; opacity: 0.9; }
-.spill--quiet-r { width: clamp(150px, 14vw, 260px); right: -2vw; bottom: -40px; opacity: 0.8; }
-.spill--quiet-l { width: clamp(150px, 13vw, 240px); left: -4vw; top: 10px; opacity: 0.8; }
 .spill--foot { width: clamp(220px, 22vw, 420px); left: -5vw; top: var(--s-6); }
 /* blotches may hang past the page edge; clip them there so the page never scrolls sideways */
 .work { position: relative; overflow-x: clip; }
 .foot { position: relative; overflow: clip; }   /* the watercolor never extends the page below the footer */
 .work > *:not(.spill), .foot > *:not(.spill) { position: relative; z-index: 1; }
-@media (max-width: 1023px) { .spill--quiet-r, .spill--quiet-l { display: none; } .spill--foot { width: 56vw; left: auto; right: -14vw; top: 30px; opacity: 0.8; } }
+@media (max-width: 1023px) { .spill--foot { width: 56vw; left: auto; right: -14vw; top: 30px; opacity: 0.8; } }
 
 /* ---------- case study: the same sheet of paper, continued ---------- */
 /* first screen: a step wider than the body. A big title over one line on the left, the facts in one quiet column
