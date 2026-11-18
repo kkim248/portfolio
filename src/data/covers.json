@@ -1,0 +1,11 @@
+{
+  "_": "Work covers as layers on a plain plate. x, y, w: % of the plate (screens may run off its edge); r: corner radius in % of the plate's width (0 keeps the screen's own corners); hx, hy: how far the layer drifts on hover, in % of its own size. Read by src/components/Work.astro and by scripts/make-layered-cover.mjs (which renders the flat cover the case study opens with).",
+  "moober": [
+    { "src": "moober/moober-search-results.png", "x": 14, "y": 15, "w": 90, "r": 0.9, "hx": 0.5, "hy": -0.7 },
+    { "src": "moober/mobile-trip-la.png", "x": 5, "y": 30, "w": 24, "r": 0.9, "hx": -2.5, "hy": -2 }
+  ],
+  "buzzit": [
+    { "src": "buzzit/home-clean.png", "x": 15.5, "y": 14, "w": 33, "r": 0, "hx": -1.5, "hy": -1.5 },
+    { "src": "buzzit/listing-request-clean.png", "x": 51.5, "y": 14, "w": 33, "r": 0, "hx": 1.5, "hy": -1.5 }
+  ]
+}

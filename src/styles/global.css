@@ -18,6 +18,7 @@
   --accent: var(--ink);      /* the current page, links and accent labels: plain ink, so the page stays neutral and any brand can sit on it */
   --blue: #1F3A93;            /* cyanotype blue, the only colour */
   --on-blue: #F1EEE6;         /* text on blue */
+  --plate: #EAE8E3;           /* work covers: the plain ground the screens lie on, a shade under the paper */
   --surface: #FFFFFF;         /* product screens and app UI lying on the paper */
   --tint: rgb(34 31 27 / 0.04);        /* panels and cards: a slightly deeper patch of the same paper */
   --blue-tint: rgb(31 58 147 / 0.16);  /* halos around blue marks */
@@ -263,12 +264,17 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .wg__item { grid-column: 1 / -1; display: grid; gap: var(--s-2); color: var(--ink); }
 .wg__item:hover { text-decoration: none; }
 .wcard__cover { display: block; overflow: hidden; margin-bottom: var(--s-3); }
-.wcard__cover img { display: block; width: 100%; height: auto; aspect-ratio: var(--cover-ratio); object-fit: cover; transition: transform var(--dur-slow) var(--ease); }
+/* a cover: a plain plate, the screens laid on it as layers that may run off its edge */
+.wg__plate { position: relative; aspect-ratio: var(--cover-ratio); background: var(--plate); container-type: inline-size; }
+.wg__layer { position: absolute; left: var(--x); top: var(--y); width: var(--w); transition: translate var(--dur-slow) var(--ease), filter var(--dur-slow) var(--ease);
+  filter: drop-shadow(0 1px 1px rgb(34 31 27 / 0.08)) drop-shadow(0 10px 18px rgb(34 31 27 / 0.07)); }
+.wg__layer img { display: block; width: 100%; height: auto; border-radius: var(--r); }
 .wg__line { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--s-2); font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-nav); line-height: var(--lh-nav); }
 .wg__meta { color: var(--ink-3); }
 .wg__sum { font-family: var(--serif); font-size: var(--fs-body-s); line-height: var(--lh-body); color: var(--ink-3); max-width: 40ch; }
 @media (hover: hover) {
-  .wg__item:hover .wcard__cover img { transform: scale(1.02); }
+  .wg__item:hover .wg__layer { translate: var(--hx) var(--hy); }
+  .wg__item:hover .wg__layer:last-child { filter: drop-shadow(0 1px 1px rgb(34 31 27 / 0.08)) drop-shadow(0 18px 28px rgb(34 31 27 / 0.1)); }
   .wg__item:hover .wg__title { font-style: italic; }
 }
 @media (min-width: 768px) {
