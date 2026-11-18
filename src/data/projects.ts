@@ -1,5 +1,5 @@
-import moober from '../assets/covers/moober-cover.jpg';
-import buzzit from '../assets/covers/buzzit-cover.jpg';
+import moober from '../assets/covers/moober-neutral.jpg';
+import buzzit from '../assets/covers/buzzit-neutral.jpg';
 // import crate from '../assets/covers/crate-cover.jpg';   // made by scripts/make-crate-cover.mjs
 
 export const projects = [
