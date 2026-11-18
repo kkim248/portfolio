@@ -7,13 +7,13 @@ import { readFileSync } from 'node:fs';
 
 const W = 2000, H = 1424;   // --cover-ratio
 const cfg = JSON.parse(readFileSync(process.argv[2], 'utf8'));
-const GROUND = [226, 224, 218], SHADE = [44, 42, 38];
+const GROUND = [246, 244, 238], SHADE = [44, 42, 38];
 
 async function ground() {
   // light falls from the top left: a very slight lift there, a very slight dip toward the bottom right
   const svg = `<svg width="${W}" height="${H}"><defs><radialGradient id="g" cx="0.2" cy="0.1" r="1.2">
-    <stop offset="0" stop-color="#fff" stop-opacity="0.16"/><stop offset="0.6" stop-color="#fff" stop-opacity="0"/>
-    <stop offset="1" stop-color="#000" stop-opacity="0.05"/></radialGradient></defs><rect width="100%" height="100%" fill="url(#g)"/></svg>`;
+    <stop offset="0" stop-color="#fff" stop-opacity="0.08"/><stop offset="0.6" stop-color="#fff" stop-opacity="0"/>
+    <stop offset="1" stop-color="#000" stop-opacity="0.025"/></radialGradient></defs><rect width="100%" height="100%" fill="url(#g)"/></svg>`;
   const grain = await sharp('public/assets/grain-tile.png').greyscale().linear(0.1, 255 * 0.9).toBuffer();
   return sharp({ create: { width: W, height: H, channels: 3, background: { r: GROUND[0], g: GROUND[1], b: GROUND[2] } } })
     .composite([{ input: Buffer.from(svg) }, { input: grain, tile: true, blend: 'multiply' }]).png().toBuffer();
@@ -34,8 +34,8 @@ async function screen({ src, x, y, w, radius = 0 }) {
   };
   const left = Math.round(x * W), top = Math.round(y * H);
   return [
-    { input: await silhouette(0.3, 40, 34), left: left - pad, top: top - pad },
-    { input: await silhouette(0.16, 3, 2), left: left - pad, top: top - pad },
+    { input: await silhouette(0.22, 44, 30), left: left - pad, top: top - pad },
+    { input: await silhouette(0.12, 3, 2), left: left - pad, top: top - pad },
     { input: img, left, top },
   ];
 }

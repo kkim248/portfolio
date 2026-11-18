@@ -1,3 +1,3 @@
 { "out": "src/assets/covers/buzzit-neutral.jpg",
-  "screens": [ { "src": "src/assets/buzzit/home.png", "x": 0.2275, "y": 0.103, "w": 0.26 },
-               { "src": "src/assets/buzzit/listing-request.png", "x": 0.5125, "y": 0.103, "w": 0.26 } ] }
+  "screens": [ { "src": "src/assets/buzzit/home.png", "x": 0.2325, "y": 0.112, "w": 0.255 },
+               { "src": "src/assets/buzzit/listing-request.png", "x": 0.5125, "y": 0.112, "w": 0.255 } ] }

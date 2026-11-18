@@ -256,16 +256,17 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 @media (min-width: 1024px) { .hero__statement h1 { grid-column: 8 / -1; max-width: var(--measure-note); justify-self: end; } }
 
 .work { padding-top: var(--section); padding-bottom: var(--s-9); }
-/* the work, side by side: two equal covers, each with its name and kind on one line and one short line beneath */
-.wg { row-gap: var(--s-5); align-items: start; }
-.wg__head { grid-column: 1 / -1; display: flex; justify-content: space-between; }
+/* the work, side by side: two equal covers on light plates, each with its name and kind (in grey) on one line and one
+   short grey line beneath */
+.wg { row-gap: var(--s-7); align-items: start; }
+.wg__head { grid-column: 1 / -1; margin-bottom: calc(var(--s-5) - var(--s-7)); }
 .wg__item { grid-column: 1 / -1; display: grid; gap: var(--s-2); color: var(--ink); }
 .wg__item:hover { text-decoration: none; }
-.wcard__cover { display: block; overflow: hidden; margin-bottom: var(--s-2); }
+.wcard__cover { display: block; overflow: hidden; margin-bottom: var(--s-3); }
 .wcard__cover img { display: block; width: 100%; height: auto; aspect-ratio: var(--cover-ratio); object-fit: cover; transition: transform var(--dur-slow) var(--ease); }
-.wg__line { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s-4); }
-.wg__title { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-nav); line-height: var(--lh-nav); }
-.wg__sum { font-family: var(--serif); font-size: var(--fs-body-s); line-height: var(--lh-body); color: var(--ink-2); max-width: 40ch; }
+.wg__line { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--s-2); font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-nav); line-height: var(--lh-nav); }
+.wg__meta { color: var(--ink-3); }
+.wg__sum { font-family: var(--serif); font-size: var(--fs-body-s); line-height: var(--lh-body); color: var(--ink-3); max-width: 40ch; }
 @media (hover: hover) {
   .wg__item:hover .wcard__cover img { transform: scale(1.02); }
   .wg__item:hover .wg__title { font-style: italic; }

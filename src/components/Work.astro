@@ -2,15 +2,15 @@
 import { Image } from 'astro:assets';
 import { projects } from '../data/projects';
 // the work, side by side: two equal covers on the neutral ground (scripts/make-neutral-cover.mjs), each with its
-// name and kind on one line beneath and one short line under that. On phones they stack.
+// name and kind on one quiet line beneath (the kind in grey) and one short grey line under that. On phones they stack.
 ---
 <section class="work" id="work" aria-labelledby="work-title">
   <div class="grid wg">
-    <div class="wg__head"><p id="work-title" class="label">Selected work</p><p class="label">2026</p></div>
+    <p id="work-title" class="label wg__head">Selected work</p>
     {projects.map((p, i) => (
       <a class="wg__item reveal" style={`--i: ${i}`} href={p.href} target={p.external ? '_blank' : undefined} rel={p.external ? 'noopener' : undefined}>
         <span class="wcard__cover" data-slug={p.slug}><Image src={p.cover} alt={p.alt} widths={[480, 800, 1200, 1600]} sizes="(min-width: 768px) 46vw, 100vw" quality={86} loading={i === 0 ? 'eager' : 'lazy'} /></span>
-        <span class="wg__line"><span class="wg__title">{p.title}</span><span class="label">{p.meta.join(' · ')}</span></span>
+        <span class="wg__line"><span class="wg__title">{p.title}</span><span class="wg__meta" aria-hidden="true">/</span><span class="wg__meta">{p.meta[1]}, {p.year}</span></span>
         <span class="wg__sum">{p.summary}</span>
       </a>
     ))}
