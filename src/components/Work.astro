@@ -1,12 +1,9 @@
 ---
 import { Image } from 'astro:assets';
 import { projects } from '../data/projects';
-import covers from '../data/covers.json';
-// the work, side by side: each cover is a plain plate with the real screens laid on it as separate layers
-// (src/data/covers.json), so on hover they can drift a little apart. Under each, the name and kind on one line
-// (the kind in grey) and one short grey line. On phones they stack.
-const shots = import.meta.glob<{ default: ImageMetadata }>('../assets/**/*.png', { eager: true });
-const layers = (slug: string) => (covers[slug] ?? []).map((l) => ({ ...l, img: shots[`../assets/${l.src}`].default }));
+// the work, side by side: each cover is Ian's own, toned toward the paper; under the pointer its full colour comes
+// back as it leans in a little. Under each, the name and kind on one line (the kind in grey) and one short grey line.
+// On phones they stack.
 ---
 <section class="work" id="work" aria-labelledby="work-title">
   <div class="grid wg">
@@ -15,11 +12,8 @@ const layers = (slug: string) => (covers[slug] ?? []).map((l) => ({ ...l, img: s
     {projects.map((p, i) => (
       <a class="wg__item reveal" style={`--i: ${i}`} href={p.href} target={p.external ? '_blank' : undefined} rel={p.external ? 'noopener' : undefined}>
         <span class="wcard__cover wg__plate" data-slug={p.slug} role="img" aria-label={p.alt}>
-          {layers(p.slug).map((l) => (
-            <span class="wg__layer" style={`--x:${l.x}%;--y:${l.y}%;--w:${l.w}%;--r:${l.r}cqw;--hx:${l.hx}%;--hy:${l.hy}%`}>
-              <Image src={l.img} alt="" widths={[400, 800, 1200, 1600]} sizes={`(min-width: 768px) ${Math.round(l.w * 0.5)}vw, ${Math.round(l.w)}vw`} quality={86} loading={i === 0 ? 'eager' : 'lazy'} />
-            </span>
-          ))}
+          <Image class="wg__img" src={p.cover} alt="" widths={[480, 800, 1200, 1600]} sizes="(min-width: 1024px) 40vw, (min-width: 768px) 46vw, 100vw" quality={86} loading={i === 0 ? 'eager' : 'lazy'} />
+          {p.coverFull && <Image class="wg__img wg__img--full" src={p.coverFull} alt="" widths={[800, 1200, 1600]} sizes="(min-width: 1024px) 40vw, 46vw" quality={86} loading="lazy" />}
         </span>
         <span class="wg__line"><span class="wg__title">{p.title}</span><span class="wg__meta" aria-hidden="true">/</span><span class="wg__meta">{p.meta[1]}, {p.year}</span></span>
         <span class="wg__sum">{p.summary}</span>

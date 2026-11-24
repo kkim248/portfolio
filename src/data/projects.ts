@@ -1,5 +1,8 @@
-import moober from '../assets/covers/moober-neutral.jpg';
-import buzzit from '../assets/covers/buzzit-neutral.jpg';
+// covers: Ian's own, toned toward the paper (scripts/tone-cover.mjs ... 0.6 0.15); on hover the full colour comes back
+import moober from '../assets/covers/moober-soft.jpg';
+import buzzit from '../assets/covers/buzzit-soft.jpg';
+import mooberFull from '../assets/covers/moober-cover.jpg';
+import buzzitFull from '../assets/covers/buzzit-cover.jpg';
 // import crate from '../assets/covers/crate-cover.jpg';   // made by scripts/make-crate-cover.mjs
 
 export const projects = [
@@ -12,6 +15,7 @@ export const projects = [
     summary: 'Search that finds the rides already passing through a rider’s town.',
     blurb: 'Moober is UC Davis’s student rideshare, used by more than 2,000 students. Its search only matched a driver’s final city, so riders saw nothing while rides passed straight through their town. I redesigned it to follow each driver’s whole route.',
     cover: moober,
+    coverFull: mooberFull,
     alt: 'Moober screens: carpool search, detour setting, mobile search and trip details.',
   },
   {
@@ -23,6 +27,7 @@ export const projects = [
     summary: 'A student marketplace where completed bookings went from 22% to 92%.',
     blurb: 'Buzzit is a marketplace where UC Davis students sell services and things to each other. In spring, about 22% of bookings were completed. I redesigned the app over the summer as its only designer, and since the relaunch about 92% are.',
     cover: buzzit,
+    coverFull: buzzitFull,
     alt: 'Buzzit screens: the home feed with a featured maker and listings, a gel manicure listing with Message and Request to book, an ask for a desk lamp, and a reserved order.',
   },
   // Crate is off the homepage for now (Ian, 2026-11-12). To bring it back, restore this entry:
