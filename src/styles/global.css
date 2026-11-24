@@ -227,6 +227,20 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
 .hero__top { align-items: baseline; }
 .hero__top .name { grid-column: 1 / span 2; }
 .hero__top .strip { grid-column: 3 / -1; justify-self: end; }
+/* desktop: the name and the index leave the first screen for a sidebar in columns 1-3 that stays on screen through
+   the first screen and the work (it lets go before the footer); the time and the words fade and lift away as you
+   scroll, with the light, so the projects come up on plain paper beside it */
+.home { position: relative; }
+.home__rail { display: none; }
+@media (min-width: 1024px) {
+  .home__rail { display: grid; position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+  .home__side { grid-column: 1 / span 3; }
+  .home__stick { position: sticky; top: var(--page-top); display: grid; pointer-events: auto; }
+  .home__nav { display: grid; row-gap: var(--s-7); padding-top: var(--s-8); }
+  .home__nav .ix { grid-column: auto; }
+  .hero .hero__top, .hero .hero__index { display: none; }
+  .hero__statement { opacity: calc(1 - var(--out, 0)); translate: 0 calc(var(--out, 0) * -1 * var(--s-5)); }
+}
 /* the index: the pages, then ways to say hello, as short numbered rows, one group above the other. On phones the
    space around them grows with the screen's height, so tall phones breathe and short ones still fit */
 .hero__index { display: none; }
@@ -261,7 +275,7 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
    short grey line beneath */
 .wg { row-gap: var(--s-7); align-items: start; }
 .wg__head { grid-column: 1 / -1; margin-bottom: calc(var(--s-5) - var(--s-7)); }
-.wg__item { grid-column: 1 / -1; display: grid; gap: var(--s-2); color: var(--ink); }
+.wg__item { display: grid; gap: var(--s-2); color: var(--ink); }
 .wg__item:hover { text-decoration: none; }
 .wcard__cover { display: block; overflow: hidden; margin-bottom: var(--s-3); }
 /* a cover: a plain plate, the screens laid on it as layers that may run off its edge */
@@ -277,10 +291,10 @@ body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height
   .wg__item:hover .wg__layer:last-child { filter: drop-shadow(0 1px 1px rgb(34 31 27 / 0.08)) drop-shadow(0 18px 28px rgb(34 31 27 / 0.1)); }
   .wg__item:hover .wg__title { font-style: italic; }
 }
-@media (min-width: 768px) {
-  .wg__item:nth-of-type(odd) { grid-column: 1 / span 6; }
-  .wg__item:nth-of-type(even) { grid-column: 7 / span 6; }
-}
+.wg__list { grid-column: 1 / -1; display: grid; gap: var(--s-7) var(--gutter); align-items: start; }
+@media (min-width: 768px) { .wg__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* desktop: the work sits beside the sidebar, in columns 4-12 */
+@media (min-width: 1024px) { .wg__head, .wg__list { grid-column: 4 / -1; } }
 
 /* ---------- a case study set like a printed book (draft: /work/moober-draft) ----------
    Each section is a page: quiet running labels at the top, images at different sizes placed with intention, and short

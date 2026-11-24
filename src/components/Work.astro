@@ -11,6 +11,7 @@ const layers = (slug: string) => (covers[slug] ?? []).map((l) => ({ ...l, img: s
 <section class="work" id="work" aria-labelledby="work-title">
   <div class="grid wg">
     <p id="work-title" class="label wg__head">Selected work</p>
+    <div class="wg__list">
     {projects.map((p, i) => (
       <a class="wg__item reveal" style={`--i: ${i}`} href={p.href} target={p.external ? '_blank' : undefined} rel={p.external ? 'noopener' : undefined}>
         <span class="wcard__cover wg__plate" data-slug={p.slug} role="img" aria-label={p.alt}>
@@ -24,5 +25,6 @@ const layers = (slug: string) => (covers[slug] ?? []).map((l) => ({ ...l, img: s
         <span class="wg__sum">{p.summary}</span>
       </a>
     ))}
+    </div>
   </div>
 </section>

@@ -18,6 +18,13 @@ export function page() {
   if (clocks.length) { tick(); clock = setInterval(tick, 1000); }
 
   const ac = new AbortController(), on = { signal: ac.signal };
+  // homepage, desktop: the time and the words fade and lift away over the first half-screen of scrolling
+  const words = document.querySelector('.hero__statement');
+  if (words) {
+    let qd = 0;
+    const out = () => { qd = 0; words.style.setProperty('--out', Math.min(1, Math.max(0, scrollY / (innerHeight * 0.5))).toFixed(3)); };
+    out(); addEventListener('scroll', () => { if (!qd) qd = requestAnimationFrame(out); }, { passive: true, ...on });
+  }
   const cleanup = () => { io?.disconnect(); ac.abort(); clearInterval(clock); };
   const cur = document.querySelector('.cursor');
   cur?.classList.remove('is-on');
