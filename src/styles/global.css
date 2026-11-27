@@ -739,7 +739,6 @@ blockquote.hmw { margin: 0; padding-block: var(--s-6); }
 @media (min-width: 1024px) { .cd__phones { gap: var(--s-7); } }
 .cd__ph { display: grid; gap: var(--s-3); justify-items: center; }
 .cd__ph img, .cd__phones > img { width: auto; height: 50cqw; filter: var(--shadow-phone); }
-.cd__phones--two .cd__ph img, .cd__phones--two > img { height: 54cqw; }
 .cd__ph span { font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); }
 .cd__wide { width: 84cqw; height: auto; box-shadow: var(--shadow-screen); }
 .cd__tabbars { display: grid; gap: var(--s-5); width: 56cqw; }
@@ -753,6 +752,8 @@ blockquote.hmw { margin: 0; padding-block: var(--s-6); }
 .cd__flow li + li { position: relative; margin-left: var(--s-5); }
 .cd__flow li + li::before { content: "\2192\FE0E"; position: absolute; left: calc((var(--s-2) + var(--s-5)) / -2); top: 50%; transform: translate(-50%, -50%); color: var(--ink-3); }
 @media (max-width: 767px) { .cd__plate:has(.cd__flow) { aspect-ratio: auto; padding: var(--s-6) var(--s-4); } .cd__flow { width: 100%; } }
+/* the opening: the project's own cover, in full colour, whole at its own shape */
+.cd__cover { width: 100%; height: auto; aspect-ratio: var(--cover-ratio); object-fit: cover; }
 /* the caption: what it is in ink, the detail in grey, small */
 .cd__cap { display: flex; flex-wrap: wrap; column-gap: var(--s-2); font-size: var(--fs-label-l); line-height: var(--lh-text); color: var(--ink-3); }
 .cd__cap span:first-child { color: var(--ink); }

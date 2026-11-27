@@ -7,8 +7,7 @@ import CaseLayout from '../../components/CaseLayout.astro';
 import oldFeed from '../../assets/buzzit/old-feed.png';
 import oldSearch from '../../assets/buzzit/old-search.png';
 import oldBooking from '../../assets/buzzit/old-booking.png';
-import home from '../../assets/buzzit/home-clean.png';
-import listing from '../../assets/buzzit/listing-request-clean.png';
+import buzzitCover from '../../assets/covers/buzzit-cover.jpg';
 import exploreSocial from '../../assets/buzzit/explore-social.png';
 import exploreMarket from '../../assets/buzzit/explore-marketplace.png';
 import exploreHybrid from '../../assets/buzzit/explore-hybrid.png';
@@ -39,12 +38,7 @@ const facts: [string, string][] = [['Role', 'Sole product designer'], ['Timeline
   <div data-light="quiet">
   <CaseLayout label="Buzzit" title="From “I want this” to “we met up”" tabs={tabs} facts={facts} next={{ href: '/work/moober', title: 'Moober' }}>
     <figure slot="open" class="cd__fig">
-      <div class="cd__plate">
-        <div class="cd__phones cd__phones--two">
-          <Image src={home} alt="The new Home: search, categories, a featured maker and listings with prices." {...ph} />
-          <Image src={listing} alt="A gel manicure listing with the seller, Message, the seller's question and Request to book." {...ph} />
-        </div>
-      </div>
+      <Image class="cd__cover" src={buzzitCover} alt="Buzzit screens: the home feed with a featured maker and listings, a gel manicure listing with Message and Request to book, an ask for a desk lamp, and a reserved order." widths={[800, 1200, 1600, 2000]} sizes="(min-width: 1280px) 60vw, (min-width: 1024px) 75vw, 100vw" quality={88} loading="eager" />
     </figure>
 
     <section class="cd__sec">
