@@ -5,7 +5,7 @@ import Base from '../../layouts/Base.astro';
 import Foot from '../../components/Foot.astro';
 import CaseLayout from '../../components/CaseLayout.astro';
 import oldFeed from '../../assets/buzzit/old-feed.png';
-import oldBusiness from '../../assets/buzzit/old-business.png';
+import oldSearch from '../../assets/buzzit/old-search.png';
 import oldBooking from '../../assets/buzzit/old-booking.png';
 import home from '../../assets/buzzit/home-clean.png';
 import listing from '../../assets/buzzit/listing-request-clean.png';
@@ -17,6 +17,7 @@ import cutLearn from '../../assets/buzzit/cut-learn.png';
 import cutHives from '../../assets/buzzit/cut-private-hives.png';
 import v1Discover from '../../assets/buzzit/v1-discover.png';
 import v1Social from '../../assets/buzzit/v1-social.png';
+import v1Post from '../../assets/buzzit/cut-post-types.png';
 import req1 from '../../assets/buzzit/requests-v1.png';
 import req2 from '../../assets/buzzit/requests-v2.png';
 import req3 from '../../assets/buzzit/requests-v3.png';
@@ -30,16 +31,16 @@ import spec from '../../assets/buzzit/spec-order-handoff.png';
 import team1 from '../../assets/buzzit/team-1.png';
 import team2 from '../../assets/buzzit/team-2.png';
 
-const ph = { widths: [300, 500, 800], sizes: '(min-width: 1024px) 220px, 30vw', quality: 88 };
-const tabs: [string, string][] = [['overview', 'Overview'], ['problem', 'Problem'], ['solution', 'Solution'], ['explore', 'Explore'], ['v1', 'Version 1'], ['decisions', 'Design decisions'], ['requests', 'Requests', true], ['listing', 'Listing questions', true], ['booking', 'Booking by chat', true], ['shipping', 'Shipping'], ['results', 'Results'], ['takeaways', 'Takeaways']];
+const ph = { widths: [300, 500, 800], sizes: '(min-width: 1024px) 240px, 25vw', quality: 88 };
+const tabs: [string, string][] = [['overview', 'Overview'], ['problem', 'Problem'], ['solution', 'Solution'], ['explore', 'Explore'], ['v1', 'Version 1'], ['decisions', 'Design decisions'], ['shipping', 'Shipping'], ['results', 'Results'], ['takeaways', 'Takeaways']];
 const facts: [string, string][] = [['Role', 'Sole product designer'], ['Timeline', 'Summer 2026'], ['Team', '2 co-founders, 2 developers, 1 marketer']];
 ---
 <Base title="Buzzit: a student marketplace, a case study by Ian Kim" description="Students wanted Buzzit, but only 22% of bookings finished. I redesigned the app so discovery leads to bookings and bookings get finished.">
   <div data-light="quiet">
   <CaseLayout label="Buzzit" title="From “I want this” to “we met up”" tabs={tabs} facts={facts} next={{ href: '/work/moober', title: 'Moober' }}>
-    <figure slot="open">
-      <div class="cd__plate cd__plate--tall">
-        <div class="cd__phones">
+    <figure slot="open" class="cd__fig">
+      <div class="cd__plate">
+        <div class="cd__phones cd__phones--two">
           <Image src={home} alt="The new Home: search, categories, a featured maker and listings with prices." {...ph} />
           <Image src={listing} alt="A gel manicure listing with the seller, Message, the seller's question and Request to book." {...ph} />
         </div>
@@ -60,15 +61,15 @@ const facts: [string, string][] = [['Role', 'Sole product designer'], ['Timeline
         <h2>Demand wasn't the problem. The path to meeting up was.</h2>
         <p>The spring launch showed students wanted Buzzit, but very few of the things they wanted ever turned into a finished meet-up. Every time change started a back-and-forth that busy students gave up on, and the Pinterest-style feed was fun, but students didn't use it to find things.</p>
       </div>
-      <figure>
-        <div class="cd__plate cd__plate--stats">
-          <div class="cd__stats">
-            <div class="cd__stat"><span class="cd__num">22%</span><span>of bookings were completed: 63 of 283</span></div>
-            <div class="cd__stat"><span class="cd__num">0</span><span>bookings from 10,000 feed impressions, at a 2.3% tap rate</span></div>
-          </div>
+      <div class="cd__stats">
+        <div class="cd__stat"><span class="cd__num">22%</span><p>of bookings were completed: 63 of 283</p></div>
+        <div class="cd__stat"><span class="cd__num">0</span><p>bookings from 10,000 feed impressions, at a 2.3% tap rate</p></div>
+      </div>
+      <figure class="cd__fig">
+        <div class="cd__plate">
           <div class="cd__phones">
             <div class="cd__ph"><Image src={oldFeed} alt="The spring app: a Pinterest-style feed of photos." {...ph} /><span>Feed</span></div>
-            <div class="cd__ph"><Image src={oldBusiness} alt="A seller's business page with services listed." {...ph} /><span>Business page</span></div>
+            <div class="cd__ph"><Image src={oldSearch} alt="The spring app's Businesses tab: a search bar over a grid of sellers." {...ph} /><span>Businesses</span></div>
             <div class="cd__ph"><Image src={oldBooking} alt="Booking a service by picking a time slot." {...ph} /><span>Booking</span></div>
           </div>
         </div>
@@ -85,8 +86,8 @@ const facts: [string, string][] = [['Role', 'Sole product designer'], ['Timeline
         <h2>A marketplace students already know how to use</h2>
       </div>
       <div class="cd__pair">
-        <div><p class="label">01</p><h3>Decide from the feed</h3><p>Price on every card and broad categories, so a student can decide from the feed instead of tapping into every listing.</p></div>
-        <div><p class="label">02</p><h3>Agree in a chat</h3><p>A request that opens a chat instead of a calendar, so the time gets agreed the way students already do it.</p></div>
+        <div><h4>Decide from the feed</h4><p>Price on every card and broad categories, so a student can decide from the feed instead of tapping into every listing.</p></div>
+        <div><h4>Agree in a chat</h4><p>A request that opens a chat instead of a calendar, so the time gets agreed the way students already do it.</p></div>
       </div>
     </section>
 
@@ -96,7 +97,7 @@ const facts: [string, string][] = [['Role', 'Sole product designer'], ['Timeline
         <h2>Four directions in a week, then a hybrid</h2>
         <p>The team explored four very different directions: social communities called Hives, a camera-first app with points (Justin), streaks and rankings (Vedant), and a marketplace (Shota and me). Each had something worth keeping, so Venice and I combined them into a hybrid and each interviewed three students with it.</p>
       </div>
-      <figure>
+      <figure class="cd__fig">
         <div class="cd__plate">
           <div class="cd__phones">
             <div class="cd__ph"><Image src={exploreSocial} alt="A teammate's Hives mockup: communities like Nail Techs and Barbers Guild, with Join buttons." {...ph} /><span>Social</span></div>
@@ -123,7 +124,7 @@ const facts: [string, string][] = [['Role', 'Sole product designer'], ['Timeline
           <h3>Cut before building</h3>
           <p>Every feature had to answer one question: does this help a student get from &ldquo;I want this&rdquo; to &ldquo;we met up&rdquo;? Streaks went, since discounts would be expensive and work against affordable prices. The Learn tab went, since students already learn on TikTok. Private Hives became public, club-focused ones.</p>
         </div>
-        <figure>
+        <figure class="cd__fig">
           <div class="cd__plate">
             <div class="cd__phones">
               <div class="cd__ph"><Image src={cutRankings} alt="UC Davis rankings: a leaderboard of students by streak." {...ph} /><span>Streaks and rankings</span></div>
@@ -142,18 +143,19 @@ const facts: [string, string][] = [['Role', 'Sole product designer'], ['Timeline
         <h2>The concepts weren't wrong. There were just too many of them.</h2>
         <p>I presented v1 on July 15, then led the next round of research: I split the interviews across all seven teammates, five each, and went through all <strong>35 interviews</strong> myself to find the main problems.</p>
       </div>
-      <figure>
+      <figure class="cd__fig">
         <div class="cd__plate">
           <div class="cd__phones">
             <div class="cd__ph"><Image src={v1Discover} alt="Version 1 Discover: search, categories, a featured maker and listings." {...ph} /><span>Discover</span></div>
             <div class="cd__ph"><Image src={v1Social} alt="Version 1 Social: a row of open asks above posts from hives." {...ph} /><span>Social</span></div>
+            <div class="cd__ph"><Image src={v1Post} alt="Version 1 New post: four post types (Showcase, Progress, Question, Model call), posted to a hive." {...ph} /><span>New post</span></div>
           </div>
         </div>
         <figcaption class="cd__cap"><span>Version 1</span><span>Presented July 15</span></figcaption>
       </figure>
       <div class="cd__pair">
-        <div><h3>What students liked</h3><ul><li>Discover made browsing easy</li><li>Profiles felt clear and personal</li><li>Onboarding was smooth</li></ul></div>
-        <div><h3>Where students got lost</h3><ul><li>Hives only made sense after reading the onboarding</li><li>Open asks looked like Hive posts</li><li>Three different places to start a post</li><li>Notifications, reviews and messages were easy to miss</li></ul></div>
+        <div><h4>What students liked</h4><ul><li>Discover made browsing easy</li><li>Profiles felt clear and personal</li><li>Onboarding was smooth</li></ul></div>
+        <div><h4>Where students got lost</h4><ul><li>Hives only made sense after reading the onboarding</li><li>Open asks looked like Hive posts</li><li>Three different places to start a post</li><li>Notifications, reviews and messages were easy to miss</li></ul></div>
       </div>
     </section>
 
@@ -169,7 +171,7 @@ const facts: [string, string][] = [['Role', 'Sole product designer'], ['Timeline
           <h3>Requests: from a tab to a list on Home</h3>
           <p>In v1, open asks sat in a small carousel next to Hive posts, and testers couldn't tell them apart. In v2 they got their own Asks tab, with filters and an &ldquo;I need this too&rdquo; button. Then I challenged my own design: a new feature with its own tab can easily look empty. I searched Reddit for &ldquo;looking for&rdquo; posts from Davis students and found about 20 to 30 over two to three quarters. Real demand, but not enough to fill a tab. In v3, Requests became a simple list on Home, with replies right on the card.</p>
         </div>
-        <figure>
+        <figure class="cd__fig">
           <div class="cd__plate">
             <div class="cd__phones">
               <div class="cd__ph"><Image src={req1} alt="Version 1: open asks in a carousel inside the Social tab." {...ph} /><span>V1</span></div>
@@ -181,7 +183,7 @@ const facts: [string, string][] = [['Role', 'Sole product designer'], ['Timeline
         <div class="cd__text">
           <p>The second tab went from Hives to Asks to Saved. Hives was cut from launch for the same reason: social features only work when lots of people use them.</p>
         </div>
-        <figure>
+        <figure class="cd__fig">
           <div class="cd__plate">
             <div class="cd__tabbars">
               <div class="cd__ph"><Image src={tabSocial} alt="The v1 tab bar with a Social tab." widths={[400, 786]} sizes="420px" /><span>V1</span></div>
@@ -199,7 +201,7 @@ const facts: [string, string][] = [['Role', 'Sole product designer'], ['Timeline
           <h3>Listing questions: the builder was deleted</h3>
           <p>Sellers often need something up front: a nail tech needs the length, a baker needs the name for the cake. V1 had builders for options and paid extras, plus a box explaining the difference, which was a sign the screen wasn't explaining itself. V2 moved that meaning into the labels, but sellers were still lost. Since Buzzit takes no payment, those totals were math nobody would be charged for. V3 deleted the builder: one optional field, &ldquo;Ask the buyer something&rdquo;, in the seller's own words.</p>
         </div>
-        <figure>
+        <figure class="cd__fig">
           <div class="cd__plate">
             <div class="cd__phones">
               <div class="cd__ph"><Image src={list1} alt="Version 1: price and options, with builders for options and extras and a rule-of-thumb box." {...ph} /><span>V1</span></div>
@@ -216,7 +218,7 @@ const facts: [string, string][] = [['Role', 'Sole product designer'], ['Timeline
           <h3>Booking by chat</h3>
           <p>Texting is how students already coordinate everything. Now a request opens a chat, the two agree on a time and place, and one tap confirms it. Some students asked for a calendar, but a calendar only works if sellers keep it current, and in spring they often didn't. The time and place are still recorded on the order.</p>
         </div>
-        <figure>
+        <figure class="cd__fig">
           <div class="cd__plate">
             <div class="cd__flow">
               <p class="label">Before</p>
@@ -235,7 +237,7 @@ const facts: [string, string][] = [['Role', 'Sole product designer'], ['Timeline
         <h2>Every state written down, so developers weren't guessing</h2>
         <p>I wrote lifecycle specs for every major flow, covering each state and edge case: a one-of-a-kind jacket can't be reserved twice, orders keep what was agreed even if the listing changes, and orders nobody confirms expire. Cutting Hives and the listing builder took two of the biggest pieces of work off a small team.</p>
       </div>
-      <figure>
+      <figure class="cd__fig">
         <div class="cd__plate"><Image class="cd__wide" src={spec} alt="The Order and Handoff lifecycle spec: four states, one door in." widths={[800, 1200, 1385]} sizes="760px" /></div>
         <figcaption class="cd__cap"><span>Order and handoff</span><span>One of the lifecycle specs</span></figcaption>
       </figure>
@@ -247,15 +249,10 @@ const facts: [string, string][] = [['Role', 'Sole product designer'], ['Timeline
         <h2>Completed bookings went from about 22% to about 92%</h2>
         <p>The fall numbers are a month in and the user base is smaller, and almost everything changed at once, so no single change gets the credit. Growing the number of users is the next challenge.</p>
       </div>
-      <figure>
-        <div class="cd__plate cd__plate--tall">
-          <div class="cd__stats">
-            <div class="cd__stat"><span class="cd__num">22%</span><span>Spring launch: 63 of 283 bookings completed, from 940 users</span></div>
-            <span class="cd__arrow" aria-hidden="true">&rarr;&#65038;</span>
-            <div class="cd__stat"><span class="cd__num">92%</span><span>Since October 1: 56 of 61 completed, from 147 users in the first month</span></div>
-          </div>
-        </div>
-      </figure>
+      <div class="cd__stats">
+        <div class="cd__stat"><span class="cd__num">22%</span><p>Spring launch: 63 of 283 bookings completed, from 940 users</p></div>
+        <div class="cd__stat"><span class="cd__num">92%</span><p>Since October 1: 56 of 61 completed, from 147 users in the first month</p></div>
+      </div>
     </section>
 
     <section class="cd__sec" id="takeaways">
@@ -264,14 +261,14 @@ const facts: [string, string][] = [['Role', 'Sole product designer'], ['Timeline
         <h2>What I took away</h2>
       </div>
       <ol class="cd__list cd__text">
-        <li><div><h3>Cut before adding</h3><p>Fewer features made Buzzit easier to use.</p></div></li>
-        <li><div><h3>Design for the supply you have</h3><p>Empty screens make a new app look dead.</p></div></li>
-        <li><div><h3>Challenge your own decisions with evidence</h3><p>The Requests tab was my idea, and my own Reddit research showed it wasn't ready.</p></div></li>
+        <li><div><h4>Cut before adding</h4><p>Fewer features made Buzzit easier to use.</p></div></li>
+        <li><div><h4>Design for the supply you have</h4><p>Empty screens make a new app look dead.</p></div></li>
+        <li><div><h4>Challenge your own decisions with evidence</h4><p>The Requests tab was my idea, and my own Reddit research showed it wasn't ready.</p></div></li>
       </ol>
       <div class="cd__text">
         <p>Next, Hives returns when there are enough students to fill it, and we keep interviewing students to find where Buzzit still falls short.</p>
       </div>
-      <figure>
+      <figure class="cd__fig">
         <div class="cd__photos">
           <Image src={team1} alt="Part of the Buzzit team at an event, smiling with lanyards on." widths={[500, 800]} sizes="(min-width: 1024px) 340px, 100vw" />
           <Image src={team2} alt="The Buzzit team standing together in matching navy shirts." widths={[600, 1080]} sizes="(min-width: 1024px) 460px, 100vw" />

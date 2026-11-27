@@ -644,20 +644,22 @@ blockquote.hmw { margin: 0; padding-block: var(--s-6); }
 .note h3 { font-weight: var(--w-strong); font-size: var(--fs-body); line-height: var(--lh-snug); color: var(--ink); }   /* a part's title: the same level as a box title */
 @media (max-width: 639px) { .plate { --pad: var(--s-4); } .plate--pair { gap: var(--s-3); } .tierstack { gap: var(--s-2); width: 62%; } }
 
-/* ---------- case study, two sidebars (src/components/CaseLayout.astro): the site sidebar, the sections list,
-   then the reading side. Serif headings, sans reading text, mono labels ---------- */
-/* ---------- frame ---------- */
+/* ---------- case study, two sidebars (src/components/CaseLayout.astro), 2026-11-27 ----------
+   Measured from the references (Caitlyn Li, LC, Bill Guo at 1440): small, even type with the hierarchy carried by
+   colour and face rather than size (a 12px mono label, a ~24px serif heading, ~15px sans reading text in a column of
+   about 55 characters); tight stacks inside a block and a lot of air between blocks; both sidebars in the same face
+   and size; every visual on a plate of one shape, so the page keeps a steady rhythm. */
 .cd { display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); column-gap: var(--gutter); padding: var(--page-top) var(--margin) var(--section); max-width: 2048px; margin-inline: auto; }
 .cd__site, .cd__tabs { display: none; }
 .cd__bar { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: baseline; }
 .cd__back { font-family: var(--serif); font-size: var(--fs-nav); line-height: var(--lh-nav); color: var(--ink-2); }
-.cd__main { grid-column: 1 / -1; display: grid; row-gap: var(--s-9); padding-top: var(--s-8); }
+.cd__main { grid-column: 1 / -1; display: grid; row-gap: var(--s-10); padding-top: var(--s-8); }
 .cd__main > * { grid-column: 1 / -1; min-width: 0; }
 @media (min-width: 1024px) {
   .cd__bar { display: none; }
   .cd__site { display: block; grid-column: 1 / span 2; }
-  /* laptops: the sections list waits for a wider screen, so the reading column keeps its width */
-  .cd__main { grid-column: 3 / -1; grid-template-columns: repeat(10, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: var(--s-10); padding-top: calc(var(--lh-nav) + var(--s-8)); }
+  /* laptops: the sections list waits for a wider screen, so the reading side keeps its width */
+  .cd__main { grid-column: 3 / -1; grid-template-columns: repeat(10, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: calc(var(--s-10) * 1.5); padding-top: calc(var(--lh-nav) + var(--s-8)); }
 }
 @media (min-width: 1280px) {
   .cd__tabs { display: block; grid-column: 3 / span 2; }
@@ -668,102 +670,91 @@ blockquote.hmw { margin: 0; padding-block: var(--s-6); }
 .cd__nav { display: grid; row-gap: var(--s-7); padding-top: var(--s-8); }
 .cd__nav .ix { grid-column: auto; }
 .cd__time { grid-column: 1; grid-row: 3; align-self: end; }
-
-/* the sections list: smaller and quieter than the site's Index, in the reading face, the current one in ink with a short rule */
-.cd__stick--tabs { padding-top: calc(var(--lh-nav) + var(--s-8)); display: grid; align-content: start; gap: var(--s-2); }
-.cd__tabs ol { display: grid; }
-.cd__tabs a { position: relative; display: block; padding-left: var(--s-5); font-size: var(--fs-small); line-height: var(--lh-nav); color: var(--ink-3); transition: color var(--dur-base) var(--ease); }
-.cd__tabs a::before { content: ""; position: absolute; left: 0; top: 50%; width: var(--s-3); height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform var(--dur-base) var(--ease); }
+/* the sections list: set exactly like the site's Index beside it (the label, then serif items on the same pitch),
+   without numbers; the section being read in ink and italic, the rest grey */
+.cd__stick--tabs { padding-top: calc(var(--lh-nav) + var(--s-8)); display: grid; align-content: start; }
+.cd__tabs .label { margin-bottom: var(--s-2); }
+.cd__tabs a { display: block; width: fit-content; padding-top: var(--s-1); font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-nav); line-height: var(--lh-nav); color: var(--ink-3); transition: color var(--dur-base) var(--ease); }
 .cd__tabs a:hover { color: var(--ink); text-decoration: none; }
-.cd__tabs a.is-on { color: var(--ink); }
-.cd__tabs a.is-on::before { transform: none; }
-.cd__tabs .is-sub a { padding-left: calc(var(--s-5) + var(--s-3)); }
+.cd__tabs a.is-on { color: var(--ink); font-style: italic; }
 
-/* ---------- opening: a label, the title, one row of facts, one plate ---------- */
-.cd__open, .cd__sec, .cd__sub { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: var(--s-7); }
+/* ---------- the opening: label, a one-line title, the facts across the column, then one plate ---------- */
+.cd__open, .cd__sec, .cd__sub { display: grid; grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 1024px) { .cd__open, .cd__sec, .cd__sub { grid-template-columns: subgrid; } }
 .cd__open > *, .cd__sec > *, .cd__sub > * { grid-column: 1 / -1; min-width: 0; }
-.cd__open { row-gap: var(--s-4); }
-.cd__open h1 { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-heading-l); line-height: var(--lh-heading); letter-spacing: var(--track-heading); max-width: 20ch; text-wrap: balance; }
-.cd__facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: var(--s-4); margin-top: var(--s-4); margin-bottom: var(--s-6); }
-@media (min-width: 768px) { .cd__facts { grid-template-columns: repeat(3, max-content); column-gap: var(--s-8); } }
+.cd__open > .label { margin-bottom: var(--s-2); }
+.cd__open h1 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); text-wrap: balance; }
+.cd__facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4) var(--gutter); margin-block: var(--s-6) var(--s-7); }
+@media (min-width: 768px) { .cd__facts { grid-template-columns: 1fr 1fr 2fr; } }
 .cd__facts div { display: grid; gap: var(--s-1); align-content: start; }
 .cd__facts dd { font-size: var(--fs-small); line-height: var(--lh-text); color: var(--ink); }
 
-/* ---------- a section: label, heading, text, then the visual ---------- */
-.cd__sec { scroll-margin-top: var(--s-7); }
-.cd__sub { row-gap: var(--s-6); margin-top: var(--s-7); scroll-margin-top: var(--s-7); }
-/* the reading column: about 65 characters at every desktop width */
-@media (min-width: 1024px) { .cd__open > .cd__text, .cd__sec > .cd__text, .cd__sub > .cd__text { grid-column: 1 / span 6; } }
-@media (min-width: 1280px) { .cd__open > .cd__text, .cd__sec > .cd__text, .cd__sub > .cd__text { grid-column: 1 / span 5; } }
-.cd__text { display: grid; gap: var(--s-4); max-width: var(--measure); }
-.cd__text .label + h2, .cd__text .label + h3 { margin-top: calc(var(--s-2) * -1); }
-.cd__text h2 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); text-wrap: balance; }
-.cd__text h3 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-nav); line-height: var(--lh-nav); color: var(--ink); }
-.cd__text p:not(.label), .cd__pair p, .cd__pair li, .cd__list p { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); text-wrap: pretty; }
+/* ---------- a section: label, heading, text; then the visual well below it ---------- */
+.cd__sec, .cd__sub { row-gap: var(--s-6); scroll-margin-top: var(--s-7); }
+.cd__sub { margin-top: var(--s-8); }
+@media (min-width: 1024px) { .cd__sec, .cd__sub { row-gap: var(--s-8); } .cd__sub { margin-top: var(--s-9); } }
+@media (min-width: 1024px) { .cd__sec > .cd__text, .cd__sub > .cd__text { grid-column: 1 / span 5; } }
+.cd__text { display: grid; row-gap: var(--s-4); }
+.cd__text > .label { margin-bottom: calc(var(--s-2) - var(--s-4)); }
+.cd__text h2, .cd__text h3 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); color: var(--ink); text-wrap: balance; }
+.cd__text p:not(.label), .cd__pair p, .cd__pair li, .cd__list p, .cd__stat p { max-width: var(--measure-note); font-size: var(--fs-small); line-height: var(--lh-text); color: var(--ink-2); text-wrap: pretty; }
 .cd strong { font-weight: var(--w-strong); color: var(--ink); }
 
-/* two short blocks side by side, the second a step lower, like paired panels on an exhibition wall */
+/* two short blocks side by side: a small title in ink, then a line or a list */
 .cd__pair { display: grid; row-gap: var(--s-6); }
 .cd__pair > div { display: grid; gap: var(--s-2); align-content: start; }
-.cd__pair .label { margin-bottom: var(--s-1); }
-.cd__pair h3 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-nav); line-height: var(--lh-nav); color: var(--ink); }
-.cd__pair ul { display: grid; gap: var(--s-2); }
-.cd__pair li { position: relative; padding-left: var(--s-5); }
+.cd__pair h4, .cd__list h4 { font-size: var(--fs-small); line-height: var(--lh-text); font-weight: var(--w-strong); color: var(--ink); }
+.cd__pair ul { display: grid; gap: var(--s-1); }
+.cd__pair li { position: relative; padding-left: var(--s-4); }
 .cd__pair li::before { content: "\2013"; position: absolute; left: 0; color: var(--ink-3); }
-/* what people said: serif italic in ink, the one place reading text is set in the serif */
+/* what people said: serif italic in ink, staggered like panels on an exhibition wall */
+.cd__pair--quiet { row-gap: var(--s-7); }
 .cd__pair--quiet p { font-family: var(--serif); font-style: italic; font-size: var(--fs-nav); line-height: var(--lh-snug); color: var(--ink); }
-@media (min-width: 768px) {
-  .cd__pair { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gutter); }
-  .cd__pair > :nth-child(even) { padding-top: var(--s-6); }
-}
+@media (min-width: 768px) { .cd__pair { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gutter); } }
 @media (min-width: 1024px) {
   .cd__pair { grid-template-columns: subgrid; }
-  .cd__pair > :nth-child(odd) { grid-column: 1 / span 3; }
-  .cd__pair > :nth-child(even) { grid-column: 5 / span 3; }
+  .cd__pair > :nth-child(odd) { grid-column: 1 / span 4; }
+  .cd__pair > :nth-child(even) { grid-column: 5 / span 4; }
+  .cd__pair--quiet > :nth-child(even) { padding-top: var(--s-7); }
 }
 
-/* a short numbered list, for takeaways */
+/* numbers: set as text, not on a plate. A big serif figure, a line under it */
+.cd__stats { display: grid; row-gap: var(--s-6); }
+.cd__stat { display: grid; gap: var(--s-2); align-content: start; }
+.cd__num { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); color: var(--ink); }
+@media (min-width: 768px) { .cd__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gutter); } }
+@media (min-width: 1024px) { .cd__stats { grid-template-columns: subgrid; } .cd__stat:nth-child(odd) { grid-column: 1 / span 4; } .cd__stat:nth-child(even) { grid-column: 5 / span 4; } }
+
+/* a numbered list, for takeaways */
 .cd__list { display: grid; gap: var(--s-5); counter-reset: cd; }
 .cd__list li { display: grid; grid-template-columns: var(--s-7) minmax(0, 1fr); counter-increment: cd; }
-.cd__list li::before { content: counter(cd, decimal-leading-zero); font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-text); letter-spacing: var(--track-mono); color: var(--ink-3); padding-top: 2px; }
-.cd__list h3 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-nav); line-height: var(--lh-nav); color: var(--ink); margin-bottom: var(--s-1); }
+.cd__list li::before { content: counter(cd, decimal-leading-zero); font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-text); letter-spacing: var(--track-mono); color: var(--ink-3); }
+.cd__list li > div { display: grid; gap: var(--s-1); }
 
-/* ---------- plates: the neutral ground every visual sits on; the whole visual fits on one screen ---------- */
-.cd__plate { background: var(--plate); padding: var(--s-6) var(--s-4); display: grid; gap: var(--s-7); justify-items: center; align-content: center; }
-@media (min-width: 768px) { .cd__plate { padding: var(--s-8) var(--s-6); } }
-.cd__phones { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: var(--s-4); }
-@media (min-width: 768px) { .cd__phones { gap: var(--s-6); } }
+/* ---------- plates: every visual on the same neutral ground, all one shape (3 : 2 of the column), so the page
+   keeps one rhythm. Phones are sized from the plate's width, so a row of them always sits inside it ---------- */
+.cd__fig { display: grid; gap: var(--s-3); }
+.cd__plate { container-type: inline-size; aspect-ratio: 3 / 2; background: var(--plate); display: grid; place-items: center; overflow: hidden; }
+.cd__phones { display: flex; justify-content: center; align-items: flex-start; gap: var(--s-5); }
+@media (min-width: 1024px) { .cd__phones { gap: var(--s-7); } }
 .cd__ph { display: grid; gap: var(--s-3); justify-items: center; }
-/* phones and tablets: a row always stays one row, each phone sharing the plate's width */
-.cd__phones { flex-wrap: nowrap; }
-.cd__ph, .cd__phones > img { flex: 0 1 220px; min-width: 0; }
-.cd__ph img, .cd__phones > img { width: 100%; height: auto; filter: var(--shadow-phone); }
-/* desktop: phones are sized by the window's height, so a row of them and its labels always fit on screen */
-@media (min-width: 1024px) {
-  .cd__ph, .cd__phones > img { flex: none; }
-  .cd__ph img, .cd__phones > img { width: auto; height: clamp(320px, 52svh, 520px); }
-  .cd__open .cd__phones > img { height: clamp(360px, 60svh, 600px); }
-  .cd__plate--stats .cd__ph img { height: clamp(280px, 42svh, 440px); }
-}
+.cd__ph img, .cd__phones > img { width: auto; height: 50cqw; filter: var(--shadow-phone); }
+.cd__phones--two .cd__ph img, .cd__phones--two > img { height: 54cqw; }
 .cd__ph span { font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); }
-.cd__stats { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--s-6) var(--s-9); }
-.cd__stat { display: grid; gap: var(--s-2); max-width: 20ch; font-size: var(--fs-small); line-height: var(--lh-text); color: var(--ink-2); }
-.cd__num { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); color: var(--ink); }
-.cd__arrow { align-self: center; font-family: var(--serif); font-size: var(--fs-heading); color: var(--ink-3); }
-.cd__wide { width: 100%; max-width: var(--measure-wide); height: auto; box-shadow: var(--shadow-screen); }
-.cd__tabbars { display: grid; gap: var(--s-5); width: min(100%, 420px); }
+.cd__wide { width: 84cqw; height: auto; box-shadow: var(--shadow-screen); }
+.cd__tabbars { display: grid; gap: var(--s-5); width: 56cqw; }
 .cd__tabbars .cd__ph { grid-template-columns: var(--s-9) minmax(0, 1fr); align-items: center; justify-items: start; }
 .cd__tabbars .cd__ph span { order: -1; }
 .cd__tabbars .cd__ph img { width: 100%; height: auto; }
-.cd__flow { display: grid; gap: var(--s-3); width: min(100%, 640px); }
+.cd__flow { display: grid; gap: var(--s-3); width: 80cqw; }
 .cd__flow ol { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-bottom: var(--s-5); }
 .cd__flow li { padding: var(--s-2) var(--s-4); background: var(--surface); box-shadow: var(--shadow-card); font-size: var(--fs-small); line-height: var(--lh-snug); color: var(--ink-2); }
 .cd__flow .is-after li { color: var(--ink); }
 .cd__flow li + li { position: relative; margin-left: var(--s-5); }
 .cd__flow li + li::before { content: "\2192\FE0E"; position: absolute; left: calc((var(--s-2) + var(--s-5)) / -2); top: 50%; transform: translate(-50%, -50%); color: var(--ink-3); }
-/* the caption: what it is in ink, the detail in grey */
-.cd__cap { display: flex; flex-wrap: wrap; column-gap: var(--s-2); margin-top: var(--s-3); font-size: var(--fs-small); line-height: var(--lh-text); color: var(--ink-3); }
+@media (max-width: 767px) { .cd__plate:has(.cd__flow) { aspect-ratio: auto; padding: var(--s-6) var(--s-4); } .cd__flow { width: 100%; } }
+/* the caption: what it is in ink, the detail in grey, small */
+.cd__cap { display: flex; flex-wrap: wrap; column-gap: var(--s-2); font-size: var(--fs-label-l); line-height: var(--lh-text); color: var(--ink-3); }
 .cd__cap span:first-child { color: var(--ink); }
 .cd__cap span:first-child:not(:last-child)::after { content: " /"; color: var(--ink-3); }
 
