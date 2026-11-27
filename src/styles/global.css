@@ -670,13 +670,13 @@ blockquote.hmw { margin: 0; padding-block: var(--s-6); }
 .cd__nav { display: grid; row-gap: var(--s-7); padding-top: var(--s-8); }
 .cd__nav .ix { grid-column: auto; }
 .cd__time { grid-column: 1; grid-row: 3; align-self: end; }
-/* the sections list: set exactly like the site's Index beside it (the label, then serif items on the same pitch),
-   without numbers; the section being read in ink and italic, the rest grey */
+/* the sections list: small grey text in the reading face, so it stays quieter than the site's Index beside it;
+   the section being read in ink */
 .cd__stick--tabs { padding-top: calc(var(--lh-nav) + var(--s-8)); display: grid; align-content: start; }
-.cd__tabs .label { margin-bottom: var(--s-2); }
-.cd__tabs a { display: block; width: fit-content; padding-top: var(--s-1); font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-nav); line-height: var(--lh-nav); color: var(--ink-3); transition: color var(--dur-base) var(--ease); }
+.cd__tabs .label { margin-bottom: var(--s-3); }
+.cd__tabs a { display: block; width: fit-content; font-size: var(--fs-small); line-height: var(--lh-text); color: var(--ink-3); transition: color var(--dur-base) var(--ease); }
 .cd__tabs a:hover { color: var(--ink); text-decoration: none; }
-.cd__tabs a.is-on { color: var(--ink); font-style: italic; }
+.cd__tabs a.is-on { color: var(--ink); }
 
 /* ---------- the opening: label, a one-line title, the facts across the column, then one plate ---------- */
 .cd__open, .cd__sec, .cd__sub { display: grid; grid-template-columns: minmax(0, 1fr); }
@@ -773,3 +773,4 @@ blockquote.hmw { margin: 0; padding-block: var(--s-6); }
 .cd__next-t { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); color: var(--ink); }
 .cd__next .arrow { display: inline-block; transition: transform var(--dur-base) var(--ease); }
 .cd__next:hover .arrow { transform: translateX(var(--s-2)); }
+
