@@ -1,0 +1,75 @@
+---
+// A case study (2026-11-26, refined): the site's sidebar (name, index, Say hello, the time) in columns 1-2, a second,
+// quieter sidebar of the case study's own sections in columns 3-4, and the reading side in columns 5-12.
+// Type follows the system: serif headings, sans reading text, mono labels (the same sizes as the preview site).
+// Styles: global.css, "case study, two sidebars". Every section reads in the same order: label, heading, a short text in a narrow column, then one visual on a plate
+// that fits on one screen, with a caption under it.
+import { links } from '../data/site';
+interface Props { label: string; title: string; tabs: [string, string, boolean?][]; facts: [string, string][]; next?: { href: string; title: string } }
+const { label, title, tabs, facts, next } = Astro.props;
+---
+<div class="cd">
+  <!-- phones and tablets: just the name and the way back; the sidebars are for wide screens -->
+  <header class="cd__bar"><a class="name" href="/">Ian Kim</a><a class="cd__back" href="/">&larr;&#65038; Work</a></header>
+  <aside class="cd__site">
+    <div class="cd__stick cd__stick--site">
+      <a class="name" href="/">Ian Kim</a>
+      <nav class="cd__nav" aria-label="Site">
+        <div class="ix">
+          <p class="label">Index</p>
+          <a href="/" aria-current="page"><span>Work</span><span class="ix__n">01</span></a>
+          <a href="/about"><span>About</span><span class="ix__n">02</span></a>
+          <span class="ix__soon"><span>Studio</span><span class="ix__n">03</span><span class="ix__tag">Soon</span></span>
+        </div>
+        <div class="ix">
+          <p class="label">Say hello</p>
+          <a href={links.linkedin} target="_blank" rel="noopener"><span>LinkedIn</span><span class="ix__n">&nearr;&#65038;</span></a>
+          {links.twitter && <a href={links.twitter} target="_blank" rel="noopener"><span>Twitter</span><span class="ix__n">&nearr;&#65038;</span></a>}
+          <a href={links.email}><span>Email</span><span class="ix__n">&nearr;&#65038;</span></a>
+        </div>
+      </nav>
+      <p class="hero__time label cd__time"><span>San Francisco, California</span><span data-clock>&nbsp;</span></p>
+    </div>
+  </aside>
+
+  <!-- the same height as the site sidebar, so the two let go of the page together -->
+  <aside class="cd__tabs">
+    <nav class="cd__stick cd__stick--tabs" aria-label="Sections">
+      <p class="label">{label}</p>
+      <ol>{tabs.map(([id, t, sub], i) => <li class={sub ? 'is-sub' : undefined}><a href={`#${id}`} class={i === 0 ? 'is-on' : undefined}>{t}</a></li>)}</ol>
+    </nav>
+  </aside>
+
+  <main class="cd__main">
+    <header class="cd__open" id={tabs[0][0]}>
+      <p class="label">{label} &middot; 2026</p>
+      <h1>{title}</h1>
+      <dl class="cd__facts">{facts.map(([k, d]) => <div><dt class="label">{k}</dt><dd>{d}</dd></div>)}</dl>
+      <slot name="open" />
+    </header>
+    <slot />
+    {next && <a class="cd__next" href={next.href}><span class="label">Next case study</span><span class="cd__next-t">{next.title} <span class="arrow" aria-hidden="true">&rarr;&#65038;</span></span></a>}
+  </main>
+</div>
+<script>
+  // the section being read is the last one whose top has passed 40% of the window; it is marked in the second sidebar
+  const init = () => {
+    const links = [...document.querySelectorAll<HTMLAnchorElement>('.cd__tabs a')];
+    if (!links.length) return;
+    const targets = links.map((a) => document.getElementById(a.hash.slice(1)));
+    let q = 0;
+    const mark = () => {
+      q = 0;
+      const line = innerHeight * 0.4;
+      let on = 0;
+      targets.forEach((t, i) => { if (t && t.getBoundingClientRect().top <= line) on = i; });
+      if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) on = links.length - 1;
+      links.forEach((a, i) => a.classList.toggle('is-on', i === on));
+    };
+    const onScroll = () => { if (!q) q = requestAnimationFrame(mark); };
+    mark();
+    addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('astro:before-swap', () => removeEventListener('scroll', onScroll), { once: true });
+  };
+  document.addEventListener('astro:page-load', init);
+</script>

@@ -1,5 +1,5 @@
 // Screenshots of sections of a page on the dev server, in headless Chrome, for checking layouts.
-//   node scripts/shot.mjs <outdir> <path> <WxH,WxH> "<selector|selector>"
+//   node scripts/shot.mjs <outdir> <path> <WxH,WxH> "<selector|selector>"   (DPR=2 for retina, as Ian sees it)
 // writes <outdir>/<width>-<nn>.jpg, one per selector, each scrolled to that element
 import { spawn } from 'node:child_process'; import { writeFileSync, mkdirSync } from 'node:fs';
 const [, , outdir, path, sizesArg, selArg] = process.argv; mkdirSync(outdir, { recursive: true });
@@ -14,7 +14,7 @@ const send = (method, params = {}) => new Promise((r) => { const i = ++id; pend.
 const ev = async (x) => (await send('Runtime.evaluate', { expression: x, awaitPromise: true, returnByValue: true })).result?.result?.value;
 await send('Page.enable'); await send('Page.bringToFront');
 for (const [w, h] of sizes) {
-  await send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile: w < 768 });
+  await send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: Number(process.env.DPR || 1), mobile: w < 768 });
   await send('Page.navigate', { url: `http://localhost:4321${path}` }); await sleep(5000);
   for (const [k, sel] of sels.entries()) {
     await ev(`(async () => { const el = document.querySelector('${sel}'); scrollTo(0, el.getBoundingClientRect().top + scrollY - 60); await new Promise(r => setTimeout(r, 3500)); })()`);

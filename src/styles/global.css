@@ -586,7 +586,7 @@ html[data-intro].is-skipping .intro__flare { animation-delay: 150ms; animation-d
 .note p:not(.sec__label) { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); max-width: 72ch; }
 .note strong { font-weight: var(--w-strong); color: var(--ink); }
 .plate { --pad: 4%; position: relative; margin: 0; aspect-ratio: 3 / 2; display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center; padding: var(--pad); border-radius: var(--r-l); background: var(--paper) url('/assets/plate-paper.jpg') center / cover; overflow: hidden; }
-.plate img:not(.cs-cover img, .ph img, .tab img) { display: block; border-radius: var(--r-s); box-shadow: var(--shadow-screen); }
+.plate img:not(.cs-cover img) { display: block; border-radius: var(--r-s); box-shadow: var(--shadow-screen); }
 .plate > img { width: auto; height: auto; max-width: 100%; max-height: 100%; }
 /* a desktop screen and its phone, side by side at one height */
 .plate--pair { display: flex; align-items: center; justify-content: center; gap: var(--s-5); }
@@ -597,7 +597,7 @@ html[data-intro].is-skipping .intro__flare { animation-delay: 150ms; animation-d
 .tierstack img { width: 100%; height: auto; }
 /* words go in boxes: a soft tint of the paper, a mono number, a short title and a line */
 .cards { display: grid; gap: var(--s-4); }
-@media (min-width: 768px) { .cards--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .cards--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 768px) { .cards--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .card { display: grid; gap: var(--s-2); align-content: start; padding: clamp(var(--s-5), 2vw, var(--s-6)); border-radius: var(--r-l); background: var(--tint); }
 .card h3 { font-weight: var(--w-strong); font-size: var(--fs-body); line-height: var(--lh-snug); color: var(--ink); }
 .card p { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); }
@@ -620,36 +620,12 @@ html[data-intro].is-skipping .intro__flare { animation-delay: 150ms; animation-d
 /* a screen shown with one short caption under it */
 .shown { display: grid; gap: var(--s-3); margin: 0; }
 .shown .caption { text-align: center; }
-/* phones on a plate: a row at one height, each named beneath */
-.plate--phones { display: flex; align-items: center; justify-content: center; gap: clamp(var(--s-4), 4%, var(--s-7)); --pad: 4%; }
 /* a single screen takes its own shape, so the plate is only as tall as the screen needs */
 .plate:has(> img:only-child) { aspect-ratio: auto; }
 .plate > img:only-child { width: 100%; max-height: none; }
-.ph { height: 100%; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: var(--s-2); }
-.ph img { height: calc(100% - var(--s-6)); width: auto; max-width: 100%; filter: var(--shadow-phone); }
-.tab span { order: -1; }
-.ph span, .tab span { font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); }
-/* tab bars stacked, each named on its left */
-.plate--tabs { display: grid; align-content: center; justify-items: center; gap: var(--s-4); }
-.tab { display: grid; grid-template-columns: var(--s-9) minmax(0, 1fr); align-items: center; gap: var(--s-4); width: min(100%, 520px); }
-.tab img { width: 100%; height: auto; border-radius: var(--r-l); filter: var(--shadow-phone); }
-/* a flow: two rows of steps, the old loop marked */
-.plate--flow { --pad: 6%; }
-@media (max-width: 767px) { .plate--flow { aspect-ratio: auto; } }
-.flow { display: grid; gap: var(--s-3); width: 100%; }
-.flow__row + .label { margin-top: var(--s-5); }
-.flow__row { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2); }
-.flow__row li { padding: var(--s-2) var(--s-4); border-radius: var(--r-pill); background: var(--surface); box-shadow: var(--shadow-card); font-size: var(--fs-small); line-height: var(--lh-snug); color: var(--ink); }
-.flow__row li + li { position: relative; margin-left: var(--s-5); }
-.flow__row li + li::before { content: '\2192\FE0E'; position: absolute; left: calc((var(--s-2) + var(--s-5)) / -2); top: 50%; transform: translate(-50%, -50%); color: var(--ink-3); }
-.flow__row .is-loop { background: transparent; box-shadow: inset 0 0 0 1px var(--blue-line); color: var(--blue); }
-.flow__row.is-after li { box-shadow: inset 0 0 0 1px var(--blue-line), var(--shadow-card); }
 /* boxes: a big figure, a number, a list, or a paraphrased quote */
 .card p.big { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); color: var(--blue); }
-.card p.num { font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); color: var(--accent); }
 .card ul { display: grid; gap: var(--s-1); padding-left: var(--s-4); font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); }
-.quotes .card { margin: 0; }
-.quotes .card p { font-family: var(--serif); font-style: italic; font-size: var(--fs-body); line-height: var(--lh-text); color: var(--ink); }
 blockquote.hmw { margin: 0; padding-block: var(--s-6); }
 /* boxes: a tag or a number, a title, a line. Wide boxes span the row */
 /* the question: a centred italic line over a soft watercolor bloom */
@@ -667,3 +643,141 @@ blockquote.hmw { margin: 0; padding-block: var(--s-6); }
 .decision { display: grid; gap: var(--s-5); margin-top: var(--s-5); }   /* a part of a section: the same note-to-visual gap as the section, a clear break above */
 .note h3 { font-weight: var(--w-strong); font-size: var(--fs-body); line-height: var(--lh-snug); color: var(--ink); }   /* a part's title: the same level as a box title */
 @media (max-width: 639px) { .plate { --pad: var(--s-4); } .plate--pair { gap: var(--s-3); } .tierstack { gap: var(--s-2); width: 62%; } }
+
+/* ---------- case study, two sidebars (src/components/CaseLayout.astro): the site sidebar, the sections list,
+   then the reading side. Serif headings, sans reading text, mono labels ---------- */
+/* ---------- frame ---------- */
+.cd { display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); column-gap: var(--gutter); padding: var(--page-top) var(--margin) var(--section); max-width: 2048px; margin-inline: auto; }
+.cd__site, .cd__tabs { display: none; }
+.cd__bar { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: baseline; }
+.cd__back { font-family: var(--serif); font-size: var(--fs-nav); line-height: var(--lh-nav); color: var(--ink-2); }
+.cd__main { grid-column: 1 / -1; display: grid; row-gap: var(--s-9); padding-top: var(--s-8); }
+.cd__main > * { grid-column: 1 / -1; min-width: 0; }
+@media (min-width: 1024px) {
+  .cd__bar { display: none; }
+  .cd__site { display: block; grid-column: 1 / span 2; }
+  /* laptops: the sections list waits for a wider screen, so the reading column keeps its width */
+  .cd__main { grid-column: 3 / -1; grid-template-columns: repeat(10, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: var(--s-10); padding-top: calc(var(--lh-nav) + var(--s-8)); }
+}
+@media (min-width: 1280px) {
+  .cd__tabs { display: block; grid-column: 3 / span 2; }
+  .cd__main { grid-column: 5 / -1; grid-template-columns: repeat(8, minmax(0, 1fr)); }
+}
+.cd__stick { position: sticky; top: var(--page-top); height: calc(100svh - var(--page-top) - var(--s-7)); }
+.cd__stick--site { display: grid; grid-template-rows: auto auto 1fr; }
+.cd__nav { display: grid; row-gap: var(--s-7); padding-top: var(--s-8); }
+.cd__nav .ix { grid-column: auto; }
+.cd__time { grid-column: 1; grid-row: 3; align-self: end; }
+
+/* the sections list: smaller and quieter than the site's Index, in the reading face, the current one in ink with a short rule */
+.cd__stick--tabs { padding-top: calc(var(--lh-nav) + var(--s-8)); display: grid; align-content: start; gap: var(--s-2); }
+.cd__tabs ol { display: grid; }
+.cd__tabs a { position: relative; display: block; padding-left: var(--s-5); font-size: var(--fs-small); line-height: var(--lh-nav); color: var(--ink-3); transition: color var(--dur-base) var(--ease); }
+.cd__tabs a::before { content: ""; position: absolute; left: 0; top: 50%; width: var(--s-3); height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform var(--dur-base) var(--ease); }
+.cd__tabs a:hover { color: var(--ink); text-decoration: none; }
+.cd__tabs a.is-on { color: var(--ink); }
+.cd__tabs a.is-on::before { transform: none; }
+.cd__tabs .is-sub a { padding-left: calc(var(--s-5) + var(--s-3)); }
+
+/* ---------- opening: a label, the title, one row of facts, one plate ---------- */
+.cd__open, .cd__sec, .cd__sub { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: var(--s-7); }
+@media (min-width: 1024px) { .cd__open, .cd__sec, .cd__sub { grid-template-columns: subgrid; } }
+.cd__open > *, .cd__sec > *, .cd__sub > * { grid-column: 1 / -1; min-width: 0; }
+.cd__open { row-gap: var(--s-4); }
+.cd__open h1 { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-heading-l); line-height: var(--lh-heading); letter-spacing: var(--track-heading); max-width: 20ch; text-wrap: balance; }
+.cd__facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: var(--s-4); margin-top: var(--s-4); margin-bottom: var(--s-6); }
+@media (min-width: 768px) { .cd__facts { grid-template-columns: repeat(3, max-content); column-gap: var(--s-8); } }
+.cd__facts div { display: grid; gap: var(--s-1); align-content: start; }
+.cd__facts dd { font-size: var(--fs-small); line-height: var(--lh-text); color: var(--ink); }
+
+/* ---------- a section: label, heading, text, then the visual ---------- */
+.cd__sec { scroll-margin-top: var(--s-7); }
+.cd__sub { row-gap: var(--s-6); margin-top: var(--s-7); scroll-margin-top: var(--s-7); }
+/* the reading column: about 65 characters at every desktop width */
+@media (min-width: 1024px) { .cd__open > .cd__text, .cd__sec > .cd__text, .cd__sub > .cd__text { grid-column: 1 / span 6; } }
+@media (min-width: 1280px) { .cd__open > .cd__text, .cd__sec > .cd__text, .cd__sub > .cd__text { grid-column: 1 / span 5; } }
+.cd__text { display: grid; gap: var(--s-4); max-width: var(--measure); }
+.cd__text .label + h2, .cd__text .label + h3 { margin-top: calc(var(--s-2) * -1); }
+.cd__text h2 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-subheading); line-height: var(--lh-heading); letter-spacing: var(--track-heading); text-wrap: balance; }
+.cd__text h3 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-nav); line-height: var(--lh-nav); color: var(--ink); }
+.cd__text p:not(.label), .cd__pair p, .cd__pair li, .cd__list p { font-size: var(--fs-body-s); line-height: var(--lh-text); color: var(--ink-2); text-wrap: pretty; }
+.cd strong { font-weight: var(--w-strong); color: var(--ink); }
+
+/* two short blocks side by side, the second a step lower, like paired panels on an exhibition wall */
+.cd__pair { display: grid; row-gap: var(--s-6); }
+.cd__pair > div { display: grid; gap: var(--s-2); align-content: start; }
+.cd__pair .label { margin-bottom: var(--s-1); }
+.cd__pair h3 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-nav); line-height: var(--lh-nav); color: var(--ink); }
+.cd__pair ul { display: grid; gap: var(--s-2); }
+.cd__pair li { position: relative; padding-left: var(--s-5); }
+.cd__pair li::before { content: "\2013"; position: absolute; left: 0; color: var(--ink-3); }
+/* what people said: serif italic in ink, the one place reading text is set in the serif */
+.cd__pair--quiet p { font-family: var(--serif); font-style: italic; font-size: var(--fs-nav); line-height: var(--lh-snug); color: var(--ink); }
+@media (min-width: 768px) {
+  .cd__pair { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gutter); }
+  .cd__pair > :nth-child(even) { padding-top: var(--s-6); }
+}
+@media (min-width: 1024px) {
+  .cd__pair { grid-template-columns: subgrid; }
+  .cd__pair > :nth-child(odd) { grid-column: 1 / span 3; }
+  .cd__pair > :nth-child(even) { grid-column: 5 / span 3; }
+}
+
+/* a short numbered list, for takeaways */
+.cd__list { display: grid; gap: var(--s-5); counter-reset: cd; }
+.cd__list li { display: grid; grid-template-columns: var(--s-7) minmax(0, 1fr); counter-increment: cd; }
+.cd__list li::before { content: counter(cd, decimal-leading-zero); font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-text); letter-spacing: var(--track-mono); color: var(--ink-3); padding-top: 2px; }
+.cd__list h3 { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-nav); line-height: var(--lh-nav); color: var(--ink); margin-bottom: var(--s-1); }
+
+/* ---------- plates: the neutral ground every visual sits on; the whole visual fits on one screen ---------- */
+.cd__plate { background: var(--plate); padding: var(--s-6) var(--s-4); display: grid; gap: var(--s-7); justify-items: center; align-content: center; }
+@media (min-width: 768px) { .cd__plate { padding: var(--s-8) var(--s-6); } }
+.cd__phones { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: var(--s-4); }
+@media (min-width: 768px) { .cd__phones { gap: var(--s-6); } }
+.cd__ph { display: grid; gap: var(--s-3); justify-items: center; }
+/* phones and tablets: a row always stays one row, each phone sharing the plate's width */
+.cd__phones { flex-wrap: nowrap; }
+.cd__ph, .cd__phones > img { flex: 0 1 220px; min-width: 0; }
+.cd__ph img, .cd__phones > img { width: 100%; height: auto; filter: var(--shadow-phone); }
+/* desktop: phones are sized by the window's height, so a row of them and its labels always fit on screen */
+@media (min-width: 1024px) {
+  .cd__ph, .cd__phones > img { flex: none; }
+  .cd__ph img, .cd__phones > img { width: auto; height: clamp(320px, 52svh, 520px); }
+  .cd__open .cd__phones > img { height: clamp(360px, 60svh, 600px); }
+  .cd__plate--stats .cd__ph img { height: clamp(280px, 42svh, 440px); }
+}
+.cd__ph span { font-family: var(--mono); font-size: var(--fs-label); line-height: var(--lh-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); }
+.cd__stats { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--s-6) var(--s-9); }
+.cd__stat { display: grid; gap: var(--s-2); max-width: 20ch; font-size: var(--fs-small); line-height: var(--lh-text); color: var(--ink-2); }
+.cd__num { font-family: var(--serif); font-weight: var(--w-serif-light); font-size: var(--fs-title); line-height: var(--lh-tight); letter-spacing: var(--track-display); color: var(--ink); }
+.cd__arrow { align-self: center; font-family: var(--serif); font-size: var(--fs-heading); color: var(--ink-3); }
+.cd__wide { width: 100%; max-width: var(--measure-wide); height: auto; box-shadow: var(--shadow-screen); }
+.cd__tabbars { display: grid; gap: var(--s-5); width: min(100%, 420px); }
+.cd__tabbars .cd__ph { grid-template-columns: var(--s-9) minmax(0, 1fr); align-items: center; justify-items: start; }
+.cd__tabbars .cd__ph span { order: -1; }
+.cd__tabbars .cd__ph img { width: 100%; height: auto; }
+.cd__flow { display: grid; gap: var(--s-3); width: min(100%, 640px); }
+.cd__flow ol { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-bottom: var(--s-5); }
+.cd__flow li { padding: var(--s-2) var(--s-4); background: var(--surface); box-shadow: var(--shadow-card); font-size: var(--fs-small); line-height: var(--lh-snug); color: var(--ink-2); }
+.cd__flow .is-after li { color: var(--ink); }
+.cd__flow li + li { position: relative; margin-left: var(--s-5); }
+.cd__flow li + li::before { content: "\2192\FE0E"; position: absolute; left: calc((var(--s-2) + var(--s-5)) / -2); top: 50%; transform: translate(-50%, -50%); color: var(--ink-3); }
+/* the caption: what it is in ink, the detail in grey */
+.cd__cap { display: flex; flex-wrap: wrap; column-gap: var(--s-2); margin-top: var(--s-3); font-size: var(--fs-small); line-height: var(--lh-text); color: var(--ink-3); }
+.cd__cap span:first-child { color: var(--ink); }
+.cd__cap span:first-child:not(:last-child)::after { content: " /"; color: var(--ink-3); }
+
+/* a single line set apart, like a quote on the wall */
+.cd__line { font-family: var(--serif); font-style: italic; font-weight: var(--w-serif-light); font-size: var(--fs-heading); line-height: var(--lh-heading); color: var(--ink); max-width: 26ch; text-wrap: balance; padding-block: var(--s-6); }
+@media (min-width: 1024px) { .cd__sub > .cd__line { grid-column: 2 / span 6; } }
+
+.cd__photos { display: grid; gap: var(--gutter); }
+@media (min-width: 768px) { .cd__photos { grid-template-columns: 1.217fr 1.626fr; } }
+.cd__photos img { width: 100%; height: auto; display: block; }
+
+/* the end: on to the next case study */
+.cd__next { display: grid; gap: var(--s-2); padding-top: var(--s-7); border-top: 1px solid var(--rule); }
+.cd__next:hover { text-decoration: none; }
+.cd__next-t { font-family: var(--serif); font-weight: var(--w-serif); font-size: var(--fs-heading); line-height: var(--lh-heading); color: var(--ink); }
+.cd__next .arrow { display: inline-block; transition: transform var(--dur-base) var(--ease); }
+.cd__next:hover .arrow { transform: translateX(var(--s-2)); }
